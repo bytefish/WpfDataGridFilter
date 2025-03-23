@@ -1,39 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net8.0-windows</TargetFrameworks>
+        <OutputType>Library</OutputType>
+        <UseWPF>true</UseWPF>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>WpfDataGridFilter</Title>
+        <Authors>Philipp Wagner</Authors>
+        <Description>A Library to add a Filtering Header to a WPF DataGrid</Description>
+        <PackageProjectUrl>https://github.com/bytefish/WpfDataGridFilter</PackageProjectUrl>
+        <RepositoryUrl></RepositoryUrl>
+        <PackageTags>wpf; datagrid</PackageTags>
+        <Version>0.0.1</Version>
+        <Copyright>Copyright © 2025</Copyright>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\Pictures\BlackArrowDown.png" />
-    <None Remove="Resources\Pictures\RedArrowDown.png" />
-    <None Remove="Resources\Pictures\ResizePopArrow.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Resources\Pictures\BlackArrowDown.png" />
+        <None Remove="Resources\Pictures\RedArrowDown.png" />
+        <None Remove="Resources\Pictures\ResizePopArrow.png" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Page Remove="Resources\Layouts\FilterableDataGridColumnHeader.xaml" />
-  </ItemGroup>
+    <ItemGroup>
+        <Page Remove="Resources\Layouts\FilterableDataGridColumnHeader.xaml" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Layouts\FilterableDataGridColumnHeader.xaml" />
-    <EmbeddedResource Include="Resources\Pictures\BlackArrowDown.png" />
-    <EmbeddedResource Include="Resources\Pictures\RedArrowDown.png" />
-    <EmbeddedResource Include="Resources\Pictures\ResizePopArrow.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\Layouts\FilterableDataGridColumnHeader.xaml" />
+        <EmbeddedResource Include="Resources\Pictures\BlackArrowDown.png" />
+        <EmbeddedResource Include="Resources\Pictures\RedArrowDown.png" />
+        <EmbeddedResource Include="Resources\Pictures\ResizePopArrow.png" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Filters\Controls\DoubleNumericFilter.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Filters\Controls\DoubleNumericFilter.xaml.cs">
+            <SubType>Code</SubType>
+        </Compile>
+    </ItemGroup>
 
 
 </Project>
