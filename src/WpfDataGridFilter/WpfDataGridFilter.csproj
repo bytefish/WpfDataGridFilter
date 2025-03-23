@@ -21,6 +21,9 @@
 
     <ItemGroup>
         <None Remove="Resources\Pictures\BlackArrowDown.png" />
+        <None Remove="Resources\Pictures\FilterBlack.png" />
+        <None Remove="Resources\Pictures\FilterBlack.svg" />
+        <None Remove="Resources\Pictures\FilterRed.png" />
         <None Remove="Resources\Pictures\RedArrowDown.png" />
         <None Remove="Resources\Pictures\ResizePopArrow.png" />
     </ItemGroup>
@@ -31,9 +34,8 @@
 
     <ItemGroup>
         <EmbeddedResource Include="Resources\Layouts\FilterableDataGridColumnHeader.xaml" />
-        <EmbeddedResource Include="Resources\Pictures\BlackArrowDown.png" />
-        <EmbeddedResource Include="Resources\Pictures\RedArrowDown.png" />
-        <EmbeddedResource Include="Resources\Pictures\ResizePopArrow.png" />
+        <EmbeddedResource Include="Resources\Pictures\FilterBlack.png" />
+        <EmbeddedResource Include="Resources\Pictures\FilterRed.png" />
     </ItemGroup>
 
     <ItemGroup>

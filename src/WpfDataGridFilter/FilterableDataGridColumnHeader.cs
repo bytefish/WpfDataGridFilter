@@ -29,11 +29,10 @@ namespace WpfDataGridFilter
         ToggleButton HeaderToggle;
 
         // Images for Header Icons
-        Image ImageArrowBlack;
-        Image ImageArrowRed;
-        BitmapImage ImagePopBitmap;
+        Image ImageFilterBlack;
+        Image ImageFilterRed;
 
-        // Popup invoked when 
+        // Popup invoked on User Click
         Popup? HeaderPopUp;
 
         #region Dependency Properties
@@ -149,7 +148,7 @@ namespace WpfDataGridFilter
                     {
                         f.IsFiltered = filterStateChangedEventArgs.FilterState.Filters.ContainsKey(f.PropertyName);
 
-                        f.HeaderToggle.Content = f.IsFiltered ? f.ImageArrowRed : (object)f.ImageArrowBlack;
+                        f.HeaderToggle.Content = f.IsFiltered ? f.ImageFilterRed : (object)f.ImageFilterBlack;
                     };
 
                 })));
@@ -248,34 +247,27 @@ namespace WpfDataGridFilter
             Assembly assembly = Assembly.GetExecutingAssembly();
 
             // Read the Embedded Images from the current Assembly
-            using (Stream BlackArrowImageStream = assembly.GetManifestResourceStream("WpfDataGridFilter.Resources.Pictures.BlackArrowDown.png")!,
-                RedArrowImageStream = assembly.GetManifestResourceStream("WpfDataGridFilter.Resources.Pictures.RedArrowDown.png")!,
-                PopArrowImageStream = assembly.GetManifestResourceStream("WpfDataGridFilter.Resources.Pictures.ResizePopArrow.png")!,
+            using (Stream BlackFilterImageStream = assembly.GetManifestResourceStream("WpfDataGridFilter.Resources.Pictures.FilterBlack.png")!,
+                RedFilterImageStream = assembly.GetManifestResourceStream("WpfDataGridFilter.Resources.Pictures.FilterRed.png")!,
                 LayoutStream = assembly.GetManifestResourceStream("WpfDataGridFilter.Resources.Layouts.FilterableDataGridColumnHeader.xaml")!)
             {
-                BitmapImage ImageBlackArrowBitmap = new BitmapImage();
+                BitmapImage ImageBlackFilterBitmap = new BitmapImage();
 
-                ImageBlackArrowBitmap.BeginInit();
-                ImageBlackArrowBitmap.StreamSource = BlackArrowImageStream;
-                ImageBlackArrowBitmap.EndInit();
+                ImageBlackFilterBitmap.BeginInit();
+                ImageBlackFilterBitmap.StreamSource = BlackFilterImageStream;
+                ImageBlackFilterBitmap.EndInit();
 
-                ImageArrowBlack = new Image();
-                ImageArrowBlack.Source = ImageBlackArrowBitmap;
+                ImageFilterBlack = new Image();
+                ImageFilterBlack.Source = ImageBlackFilterBitmap;
 
-                BitmapImage ImageRedArrowBitmap = new BitmapImage();
+                BitmapImage ImageRedFilterBitmap = new BitmapImage();
 
-                ImageRedArrowBitmap.BeginInit();
-                ImageRedArrowBitmap.StreamSource = RedArrowImageStream;
-                ImageRedArrowBitmap.EndInit();
+                ImageRedFilterBitmap.BeginInit();
+                ImageRedFilterBitmap.StreamSource = RedFilterImageStream;
+                ImageRedFilterBitmap.EndInit();
 
-                ImageArrowRed = new Image();
-                ImageArrowRed.Source = ImageRedArrowBitmap;
-
-                ImagePopBitmap = new BitmapImage();
-
-                ImagePopBitmap.BeginInit();
-                ImagePopBitmap.StreamSource = PopArrowImageStream;
-                ImagePopBitmap.EndInit();
+                ImageFilterRed = new Image();
+                ImageFilterRed.Source = ImageRedFilterBitmap;
 
                 StreamReader LayoutStreamReader = new StreamReader(LayoutStream);
 
@@ -289,7 +281,7 @@ namespace WpfDataGridFilter
 
             // Configure the Toggle Button for opening and closing the Filter Popup
             HeaderToggle = (ToggleButton)LogicalTreeHelper.FindLogicalNode(RootObject, "ControlToggle");
-            HeaderToggle.Content = ImageArrowBlack;
+            HeaderToggle.Content = ImageFilterBlack;
             HeaderToggle.Visibility = Visibility.Visible;
 
             // Close the Popup, if we uncheck the Filter Toggle

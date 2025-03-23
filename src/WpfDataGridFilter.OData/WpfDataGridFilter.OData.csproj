@@ -1,13 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>WpfDataGridFilter.OData</Title>
+        <Authors>Philipp Wagner</Authors>
+        <Description>An OData Converter for the WpfDataGridFilter Filters</Description>
+        <PackageProjectUrl>https://github.com/bytefish/WpfDataGridFilter</PackageProjectUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/bytefish/WpfDataGridFilter</RepositoryUrl>
+        <PackageTags>wpf; datagrid</PackageTags>
+        <Version>0.0.2</Version>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Copyright>Copyright © 2025</Copyright>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WpfDataGridFilter\WpfDataGridFilter.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="WpfDataGridFilter" Version="0.0.2" />
+    </ItemGroup>
 
 </Project>

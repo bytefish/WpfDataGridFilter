@@ -78,7 +78,6 @@ namespace WpfDataGridFilter.Translations
             new () { Value = FilterOperatorEnum.IsNotNull, Translation = "Is Not Null" },
             new () { Value = FilterOperatorEnum.IsEmpty, Translation = "Is Empty" },
             new () { Value = FilterOperatorEnum.IsNotEmpty, Translation = "Is Not Empty" },
-
             new () { Value = FilterOperatorEnum.Before, Translation = "Before" },
             new () { Value = FilterOperatorEnum.After, Translation = "After" },
         ];
