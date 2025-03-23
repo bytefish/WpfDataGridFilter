@@ -24,6 +24,9 @@ namespace WpfDataGridFilter.Filters.Controls
             FilterOperatorEnum.IsNull,
         ];
 
+        [ObservableProperty]
+        private ITranslations _translations;
+
         /// <summary>
         /// Translations used for the UI.
         /// </summary>
@@ -37,6 +40,8 @@ namespace WpfDataGridFilter.Filters.Controls
                 
         public BooleanFilterViewModel(ITranslations translations, BooleanFilterDescriptor booleanFilterDescriptor)
         {
+            Translations = translations;
+
             PropertyName = booleanFilterDescriptor.PropertyName;
 
             // Sets the

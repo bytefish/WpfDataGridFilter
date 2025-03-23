@@ -9,6 +9,16 @@ namespace WpfDataGridFilter.Translations
     public interface ITranslations
     {
         /// <summary>
+        /// Translation for the Apply Button.
+        /// </summary>
+        string ApplyButton { get; }
+        
+        /// <summary>
+        /// Translation for the Reset Button.
+        /// </summary>
+        string ResetButton { get; }
+
+        /// <summary>
         /// Translations for Filter Operators.
         /// </summary>
         IReadOnlyList<EnumTranslation<FilterOperatorEnum>> FilterOperatorTranslations { get; }
@@ -41,6 +51,11 @@ namespace WpfDataGridFilter.Translations
     /// </summary>
     public class NeutralTranslations : ITranslations
     {
+
+        public string ApplyButton => "Apply";
+
+        public string ResetButton => "Reset";
+
         public IReadOnlyList<EnumTranslation<FilterOperatorEnum>> FilterOperatorTranslations =>
         [
             new () { Value = FilterOperatorEnum.None, Translation =  "None" },
@@ -73,5 +88,6 @@ namespace WpfDataGridFilter.Translations
             new ()  { Value = SortDirectionEnum.Ascending, Translation =  "Ascending" },
             new ()  { Value = SortDirectionEnum.Descending, Translation =  "Descending" },
         ];
+
     }
 }

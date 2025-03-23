@@ -30,6 +30,9 @@ namespace WpfDataGridFilter.Filters.Controls
         ];
 
         [ObservableProperty]
+        private ITranslations _translations;
+
+        [ObservableProperty]
         private string? _value;
 
         /// <summary>
@@ -45,6 +48,8 @@ namespace WpfDataGridFilter.Filters.Controls
 
         public StringFilterViewModel(ITranslations translations, StringFilterDescriptor stringFilterDescriptor)
         {
+            Translations = translations;
+
             PropertyName = stringFilterDescriptor.PropertyName;
             Value = stringFilterDescriptor.Value;
 

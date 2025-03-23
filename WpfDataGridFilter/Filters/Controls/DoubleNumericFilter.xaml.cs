@@ -31,6 +31,9 @@ namespace WpfDataGridFilter.Filters.Controls
         ];
 
         [ObservableProperty]
+        private ITranslations _translations;
+
+        [ObservableProperty]
         private double? _lowerValue;
 
         [ObservableProperty]
@@ -49,6 +52,8 @@ namespace WpfDataGridFilter.Filters.Controls
 
         public DoubleNumericFilterViewModel(ITranslations translations, DoubleNumericFilterDescriptor doubleNumericFilterDescriptor)
         {
+            Translations = translations;
+
             PropertyName = doubleNumericFilterDescriptor.PropertyName;
             LowerValue = doubleNumericFilterDescriptor.LowerValue;
             UpperValue = doubleNumericFilterDescriptor.UpperValue;

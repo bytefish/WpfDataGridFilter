@@ -28,6 +28,9 @@ namespace WpfDataGridFilter.Filters.Controls
         ];
 
         [ObservableProperty]
+        private ITranslations _translations;
+
+        [ObservableProperty]
         private DateTime? _startDate;
 
         [ObservableProperty]
@@ -46,6 +49,8 @@ namespace WpfDataGridFilter.Filters.Controls
 
         public DateFilterViewModel(ITranslations translations, DateFilterDescriptor booleanFilterDescriptor)
         {
+            Translations = translations;
+
             PropertyName = booleanFilterDescriptor.PropertyName;
 
             foreach (var supportedFilterOperator in SupportedFilterOperators)

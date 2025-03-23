@@ -42,8 +42,8 @@
             Text="{Binding ViewModel.UpperValue}"/>
 
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="ButtonReset" Width="80" Height="20" Margin="10,0,10,0"  Click="ButtonReset_Click">Reset</Button>
-            <Button x:Name="ButtonApply" Width="80" Height="20" Margin="0,0,10,0" Click="ButtonApply_Click">Apply</Button>
+            <Button x:Name="ButtonReset" Width="80" Height="20" Margin="10,0,10,0" Click="ButtonReset_Click" Content="{Binding ViewModel.Translations.ResetButton}"></Button>
+            <Button x:Name="ButtonApply" Width="80" Height="20" Margin="0,0,10,0" Click="ButtonApply_Click" Content="{Binding ViewModel.Translations.ApplyButton}"></Button>
         </StackPanel>
     </Grid>
 </UserControl>
