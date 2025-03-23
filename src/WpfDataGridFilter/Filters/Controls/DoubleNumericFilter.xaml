@@ -31,14 +31,16 @@
         <TextBox 
             Grid.Row="1" 
             Grid.Column="1"
-            Margin="10,0,10,0" 
+            Margin="10,0,10,0"
+            Height="20"
             Text="{Binding ViewModel.LowerValue}"/>
 
         <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">Upper Value:</TextBlock>
         <TextBox 
             Grid.Row="2" 
             Grid.Column="1"
-            Margin="10,0,10,0" 
+            Margin="10,0,10,0"
+            Height="20"
             Text="{Binding ViewModel.UpperValue}"/>
 
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">

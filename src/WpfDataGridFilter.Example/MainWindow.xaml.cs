@@ -1,13 +1,6 @@
-﻿using System.Text;
+﻿using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WpfDataGridFilter.Filters;
 
 namespace WpfDataGridFilter.Example;
 
@@ -16,8 +9,23 @@ namespace WpfDataGridFilter.Example;
 /// </summary>
 public partial class MainWindow : Window
 {
+    public FilterState FilterState { get; set; }
+
+    public MainWindowViewModel ViewModel { get; set; }
+
     public MainWindow()
     {
         InitializeComponent();
+        
+        ViewModel = new MainWindowViewModel();
+
+        FilterState = new FilterState();
+
+        FilterState.FilterStateChanged += (s, e) =>
+        {
+            ViewModel.Filter(e.FilterState);
+        };
+
+        DataContext = this;
     }
 }

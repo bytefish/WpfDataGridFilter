@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\people.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\people.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\WpfDataGridFilter.DynamicLinq\WpfDataGridFilter.DynamicLinq.csproj" />
     <ProjectReference Include="..\WpfDataGridFilter\WpfDataGridFilter.csproj" />
   </ItemGroup>
 

@@ -7,16 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid>
+        <DataGrid ItemsSource="{Binding ViewModel.People}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding PersonID}">
                     <DataGridTextColumn.Header>
-                        <wpfdatagridfilter:FilterableDataGridColumnHeader HeaderText="Abc" PropertyName="ABC" Height="30" FilterType="BooleanFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader FilterState="{Binding FilterState}" HeaderText="PersonID" PropertyName="PersonID" Height="30" FilterType="IntNumericFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding FullName}">
                     <DataGridTextColumn.Header>
-                        <wpfdatagridfilter:FilterableDataGridColumnHeader HeaderText="DEf" PropertyName="DEF" Height="30" FilterType="DateFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader FilterState="{Binding FilterState}" HeaderText="FullName" PropertyName="FullName" Height="30" FilterType="StringFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </DataGrid.Columns>

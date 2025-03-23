@@ -115,7 +115,7 @@ namespace WpfDataGridFilter
         public static readonly DependencyProperty HeaderBorderThicknessProperty = DependencyProperty.Register(
             "HeaderBorderThickness", typeof(Thickness), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(StandardHeaderTextBoxBorderThickness,
                 propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderBorder.BorderThickness = (Thickness)e.NewValue)));
-        
+
         /// <summary>  
         ///  Property for the current tickness of the border around the header
         /// </summary>
@@ -139,10 +139,20 @@ namespace WpfDataGridFilter
         }
 
         public static readonly DependencyProperty FilterStateProperty = DependencyProperty.Register(
-            "FilterState", typeof(FilterState), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(new FilterState(),
-                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.FilterState = (FilterState)e.NewValue)));
+            "FilterState", typeof(FilterState), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(null,
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => 
+                {
+                    f.FilterState = (FilterState)e.NewValue;
 
-        
+                    // Wow, this is super ugly. This needs to be designed much better.
+                    f.FilterState.FilterStateChanged += delegate (object? sender, FilterStateChangedEventArgs filterStateChangedEventArgs)
+                    {
+                        f.IsFiltered = filterStateChangedEventArgs.FilterState.Filters.ContainsKey(f.PropertyName);
+
+                        f.HeaderToggle.Content = f.IsFiltered ? f.ImageArrowRed : (object)f.ImageArrowBlack;
+                    };
+
+                })));
 
         /// <summary>  
         ///  FilterType of the Column.
@@ -303,14 +313,6 @@ namespace WpfDataGridFilter
                 {
                     HeaderPopUp.IsOpen = true;
                 }
-            };
-
-            // Whenever the FilterState changes, we want to know, if this Filter Column is still being filtered on
-            FilterState.FilterStateChanged += delegate (object? sender, FilterStateChangedEventArgs filterStateChangedEventArgs)
-            {
-                IsFiltered = filterStateChangedEventArgs.FilterState.Filters.ContainsKey(PropertyName);
-
-                HeaderToggle.Content = IsFiltered ? ImageArrowRed : (object)ImageArrowBlack;
             };
 
             HorizontalContentAlignment = HorizontalAlignment.Stretch;

@@ -19,11 +19,19 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">Filter Operator:</TextBlock>
-        <ComboBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" Margin="10,0,10,0" MinWidth="150"></ComboBox>
+        <ComboBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" Margin="10,0,10,0" MinWidth="150"
+                DisplayMemberPath="Translation" 
+                SelectedValuePath="Value"
+                ItemsSource="{Binding ViewModel.FilterOperators, Mode=TwoWay}"
+                SelectedValue="{Binding ViewModel.SelectedFilterOperator, Mode=TwoWay}" />
 
         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">Value:</TextBlock>
-        <TextBox  Grid.Row="1" Grid.Column="1"  Margin="10,0,10,0" />
-
+        <TextBox 
+            Grid.Row="1" 
+            Grid.Column="1"
+            Margin="10,0,10,0"
+            Height="20"
+            Text="{Binding ViewModel.Value}"/>
 
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="ButtonReset" Width="80" Height="20" Margin="10,0,10,0" Click="ButtonReset_Click" Content="{Binding ViewModel.Translations.ResetButton}"></Button>
