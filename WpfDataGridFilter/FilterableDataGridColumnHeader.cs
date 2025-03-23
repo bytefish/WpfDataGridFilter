@@ -142,6 +142,8 @@ namespace WpfDataGridFilter
             "FilterState", typeof(FilterState), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(new FilterState(),
                 propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.FilterState = (FilterState)e.NewValue)));
 
+        
+
         /// <summary>  
         ///  FilterType of the Column.
         /// </summary>
@@ -156,7 +158,19 @@ namespace WpfDataGridFilter
 
 
         /// <summary>  
-        ///  ReadOnly Property showing whether a filtered is applied in the column
+        ///  Translations
+        /// </summary>
+        public ITranslations Translations
+        {
+            get { return (ITranslations)GetValue(TranslationsProperty); }
+            set { SetValue(FilterTypeProperty, value); }
+        }
+
+        public static readonly DependencyProperty TranslationsProperty = DependencyProperty.Register("Translations", typeof(ITranslations), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(new NeutralTranslations(),
+            propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.Translations = (ITranslations)e.NewValue)));
+
+        /// <summary>  
+        ///  Property showing whether a filtered is applied in the column
         /// </summary>
         public bool IsFiltered
         {
@@ -347,15 +361,15 @@ namespace WpfDataGridFilter
             switch (FilterType)
             {
                 case FilterTypeEnum.BooleanFilter:
-                    return new BooleanFilter(PropertyName, new NeutralTranslations(), FilterState);
+                    return new BooleanFilter(PropertyName, Translations, FilterState);
                 case FilterTypeEnum.StringFilter:
-                    return new StringFilter(PropertyName, new NeutralTranslations(), FilterState);
+                    return new StringFilter(PropertyName, Translations, FilterState);
                 case FilterTypeEnum.DateFilter:
-                    return new DateFilter(PropertyName, new NeutralTranslations(), FilterState);
+                    return new DateFilter(PropertyName, Translations, FilterState);
                 case FilterTypeEnum.IntNumericFilter:
-                    return new IntNumericFilter(PropertyName, new NeutralTranslations(), FilterState);
+                    return new IntNumericFilter(PropertyName, Translations, FilterState);
                 case FilterTypeEnum.DoubleNumericFilter:
-                    return new DoubleNumericFilter(PropertyName, new NeutralTranslations(), FilterState);
+                    return new DoubleNumericFilter(PropertyName, Translations, FilterState);
                 default:
                     throw new InvalidOperationException($"Filter Type '{FilterType}' is not supported");
             }
