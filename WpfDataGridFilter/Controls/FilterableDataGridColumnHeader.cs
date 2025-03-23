@@ -19,7 +19,7 @@ namespace WpfDataGridFilter.Controls
     public class FilterableDataGridColumnHeader : DataGridColumnHeader
     {
         public static Thickness StandardHeaderTextBoxBorderThickness = new Thickness(0.5, 1, 0, 1);
-        
+
         // Header Element
         DependencyObject RootObject;
 
@@ -27,7 +27,7 @@ namespace WpfDataGridFilter.Controls
         Border HeaderBorder;
 
         // Toggle for Filter Indicator
-        TextBox HeaderTextBox;
+        TextBlock HeaderTextBlock;
         ToggleButton HeaderToggle;
 
         // Images for Header Icons
@@ -41,20 +41,83 @@ namespace WpfDataGridFilter.Controls
         #region Dependency Properties
 
         /// <summary>  
+        ///  Property for the current font of the text used inside the header
+        /// </summary>
+        public FontFamily HeaderTextFamily
+        {
+            get { return (FontFamily)GetValue(HeaderTextFamilyProperty); }
+            set { SetValue(HeaderTextFamilyProperty, value); }
+        }
+
+        public static readonly DependencyProperty HeaderTextFamilyProperty = DependencyProperty.Register(
+            "HeaderTextFamily", typeof(FontFamily), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(new FontFamily("Verdana"),
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderTextBlock.FontFamily = (FontFamily)e.NewValue)));
+
+        /// <summary>  
+        ///  Property for the current stretch type of the text used inside the header
+        /// </summary>
+        public FontStretch HeaderTextStretch
+        {
+            get { return (FontStretch)GetValue(HeaderTextStretchProperty); }
+            set { SetValue(HeaderTextStretchProperty, value); }
+        }
+
+        public static readonly DependencyProperty HeaderTextStretchProperty = DependencyProperty.Register(
+            "HeaderTextStretch", typeof(FontStretch), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(FontStretches.Normal,
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderTextBlock.FontStretch = (FontStretch)e.NewValue)));
+
+        /// <summary>  
+        ///  Property for the current style of the text used inside the header
+        /// </summary>
+        public FontStyle HeaderTextStyle
+        {
+            get { return (FontStyle)GetValue(HeaderTextStyleProperty); }
+            set { SetValue(HeaderTextStyleProperty, value); }
+        }
+
+        public static readonly DependencyProperty HeaderTextStyleProperty = DependencyProperty.Register(
+            "HeaderTextStyle", typeof(FontStyle), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(FontStyles.Normal,
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderTextBlock.FontStyle = (FontStyle)e.NewValue)));
+
+        /// <summary>  
+        ///  Property for the current weight of the text used inside the header
+        /// </summary>
+        public FontWeight HeaderTextWeight
+        {
+            get { return (FontWeight)GetValue(HeaderTextWeightProperty); }
+            set { SetValue(HeaderTextWeightProperty, value); }
+        }
+
+        public static readonly DependencyProperty HeaderTextWeightProperty = DependencyProperty.Register(
+            "HeaderTextWeight", typeof(FontWeight), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(FontWeights.Normal,
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderTextBlock.FontWeight = (FontWeight)e.NewValue)));
+
+        /// <summary>
+        ///  Property for the current decoration of the text used inside the header
+        /// </summary>
+        public TextDecorationCollection HeaderTextDecoration
+        {
+            get { return (TextDecorationCollection)GetValue(HeaderTextDecorationProperty); }
+            set { SetValue(HeaderTextDecorationProperty, value); }
+        }
+
+        public static readonly DependencyProperty HeaderTextDecorationProperty = DependencyProperty.Register(
+            "HeaderTextDecoration", typeof(TextDecorationCollection), typeof(FilterableDataGridColumnHeader),
+                new PropertyMetadata(propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderTextBlock.TextDecorations = (TextDecorationCollection)e.NewValue)));
+
+        /// <summary>  
         ///  Property for the current tickness of the border around the header
         /// </summary>
         public new Thickness BorderThickness
         {
-            get { return (Thickness)this.GetValue(BorderThicknessProperty); }
-            set
-            {
-                this.SetValue(BorderThicknessProperty, value);
-                HeaderBorder.BorderThickness = value;
-            }
+            get { return (Thickness)GetValue(BorderThicknessProperty); }
+            set { SetValue(BorderThicknessProperty, value); }
         }
 
         public new static readonly DependencyProperty BorderThicknessProperty = DependencyProperty.Register(
-          "BorderThickness", typeof(Thickness), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(StandardHeaderTextBoxBorderThickness));
+            "BorderThickness", typeof(Thickness), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(StandardHeaderTextBoxBorderThickness,
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderBorder.BorderThickness = (Thickness)e.NewValue)));
+
 
         /// <summary>  
         ///  FilterState of the current DataGrid.
@@ -66,7 +129,8 @@ namespace WpfDataGridFilter.Controls
         }
 
         public static readonly DependencyProperty FilterStateProperty = DependencyProperty.Register(
-            "FilterState", typeof(FilterState), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(new FilterState()));
+            "FilterState", typeof(FilterState), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(new FilterState(),
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.FilterState = (FilterState)e.NewValue)));
 
         /// <summary>  
         ///  FilterType of the Column.
@@ -77,8 +141,9 @@ namespace WpfDataGridFilter.Controls
             set { SetValue(FilterTypeProperty, value); }
         }
 
-        public static readonly DependencyProperty FilterTypeProperty = DependencyProperty.Register(
-            "FilterType", typeof(FilterTypeEnum), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(FilterTypeEnum.StringFilter));
+        public static readonly DependencyProperty FilterTypeProperty = DependencyProperty.Register("FilterType", typeof(FilterTypeEnum), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(FilterTypeEnum.StringFilter,
+            propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.FilterType = (FilterTypeEnum)e.NewValue)));
+
 
         /// <summary>  
         ///  ReadOnly Property showing whether a filtered is applied in the column
@@ -90,7 +155,8 @@ namespace WpfDataGridFilter.Controls
         }
 
         public static readonly DependencyProperty IsFilteredProperty = DependencyProperty.Register(
-            "IsFiltered", typeof(bool), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(false));
+            "IsFiltered", typeof(bool), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(false,
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.IsFiltered = (bool)e.NewValue)));
 
         /// <summary>  
         ///  Property for the Column Header Text
@@ -98,38 +164,25 @@ namespace WpfDataGridFilter.Controls
         public string HeaderText
         {
             get { return (string)GetValue(HeaderTextProperty); }
-            private set
-            {
-                SetValue(HeaderTextProperty, value);
-
-                if (HeaderTextBox != null)
-                {
-                    HeaderTextBox.Text = value;
-                }
-            }
+            set { SetValue(HeaderTextProperty, value); }
         }
 
         public static readonly DependencyProperty HeaderTextProperty = DependencyProperty.Register(
-            "HeaderText", typeof(string), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(string.Empty));
+            "HeaderText", typeof(string), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f  .HeaderTextBlock.Text = (string)e.NewValue)));
 
         /// <summary>  
         ///  Property for the current size of the text used inside the header
         /// </summary>
         public double HeaderTextSize
         {
-            get { return (double)this.GetValue(HeaderTextSizeProperty); }
-            set
-            {
-                this.SetValue(HeaderTextSizeProperty, value);
-                if (HeaderTextBox != null)
-                {
-                    HeaderTextBox.FontSize = value;
-                }
-            }
+            get { return (double)GetValue(HeaderTextSizeProperty); }
+            set { SetValue(HeaderTextSizeProperty, value); }
         }
 
         public static readonly DependencyProperty HeaderTextSizeProperty = DependencyProperty.Register(
-            "HeaderTextSize", typeof(double), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(17.0));
+            "HeaderTextSize", typeof(double), typeof(FilterableDataGridColumnHeader),
+            new PropertyMetadata(17.0, propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderTextBlock.FontSize = (double)e.NewValue)));
 
         /// <summary>  
         ///  Property for the Filter Property we are filtering for
@@ -141,7 +194,18 @@ namespace WpfDataGridFilter.Controls
         }
 
         public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register(
-            "PropertyName", typeof(string), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(string.Empty));
+            "PropertyName", typeof(string), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(string.Empty, 
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.PropertyName = (string)e.NewValue)));
+
+        private static void HandlePropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs e, Action<FilterableDataGridColumnHeader, DependencyPropertyChangedEventArgs> action)
+        {
+            if(d is not FilterableDataGridColumnHeader f)
+            {
+                throw new InvalidOperationException("Cannot cast DependencyObject to the FilterableDataGridColumnHeader");
+            }
+
+            action(f, e);
+        }
 
         #endregion Dependency Properties
 
@@ -186,9 +250,8 @@ namespace WpfDataGridFilter.Controls
 
             HeaderBorder = (Border)LogicalTreeHelper.FindLogicalNode(RootObject, "ControlBorder");
 
-            HeaderTextBox = (TextBox)LogicalTreeHelper.FindLogicalNode(RootObject, "ControlTextBox");
-            HeaderTextBox.Text = HeaderText;
-            HeaderTextBox.MinWidth = 75;
+            HeaderTextBlock = (TextBlock)LogicalTreeHelper.FindLogicalNode(RootObject, "ControlTextBlock");
+            HeaderTextBlock.MinWidth = 75;
 
             // Configure the Toggle Button for opening and closing the Filter Popup
             HeaderToggle = (ToggleButton)LogicalTreeHelper.FindLogicalNode(RootObject, "ControlToggle");
@@ -207,12 +270,12 @@ namespace WpfDataGridFilter.Controls
             // Open the Popup, if we uncheck the Filter Toggle
             HeaderToggle.Checked += delegate (object sender, RoutedEventArgs rea)
             {
-                if(HeaderPopUp == null)
+                if (HeaderPopUp == null)
                 {
                     CreateHeaderPopUp();
                 }
 
-                if(HeaderPopUp != null)
+                if (HeaderPopUp != null)
                 {
                     HeaderPopUp.IsOpen = true;
                 }
@@ -222,7 +285,7 @@ namespace WpfDataGridFilter.Controls
             FilterState.FilterStateChanged += delegate (object? sender, FilterState.FilterStateChangedEventArgs filterStateChangedEventArgs)
             {
                 IsFiltered = filterStateChangedEventArgs.FilterState.Filters.ContainsKey(PropertyName);
-                
+
                 HeaderToggle.Content = IsFiltered ? ImageArrowRed : (object)ImageArrowBlack;
             };
 

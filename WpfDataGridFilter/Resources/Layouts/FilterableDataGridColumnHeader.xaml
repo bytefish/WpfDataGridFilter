@@ -9,7 +9,9 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="ControlTextBox" BorderThickness="0" Background="Transparent"/>
+            <Border BorderThickness="0" >
+                <TextBlock x:Name="ControlTextBlock" Background="Transparent"/>
+            </Border>            
             <ToggleButton x:Name="ControlToggle" Grid.Column="1" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Width="15" Height="15"/>
         </Grid>
     </Border>

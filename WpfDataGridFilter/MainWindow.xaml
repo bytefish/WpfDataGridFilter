@@ -11,7 +11,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn>
                     <DataGridTextColumn.Header>
-                        <controls:FilterableDataGridColumnHeader FilterType="BooleanFilter"></controls:FilterableDataGridColumnHeader>
+                        <controls:FilterableDataGridColumnHeader HeaderText="Abc" FilterType="BooleanFilter"></controls:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </DataGrid.Columns>
