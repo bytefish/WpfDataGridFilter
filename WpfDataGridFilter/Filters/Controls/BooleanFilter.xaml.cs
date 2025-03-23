@@ -1,22 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using WpfDataGridFilter.Controls;
 using WpfDataGridFilter.Filters.Models;
-using WpfDataGridFilter.Filters.Services;
+using WpfDataGridFilter.Translations;
 
 namespace WpfDataGridFilter.Filters.Controls
 {
-
-    public static class Translations
-    {
-
-    }
-
      /// <summary>
     /// ViewModel.
     /// </summary>

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using WpfDataGridFilter.Filters.Models;
-using WpfDataGridFilter.Filters.Services;
+using WpfDataGridFilter.Translations;
 
 namespace WpfDataGridFilter.Filters.Controls
 {

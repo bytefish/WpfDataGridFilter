@@ -7,18 +7,18 @@ using WpfDataGridFilter.Filters.Models;
 namespace WpfDataGridFilter.Filters
 {
     /// <summary>
+    /// Returns the Current FilterState.
+    /// </summary>
+    public class FilterStateChangedEventArgs : EventArgs
+    {
+        public required FilterState FilterState { get; set; }
+    }
+
+    /// <summary>
     /// Holds state to represent filters in a <see cref="FluentDataGrid{TGridItem}"/>.
     /// </summary>
     public class FilterState
     {
-        /// <summary>
-        /// Returns the Current FilterState.
-        /// </summary>
-        public class FilterStateChangedEventArgs : EventArgs
-        {
-            public required FilterState FilterState { get; set; }
-        }
-
         /// <summary>
         /// Invoked, when the Filter Changed.
         /// </summary>

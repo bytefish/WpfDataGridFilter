@@ -10,9 +10,9 @@ using System.Windows.Media.Imaging;
 using WpfDataGridFilter.Filters;
 using WpfDataGridFilter.Filters.Controls;
 using WpfDataGridFilter.Filters.Models;
-using WpfDataGridFilter.Filters.Services;
+using WpfDataGridFilter.Translations;
 
-namespace WpfDataGridFilter.Controls
+namespace WpfDataGridFilter
 {
     public class FilterableDataGridColumnHeader : DataGridColumnHeader
     {
@@ -280,7 +280,7 @@ namespace WpfDataGridFilter.Controls
             };
 
             // Whenever the FilterState changes, we want to know, if this Filter Column is still being filtered on
-            FilterState.FilterStateChanged += delegate (object? sender, FilterState.FilterStateChangedEventArgs filterStateChangedEventArgs)
+            FilterState.FilterStateChanged += delegate (object? sender, FilterStateChangedEventArgs filterStateChangedEventArgs)
             {
                 IsFiltered = filterStateChangedEventArgs.FilterState.Filters.ContainsKey(PropertyName);
 
