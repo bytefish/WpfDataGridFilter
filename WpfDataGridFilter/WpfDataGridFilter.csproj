@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Pictures\BlackArrowDown.png" />
+    <None Remove="Resources\Pictures\RedArrowDown.png" />
+    <None Remove="Resources\Pictures\ResizePopArrow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Resources\Layouts\FilterableDataGridColumnHeader.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Layouts\FilterableDataGridColumnHeader.xaml" />
+    <EmbeddedResource Include="Resources\Pictures\BlackArrowDown.png" />
+    <EmbeddedResource Include="Resources\Pictures\RedArrowDown.png" />
+    <EmbeddedResource Include="Resources\Pictures\ResizePopArrow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+
+</Project>

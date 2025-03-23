@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="WpfDataGridFilter.Filters.Controls.StringFilter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfDataGridFilter.Filters.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10" FontWeight="Bold">Filter Operator:</TextBlock>
+        <ComboBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" Margin="10" MinWidth="150"></ComboBox>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10" FontWeight="Bold">Value:</TextBlock>
+        <TextBox  Grid.Row="1" Grid.Column="1"  Margin="10" />
+
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="80" Height="20" Margin="10">Reset</Button>
+            <Button Width="80" Height="20" Margin="0,10,10,10">Apply</Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
