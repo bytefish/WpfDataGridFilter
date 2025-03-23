@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\WpfDataGridFilter\WpfDataGridFilter.csproj" />
+    <ProjectReference Include="..\WpfDataGridFilter\WpfDataGridFilter.csproj" />
   </ItemGroup>
 
 </Project>

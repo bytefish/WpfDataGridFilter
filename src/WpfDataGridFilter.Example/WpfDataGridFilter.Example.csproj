@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WpfDataGridFilter.DynamicLinq\WpfDataGridFilter.DynamicLinq.csproj" />
+    <ProjectReference Include="..\WpfDataGridFilter.DynamicLinq\WpfDataGridFilter.DynamicLinq.csproj" />
     <ProjectReference Include="..\WpfDataGridFilter\WpfDataGridFilter.csproj" />
   </ItemGroup>
 

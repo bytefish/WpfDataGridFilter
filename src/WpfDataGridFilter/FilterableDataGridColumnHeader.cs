@@ -352,8 +352,8 @@ namespace WpfDataGridFilter
             HeaderPopUp.AllowsTransparency = false;
             HeaderPopUp.Child = filterControlAroundBorder;
             HeaderPopUp.Placement = PlacementMode.Bottom;
-            HeaderPopUp.Width = 300;
-            HeaderPopUp.MinWidth = 300;
+            HeaderPopUp.Width = 400;
+            HeaderPopUp.MinWidth = 400;
             HeaderPopUp.PopupAnimation = PopupAnimation.Slide;
             HeaderPopUp.StaysOpen = true;
         }
