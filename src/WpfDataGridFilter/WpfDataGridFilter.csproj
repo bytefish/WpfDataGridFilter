@@ -11,9 +11,11 @@
         <Authors>Philipp Wagner</Authors>
         <Description>A Library to add a Filtering Header to a WPF DataGrid</Description>
         <PackageProjectUrl>https://github.com/bytefish/WpfDataGridFilter</PackageProjectUrl>
-        <RepositoryUrl></RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/bytefish/WpfDataGridFilter</RepositoryUrl>
         <PackageTags>wpf; datagrid</PackageTags>
         <Version>0.0.1</Version>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Copyright>Copyright © 2025</Copyright>
     </PropertyGroup>
 
