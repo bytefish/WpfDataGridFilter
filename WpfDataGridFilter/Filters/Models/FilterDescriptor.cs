@@ -53,7 +53,28 @@ namespace WpfDataGridFilter.Filters.Models
     /// <summary>
     /// Numeric Filter to filter between an lower and upper value.
     /// </summary>
-    public class NumericFilterDescriptor : FilterDescriptor
+    public class IntNumericFilterDescriptor : FilterDescriptor
+    {
+        /// <summary>
+        /// Gets or sets the lower value.
+        /// </summary>
+        public int? LowerValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the upper value.
+        /// </summary>
+        public int? UpperValue { get; set; }
+
+        /// <summary>
+        /// Gets the Filter Type.
+        /// </summary>
+        public override FilterTypeEnum FilterType => FilterTypeEnum.IntNumericFilter;
+    }
+
+    /// <summary>
+    /// Numeric Filter to filter between an lower and upper value.
+    /// </summary>
+    public class DoubleNumericFilterDescriptor : FilterDescriptor
     {
         /// <summary>
         /// Gets or sets the lower value.
@@ -68,7 +89,7 @@ namespace WpfDataGridFilter.Filters.Models
         /// <summary>
         /// Gets the Filter Type.
         /// </summary>
-        public override FilterTypeEnum FilterType => FilterTypeEnum.NumericFilter;
+        public override FilterTypeEnum FilterType => FilterTypeEnum.DoubleNumericFilter;
     }
 
     /// <summary>

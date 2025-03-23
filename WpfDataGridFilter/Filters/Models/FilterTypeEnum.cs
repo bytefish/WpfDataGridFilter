@@ -7,8 +7,9 @@ namespace WpfDataGridFilter.Filters.Models
         None = 0,
         BooleanFilter = 1,
         StringFilter = 2,
-        NumericFilter = 3,
-        DateFilter = 4,
-        DateTimeFilter = 5,
+        IntNumericFilter = 3,
+        DoubleNumericFilter = 4,
+        DateFilter = 5,
+        DateTimeFilter = 6,
     }
 }

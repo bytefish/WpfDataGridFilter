@@ -1,14 +1,12 @@
-﻿using System.Globalization;
+﻿
 using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using WpfDataGridFilter.Controls;
 using WpfDataGridFilter.Filters;
 using WpfDataGridFilter.Filters.Controls;
 using WpfDataGridFilter.Filters.Models;
@@ -338,6 +336,14 @@ namespace WpfDataGridFilter.Controls
             {
                 case FilterTypeEnum.BooleanFilter:
                     return new BooleanFilter(PropertyName, new NeutralTranslations(), FilterState);
+                case FilterTypeEnum.StringFilter:
+                    return new StringFilter(PropertyName, new NeutralTranslations(), FilterState);
+                case FilterTypeEnum.DateFilter:
+                    return new DateFilter(PropertyName, new NeutralTranslations(), FilterState);
+                case FilterTypeEnum.IntNumericFilter:
+                    return new IntNumericFilter(PropertyName, new NeutralTranslations(), FilterState);
+                case FilterTypeEnum.DoubleNumericFilter:
+                    return new DoubleNumericFilter(PropertyName, new NeutralTranslations(), FilterState);
                 default:
                     throw new InvalidOperationException($"Filter Type '{FilterType}' is not supported");
             }

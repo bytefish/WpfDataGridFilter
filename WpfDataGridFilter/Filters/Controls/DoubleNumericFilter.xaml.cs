@@ -1,11 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using WpfDataGridFilter.Controls;
 using WpfDataGridFilter.Filters.Models;
 using WpfDataGridFilter.Filters.Services;
 
@@ -14,27 +10,31 @@ namespace WpfDataGridFilter.Filters.Controls
     /// <summary>
     /// ViewModel.
     /// </summary>
-    public partial class StringFilterViewModel : ObservableObject
+    public partial class DoubleNumericFilterViewModel : ObservableObject
     {
         /// <summary>
         /// Supported Filters for this Filter Control.
         /// </summary>
         public static readonly FilterOperatorEnum[] SupportedFilterOperators =
         [
-            FilterOperatorEnum.IsEmpty,
-            FilterOperatorEnum.IsNotEmpty,
+            FilterOperatorEnum.None,
             FilterOperatorEnum.IsNull,
             FilterOperatorEnum.IsNotNull,
             FilterOperatorEnum.IsEqualTo,
             FilterOperatorEnum.IsNotEqualTo,
-            FilterOperatorEnum.Contains,
-            FilterOperatorEnum.NotContains,
-            FilterOperatorEnum.StartsWith,
-            FilterOperatorEnum.EndsWith,
+            FilterOperatorEnum.IsGreaterThan,
+            FilterOperatorEnum.IsGreaterThanOrEqualTo,
+            FilterOperatorEnum.IsLessThan,
+            FilterOperatorEnum.IsLessThanOrEqualTo,
+            FilterOperatorEnum.BetweenExclusive,
+            FilterOperatorEnum.BetweenInclusive
         ];
 
         [ObservableProperty]
-        private string? _value;
+        private double? _lowerValue;
+
+        [ObservableProperty]
+        private double? _upperValue;
 
         /// <summary>
         /// Translations used for the UI.
@@ -47,10 +47,11 @@ namespace WpfDataGridFilter.Filters.Controls
         /// </summary>
         public readonly string PropertyName;
 
-        public StringFilterViewModel(ITranslations translations, StringFilterDescriptor stringFilterDescriptor)
+        public DoubleNumericFilterViewModel(ITranslations translations, DoubleNumericFilterDescriptor doubleNumericFilterDescriptor)
         {
-            PropertyName = stringFilterDescriptor.PropertyName;
-            Value = stringFilterDescriptor.Value;
+            PropertyName = doubleNumericFilterDescriptor.PropertyName;
+            LowerValue = doubleNumericFilterDescriptor.LowerValue;
+            UpperValue = doubleNumericFilterDescriptor.UpperValue;
 
             foreach (var supportedFilterOperator in SupportedFilterOperators)
             {
@@ -59,24 +60,25 @@ namespace WpfDataGridFilter.Filters.Controls
                 FilterOperators.Add(translation);
             }
 
-            SelectedFilterOperator = stringFilterDescriptor.FilterOperator;
+            SelectedFilterOperator = doubleNumericFilterDescriptor.FilterOperator;
         }
 
         [ObservableProperty]
         private FilterOperatorEnum _selectedFilterOperator = FilterOperatorEnum.None;
 
-        public FilterDescriptor FilterDescriptor => new StringFilterDescriptor
+        public FilterDescriptor FilterDescriptor => new DoubleNumericFilterDescriptor
         {
             FilterOperator = SelectedFilterOperator,
             PropertyName = PropertyName,
-            Value = Value
+            LowerValue = LowerValue,
+            UpperValue = UpperValue,
         };
     }
 
     /// <summary>
-    /// Interaction logic for StringFilter.xaml
+    /// Interaction logic for DoubleNumericFilter.xaml
     /// </summary>
-    public partial class StringFilter : UserControl
+    public partial class DoubleNumericFilter : UserControl
     {
         /// <summary>
         /// Filter State.
@@ -86,14 +88,14 @@ namespace WpfDataGridFilter.Filters.Controls
         /// <summary>  
         ///  Selected Filter Operator in the ComboBox.
         /// </summary>
-        public StringFilterViewModel ViewModel { get; set; }
+        public DoubleNumericFilterViewModel ViewModel { get; set; }
 
         /// <summary>
         /// Creates a new Boolean Filter.
         /// </summary>
         /// <param name="propertyName">Property Name</param>
         /// <param name="filterState">Filter State</param>
-        public StringFilter(string propertyName, ITranslations translations, FilterState filterState)
+        public DoubleNumericFilter(string propertyName, ITranslations translations, FilterState filterState)
         {
             InitializeComponent();
 
@@ -104,26 +106,27 @@ namespace WpfDataGridFilter.Filters.Controls
             DataContext = this;
         }
 
-        private StringFilterViewModel GetFilterViewModel(string propertyName, ITranslations translations, FilterState filterState)
+        private DoubleNumericFilterViewModel GetFilterViewModel(string propertyName, ITranslations translations, FilterState filterState)
         {
-            StringFilterDescriptor booleanFilterDescriptor = GetFilterDescriptor(propertyName, filterState);
+            DoubleNumericFilterDescriptor intNumericFilterDescriptor = GetFilterDescriptor(propertyName, filterState);
 
-            return new StringFilterViewModel(translations, booleanFilterDescriptor);
+            return new DoubleNumericFilterViewModel(translations, intNumericFilterDescriptor);
         }
 
-        private StringFilterDescriptor GetFilterDescriptor(string propertyName, FilterState filterState)
+        private DoubleNumericFilterDescriptor GetFilterDescriptor(string propertyName, FilterState filterState)
         {
-            if (!filterState.TryGetFilter<StringFilterDescriptor>(propertyName, out var stringFilterDescriptor))
+            if (!filterState.TryGetFilter<DoubleNumericFilterDescriptor>(propertyName, out var dateFilterDescriptor))
             {
-                return new StringFilterDescriptor
+                return new DoubleNumericFilterDescriptor
                 {
                     PropertyName = propertyName,
                     FilterOperator = FilterOperatorEnum.None,
-                    Value = null
+                    LowerValue = null,
+                    UpperValue = null,
                 };
             }
 
-            return stringFilterDescriptor;
+            return dateFilterDescriptor;
         }
 
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
@@ -131,7 +134,8 @@ namespace WpfDataGridFilter.Filters.Controls
             FilterState.RemoveFilter(ViewModel.PropertyName);
 
             ViewModel.SelectedFilterOperator = FilterOperatorEnum.None;
-            ViewModel.Value = null;
+            ViewModel.LowerValue = null;
+            ViewModel.UpperValue = null;
         }
 
         private void ButtonApply_Click(object sender, RoutedEventArgs e)
