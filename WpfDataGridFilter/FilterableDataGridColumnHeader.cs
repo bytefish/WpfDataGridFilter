@@ -106,16 +106,28 @@ namespace WpfDataGridFilter
         /// <summary>  
         ///  Property for the current tickness of the border around the header
         /// </summary>
-        public new Thickness BorderThickness
+        public Thickness HeaderBorderThickness
         {
-            get { return (Thickness)GetValue(BorderThicknessProperty); }
-            set { SetValue(BorderThicknessProperty, value); }
+            get { return (Thickness)GetValue(HeaderBorderThicknessProperty); }
+            set { SetValue(HeaderBorderThicknessProperty, value); }
         }
 
-        public new static readonly DependencyProperty BorderThicknessProperty = DependencyProperty.Register(
-            "BorderThickness", typeof(Thickness), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(StandardHeaderTextBoxBorderThickness,
+        public static readonly DependencyProperty HeaderBorderThicknessProperty = DependencyProperty.Register(
+            "HeaderBorderThickness", typeof(Thickness), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(StandardHeaderTextBoxBorderThickness,
                 propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderBorder.BorderThickness = (Thickness)e.NewValue)));
+        
+        /// <summary>  
+        ///  Property for the current tickness of the border around the header
+        /// </summary>
+        public Thickness HeaderBorderMargin
+        {
+            get { return (Thickness)GetValue(HeaderBorderMarginProperty); }
+            set { SetValue(HeaderBorderMarginProperty, value); }
+        }
 
+        public static readonly DependencyProperty HeaderBorderMarginProperty = DependencyProperty.Register(
+            "HeaderBorderMargin", typeof(Thickness), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(StandardHeaderTextBoxBorderThickness,
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderBorder.Margin = (Thickness)e.NewValue)));
 
         /// <summary>  
         ///  FilterState of the current DataGrid.
@@ -167,7 +179,7 @@ namespace WpfDataGridFilter
 
         public static readonly DependencyProperty HeaderTextProperty = DependencyProperty.Register(
             "HeaderText", typeof(string), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(
-                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f  .HeaderTextBlock.Text = (string)e.NewValue)));
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f .HeaderTextBlock.Text = (string)e.NewValue)));
 
         /// <summary>  
         ///  Property for the current size of the text used inside the header

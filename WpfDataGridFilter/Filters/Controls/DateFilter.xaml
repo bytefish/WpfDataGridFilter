@@ -38,7 +38,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-
         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">Filter Operator:</TextBlock>
         <ComboBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" Margin="10,0,10,0" MinWidth="150"
                   DisplayMemberPath="Translation" 

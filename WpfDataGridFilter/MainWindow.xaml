@@ -11,12 +11,12 @@
             <DataGrid.Columns>
                 <DataGridTextColumn>
                     <DataGridTextColumn.Header>
-                        <local:FilterableDataGridColumnHeader HeaderText="Abc" PropertyName="ABC" FilterType="BooleanFilter"></local:FilterableDataGridColumnHeader>
+                        <local:FilterableDataGridColumnHeader HeaderText="Abc" PropertyName="ABC" Height="30" FilterType="BooleanFilter"></local:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn>
                     <DataGridTextColumn.Header>
-                        <local:FilterableDataGridColumnHeader HeaderText="DEf" PropertyName="DEF" FilterType="DateFilter"></local:FilterableDataGridColumnHeader>
+                        <local:FilterableDataGridColumnHeader HeaderText="DEf" PropertyName="DEF" Height="30" FilterType="DateFilter"></local:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </DataGrid.Columns>
