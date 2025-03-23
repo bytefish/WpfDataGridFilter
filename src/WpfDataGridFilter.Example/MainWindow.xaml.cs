@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using WpfDataGridFilter.Filters;
 
 namespace WpfDataGridFilter.Example;
