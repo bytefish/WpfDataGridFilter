@@ -12,11 +12,11 @@ When a Filter has been added to the a DataGrid column it looks like this:
 
 By clicking on the Filter Symbol, a Popup for the given Filter Type is shown:
 
-![Filter Popup Opened](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-datagridcolumnheader.jpg?raw=true)
+![Filter Popup Opened](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-popup.jpg?raw=true)
 
 You can use several Operators for Filtering the Data. It depends on the Filter Type:
 
-![Filter Popup Opened With Filter Operators](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-datagridcolumnheader.jpg?raw=true)
+![Filter Popup Opened With Filter Operators](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-operator-list.jpg?raw=true)
 
 ## Using it:
 

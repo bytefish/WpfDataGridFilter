@@ -12,13 +12,21 @@
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/bytefish/WpfDataGridFilter</RepositoryUrl>
         <PackageTags>wpf; datagrid</PackageTags>
-        <Version>0.0.2</Version>
+        <Version>0.0.3</Version>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0.2" />
-        <PackageReference Include="WpfDataGridFilter" Version="0.0.2" />
+        <PackageReference Include="WpfDataGridFilter" Version="[0.0.2,)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- IMPORTANT: adding the Readme as a link -->
+        <None Include="..\..\README.md" Pack="true" PackagePath="">
+            <Link>Properties\README.md</Link>
+        </None>
     </ItemGroup>
 
 </Project>
