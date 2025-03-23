@@ -149,7 +149,7 @@ namespace WpfDataGridFilter
         public bool IsFiltered
         {
             get { return (bool)GetValue(IsFilteredProperty); }
-            private set { SetValue(IsFilteredProperty, value); }
+            set { SetValue(IsFilteredProperty, value); }
         }
 
         public static readonly DependencyProperty IsFilteredProperty = DependencyProperty.Register(
@@ -188,7 +188,7 @@ namespace WpfDataGridFilter
         public string PropertyName
         {
             get { return (string)GetValue(PropertyNameProperty); }
-            private set { SetValue(PropertyNameProperty, value); }
+            set { SetValue(PropertyNameProperty, value); }
         }
 
         public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register(

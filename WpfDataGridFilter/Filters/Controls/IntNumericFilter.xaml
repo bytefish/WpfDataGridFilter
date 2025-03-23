@@ -16,33 +16,34 @@
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
 
-        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10" FontWeight="Bold">Filter Operator:</TextBlock>
-        <ComboBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" Margin="10" MinWidth="150"
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">Filter Operator:</TextBlock>
+        <ComboBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" Margin="10,0,10,0" MinWidth="150"
                   DisplayMemberPath="Translation" 
                   SelectedValuePath="Value"
                   ItemsSource="{Binding ViewModel.FilterOperators, Mode=TwoWay}"
                   SelectedValue="{Binding ViewModel.SelectedFilterOperator, Mode=TwoWay}" />
 
-        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10" FontWeight="Bold">Lower Value:</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">Lower Value:</TextBlock>
         <TextBox 
             Grid.Row="1" 
             Grid.Column="1"
             Margin="10"
             Text="{Binding ViewModel.LowerValue}"/>
 
-        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10" FontWeight="Bold">Upper Value:</TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">Upper Value:</TextBlock>
         <TextBox 
             Grid.Row="2" 
             Grid.Column="1"
-            Margin="10"
+            Margin="10,0,10,0"
             Text="{Binding ViewModel.UpperValue}"/>
 
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="ButtonReset" Width="80" Height="20" Margin="10" Click="ButtonReset_Click">Reset</Button>
-            <Button x:Name="ButtonApply" Width="80" Height="20" Margin="0,10,10,10" Click="ButtonApply_Click">Apply</Button>
+            <Button x:Name="ButtonReset" Width="80" Height="20" Margin="10,0,10,0" Click="ButtonReset_Click">Reset</Button>
+            <Button x:Name="ButtonApply" Width="80" Height="20" Margin="0,0,10,0" Click="ButtonApply_Click">Apply</Button>
         </StackPanel>
     </Grid>
 </UserControl>

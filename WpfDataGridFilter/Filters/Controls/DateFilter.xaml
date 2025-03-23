@@ -35,37 +35,38 @@
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
 
-        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10" FontWeight="Bold">Filter Operator:</TextBlock>
-        <ComboBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" Margin="10" MinWidth="150"
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">Filter Operator:</TextBlock>
+        <ComboBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" Margin="10,0,10,0" MinWidth="150"
                   DisplayMemberPath="Translation" 
                   SelectedValuePath="Value"
                   ItemsSource="{Binding ViewModel.FilterOperators, Mode=TwoWay}"
                   SelectedValue="{Binding ViewModel.SelectedFilterOperator, Mode=TwoWay}" />
 
-        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10" FontWeight="Bold">Start Date:</TextBlock>
-        <DatePickerTextBox 
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,10,0">Start Date:</TextBlock>
+        <DatePicker  
             Grid.Row="1" 
             Grid.Column="1"
             VerticalAlignment="Center" 
-            Margin="10" 
+            Margin="10,0,10,0" 
             MinWidth="150"
-            Text="{Binding ViewModel.EndDate, Mode=TwoWay}"></DatePickerTextBox>
+            SelectedDate="{Binding ViewModel.EndDate, Mode=TwoWay}"></DatePicker>
 
-        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10" FontWeight="Bold">End Date:</TextBlock>
-        <DatePickerTextBox 
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">End Date:</TextBlock>
+        <DatePicker  
             Grid.Row="2" 
             Grid.Column="1" 
             VerticalAlignment="Center" 
-            Margin="10" 
+            Margin="10,0,10,0" 
             MinWidth="150"
-            Text="{Binding ViewModel.EndDate, Mode=TwoWay}"></DatePickerTextBox>
+            SelectedDate="{Binding ViewModel.EndDate, Mode=TwoWay}"></DatePicker>
 
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="ButtonReset" Width="80" Height="20" Margin="10" Click="ButtonReset_Click">Reset</Button>
-            <Button x:Name="ButtonApply" Width="80" Height="20" Margin="0,10,10,10" Click="ButtonApply_Click">Apply</Button>
+            <Button x:Name="ButtonReset" Width="80" Height="20" Margin="10,0,10,0" Click="ButtonReset_Click">Reset</Button>
+            <Button x:Name="ButtonApply" Width="80" Height="20" Margin="0,0,10,0" Click="ButtonApply_Click">Apply</Button>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfDataGridFilter" xmlns:controls="clr-namespace:WpfDataGridFilter.Controls"
+        xmlns:local="clr-namespace:WpfDataGridFilter"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -11,7 +11,12 @@
             <DataGrid.Columns>
                 <DataGridTextColumn>
                     <DataGridTextColumn.Header>
-                        <controls:FilterableDataGridColumnHeader HeaderText="Abc" FilterType="BooleanFilter"></controls:FilterableDataGridColumnHeader>
+                        <local:FilterableDataGridColumnHeader HeaderText="Abc" PropertyName="ABC" FilterType="BooleanFilter"></local:FilterableDataGridColumnHeader>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn>
+                    <DataGridTextColumn.Header>
+                        <local:FilterableDataGridColumnHeader HeaderText="DEf" PropertyName="DEF" FilterType="DateFilter"></local:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </DataGrid.Columns>
