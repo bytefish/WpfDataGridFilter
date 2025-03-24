@@ -1,8 +1,8 @@
 # WpfDataGridFilter #
 
-"I just want to filter some data in a `DataGrid`, why is all this so complicated?"... said everyone using a WPF `DataGrid`.
+"I just want to filter some data in a DataGrid, why is all this so complicated?"... said everyone using a WPF DataGrid.
 
-This library makes it possible to add filters for each column of a `DataGrid` and use them to provide filtering.
+This library provides a custom DataGridColumnHeader Control for defining filtering on a column. 
 
 ## What's included
 
