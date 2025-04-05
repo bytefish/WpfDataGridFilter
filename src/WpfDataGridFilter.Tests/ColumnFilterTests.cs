@@ -13,6 +13,16 @@ namespace WpfDataGridFilter.Tests
             public required DateTime BirthDate { get; set; }
         }
 
+        // Test Data
+        private static List<Person> people =
+        [
+            new Person { Name = "Philipp Wagner", BirthDate = new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc)},
+                new Person { Name = "Ben Statham", BirthDate = new DateTime(2018, 2, 11, 0, 0, 0, DateTimeKind.Utc)},
+                new Person { Name = "Max Powers", BirthDate = new DateTime(2020, 7, 24, 0, 0, 0, DateTimeKind.Utc)},
+                new Person { Name = "JSON Bourne", BirthDate = new DateTime(2022, 5, 22, 0, 0, 0, DateTimeKind.Utc)},
+        ];
+
+
         [TestMethod]
         public void TestMethod1()
         {
@@ -26,19 +36,27 @@ namespace WpfDataGridFilter.Tests
 
             Expression<Func<Person, bool>> filterPredicate = dateTimeColumnFilter.GetFilterPredicate();
 
-            // Test Data
-            List<Person> people =
-            [
-                new Person { Name = "Philipp Wagner", BirthDate = new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc)},
-                new Person { Name = "Ben Statham", BirthDate = new DateTime(2018, 2, 11, 0, 0, 0, DateTimeKind.Utc)},
-                new Person { Name = "Max Powers", BirthDate = new DateTime(2020, 7, 24, 0, 0, 0, DateTimeKind.Utc)},
-                new Person { Name = "JSON Bourne", BirthDate = new DateTime(2022, 5, 22, 0, 0, 0, DateTimeKind.Utc)},
-            ];
+            List<Person> filteredResults = people.AsQueryable()
+                .Where(filterPredicate)
+                .ToList();
+        }
+
+        [TestMethod]
+        public void TestMethodString()
+        {
+            StringColumnFilter<Person> stringColumnFilter = new StringColumnFilter<Person>
+            {
+                ColumnName = "Name",
+                PropertyGetter = (x) => x.Name,
+                Value = "Phi",
+                FilterOperator = Filters.Models.FilterOperatorEnum.StartsWith
+            };
+
+            Expression<Func<Person, bool>> filterPredicate = stringColumnFilter.GetFilterPredicate();
 
             List<Person> filteredResults = people.AsQueryable()
                 .Where(filterPredicate)
                 .ToList();
-
         }
     }
 }

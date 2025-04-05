@@ -25,6 +25,8 @@ namespace WpfDataGridFilter.Filters.Models
         BetweenExclusive = 18,
         Yes = 19,
         No = 20,
-        All = 21
+        All = 21,
+        IsNullOrWhitespace = 22,
+        IsNotNullOrWhitespace = 23
     }
 }
