@@ -1,8 +1,8 @@
 # WpfDataGridFilter #
 
-"I just want to filter some data in a `DataGrid`, why is all this so complicated?"... said everyone using a WPF `DataGrid`.
+"I just want to filter some data in a DataGrid, why is all this so complicated?"... said everyone using a WPF DataGrid.
 
-This library makes it possible to add filters for each column of a `DataGrid`, and use them to provide Filtering.
+This library provides a custom DataGridColumnHeader Control for defining filtering on a column. 
 
 ## What's included
 
@@ -10,7 +10,7 @@ When a Filter has been added to the a DataGrid column it looks like this:
 
 ![Filter Header Overview](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-datagridcolumnheader.jpg?raw=true)
 
-By clicking on the Filter Symbol, a Popup for the given Filter Type is shown:
+By clicking on the Filter Symbol a `Popup` for the given Filter Type is shown:
 
 ![Filter Popup Opened](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-popup.jpg?raw=true)
 
