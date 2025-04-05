@@ -27,6 +27,22 @@ namespace WpfDataGridFilter.Filters.Controls
             FilterOperatorEnum.IsNotEqualTo,
         ];
 
+        private FilterOperatorEnum[] ValidOperatorsForStartDate =
+        [
+            FilterOperatorEnum.Before,
+            FilterOperatorEnum.After,
+            FilterOperatorEnum.BetweenExclusive,
+            FilterOperatorEnum.BetweenInclusive,
+            FilterOperatorEnum.IsEqualTo,
+            FilterOperatorEnum.IsNotEqualTo,
+        ];
+        
+        private FilterOperatorEnum[] ValidOperatorsForEndDate =
+        [
+            FilterOperatorEnum.BetweenInclusive,
+            FilterOperatorEnum.BetweenExclusive,
+        ];
+
         [ObservableProperty]
         private ITranslations _translations;
 
@@ -41,6 +57,24 @@ namespace WpfDataGridFilter.Filters.Controls
         /// </summary>
         [ObservableProperty]
         private ObservableCollection<EnumTranslation<FilterOperatorEnum>> _filterOperators = new();
+
+        /// <summary>
+        /// Selected Filter.
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsStartDateEnabled))]
+        [NotifyPropertyChangedFor(nameof(IsEndDateEnabled))]
+        private FilterOperatorEnum _selectedFilterOperator = FilterOperatorEnum.None;
+
+        /// <summary>
+        /// Start Date is only visible for these Values.
+        /// </summary>
+        public bool IsStartDateEnabled => ValidOperatorsForStartDate.Contains(SelectedFilterOperator);
+
+        /// <summary>
+        /// End Date is only visible for these operators.
+        /// </summary>
+        public bool IsEndDateEnabled => ValidOperatorsForEndDate.Contains(SelectedFilterOperator);
 
         /// <summary>
         /// Property Name this Filter handles.
@@ -62,9 +96,6 @@ namespace WpfDataGridFilter.Filters.Controls
 
             SelectedFilterOperator = booleanFilterDescriptor.FilterOperator;
         }
-
-        [ObservableProperty]
-        private FilterOperatorEnum _selectedFilterOperator = FilterOperatorEnum.None;
 
         public FilterDescriptor FilterDescriptor => new DateFilterDescriptor
         {

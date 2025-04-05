@@ -52,7 +52,8 @@
             VerticalAlignment="Center" 
             Margin="10,0,10,0" 
             MinWidth="150"
-            SelectedDate="{Binding ViewModel.EndDate, Mode=TwoWay}"></DatePicker>
+            IsEnabled="{Binding ViewModel.IsStartDateEnabled}"
+            SelectedDate="{Binding ViewModel.StartDate, Mode=TwoWay}"></DatePicker>
 
         <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">End Date:</TextBlock>
         <DatePicker  
@@ -61,6 +62,7 @@
             VerticalAlignment="Center" 
             Margin="10,0,10,0" 
             MinWidth="150"
+            IsEnabled="{Binding ViewModel.IsEndDateEnabled}"
             SelectedDate="{Binding ViewModel.EndDate, Mode=TwoWay}"></DatePicker>
 
         <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">

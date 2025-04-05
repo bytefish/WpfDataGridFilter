@@ -18,6 +18,11 @@
                     <DataGridTextColumn.Header>
                         <wpfdatagridfilter:FilterableDataGridColumnHeader FilterState="{Binding FilterState}" HeaderText="FullName" PropertyName="FullName" Height="30" FilterType="StringFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
+                </DataGridTextColumn>                
+                <DataGridTextColumn Binding="{Binding ValidFrom}">
+                    <DataGridTextColumn.Header>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader FilterState="{Binding FilterState}" HeaderText="ValidFrom" PropertyName="ValidFrom" Height="30" FilterType="DateFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                    </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
