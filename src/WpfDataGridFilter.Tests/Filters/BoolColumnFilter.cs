@@ -36,10 +36,6 @@ namespace WpfDataGridFilter.Filters
         /// <exception cref="ArgumentException"></exception>
         public Expression<Func<TEntity, bool>> GetFilterPredicate()
         {
-            // Now get the MemberExpression from the Property Getter, which is used to get 
-            // the Value from the actual TEntity, which is passed to the Predicate.
-            var a = PropertyGetter.Body;
-
             // Create a Parameter for the Lambda Function, that takes a TEntity type and 
             // names it "entity" for sake of simplicity.
             ParameterExpression parameterExpressionEntity = PropertyGetter.Parameters[0];
@@ -70,7 +66,7 @@ namespace WpfDataGridFilter.Filters
             }
 
             // Build the Predicate, that takes the BinaryExpression
-            Expression<Func<TEntity, bool>> predicate = Expression.Lambda<Func<TEntity, bool>>(expression!, parameterExpressionEntity);
+            Expression<Func<TEntity, bool>> predicate = Expression.Lambda<Func<TEntity, bool>>(expression, parameterExpressionEntity);
 
             // Add the Predicate to the IQueryable<TEntity> 
             return predicate;
