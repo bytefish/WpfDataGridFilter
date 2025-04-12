@@ -19,7 +19,6 @@
 
     <ItemGroup>
         <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0.2" />
-        <PackageReference Include="WpfDataGridFilter" Version="[0.0.2,)" />
     </ItemGroup>
 
     <ItemGroup>
@@ -27,6 +26,10 @@
         <None Include="..\..\README.md" Pack="true" PackagePath="">
             <Link>Properties\README.md</Link>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WpfDataGridFilter\WpfDataGridFilter.csproj" />
     </ItemGroup>
 
 </Project>

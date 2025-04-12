@@ -1,5 +1,4 @@
-﻿
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -150,7 +149,6 @@ namespace WpfDataGridFilter
 
                         f.HeaderToggle.Content = f.IsFiltered ? f.ImageFilterRed : (object)f.ImageFilterBlack;
                     };
-
                 })));
 
         /// <summary>  

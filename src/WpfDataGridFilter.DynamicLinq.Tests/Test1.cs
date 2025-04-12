@@ -1,7 +1,7 @@
-﻿using System.Linq.Expressions;
-using WpfDataGridFilter.Filters;
+﻿using Newtonsoft.Json.Linq;
+using System.Linq.Expressions;
+using WpfDataGridFilter.DynamicLinq;
 using WpfDataGridFilter.Filters.Models;
-using WpfDataGridFilter.Tests.Filters;
 
 namespace WpfDataGridFilter.Tests
 {
@@ -14,7 +14,7 @@ namespace WpfDataGridFilter.Tests
 
             public required string? Name { get; set; }
 
-            public required DateTime? BirthDate { get; set; }
+            public required DateTimeOffset? BirthDate { get; set; }
 
             public required bool? RockstarProgrammer { get; set; }
 
@@ -27,10 +27,10 @@ namespace WpfDataGridFilter.Tests
             return
             [
                 new Person { Id = 1, Name = null, BirthDate = null, RockstarProgrammer = null, NumberOfCars = null },
-                new Person { Id = 2, Name = "Philipp Wagner", BirthDate = new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), RockstarProgrammer = true, NumberOfCars = 2 },
-                new Person { Id = 3, Name = "Ben Statham", BirthDate = new DateTime(2018, 2, 11, 0, 0, 0, DateTimeKind.Utc), RockstarProgrammer = false, NumberOfCars = 3 },
-                new Person { Id = 4, Name = "Max Powers", BirthDate = new DateTime(2020, 7, 24, 0, 0, 0, DateTimeKind.Utc), RockstarProgrammer = false, NumberOfCars = 4 },
-                new Person { Id = 5, Name = "JSON Bourne", BirthDate = new DateTime(2022, 5, 22, 0, 0, 0, DateTimeKind.Utc), RockstarProgrammer = false, NumberOfCars = 5 },
+                new Person { Id = 2, Name = "Philipp Wagner", BirthDate = new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), RockstarProgrammer = true, NumberOfCars = 2 },
+                new Person { Id = 3, Name = "Ben Statham", BirthDate = new DateTimeOffset(2018, 2, 11, 0, 0, 0, TimeSpan.Zero), RockstarProgrammer = false, NumberOfCars = 3 },
+                new Person { Id = 4, Name = "Max Powers", BirthDate = new DateTimeOffset(2020, 7, 24, 0, 0, 0, TimeSpan.Zero), RockstarProgrammer = false, NumberOfCars = 4 },
+                new Person { Id = 5, Name = "JSON Bourne", BirthDate = new DateTimeOffset(2022, 5, 22, 0, 0, 0, TimeSpan.Zero), RockstarProgrammer = false, NumberOfCars = 5 },
             ];
         }
 
@@ -87,22 +87,22 @@ namespace WpfDataGridFilter.Tests
             {
                 return
                 [
-                    [ FilterOperatorEnum.IsNull, default(DateTime?), default(DateTime?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotNull, default(DateTime?), default(DateTime?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 2 } ],
-                    [ FilterOperatorEnum.IsEqualTo, default(DateTime?), default(DateTime?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, default(DateTime?), default(DateTime?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 1, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsGreaterThan, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsGreaterThanOrEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsLessThan, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { } ],
-                    [ FilterOperatorEnum.IsLessThanOrEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 2 } ],
-                    [ FilterOperatorEnum.BetweenInclusive, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 5, 22, 0, 0, 0, DateTimeKind.Utc), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.BetweenExclusive, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 5, 22, 0, 0, 0, DateTimeKind.Utc), new int[] { 3, 4 } ],
+                    [ FilterOperatorEnum.IsNull, default(DateTimeOffset?), default(DateTimeOffset?), new int[] { 1 } ],
+                    [ FilterOperatorEnum.IsNotNull, default(DateTimeOffset?), default(DateTimeOffset?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperatorEnum.IsEqualTo, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 2 } ],
+                    [ FilterOperatorEnum.IsEqualTo, default(DateTimeOffset?), default(DateTimeOffset?), new int[] { 1 } ],
+                    [ FilterOperatorEnum.IsNotEqualTo, default(DateTimeOffset?), default(DateTimeOffset?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperatorEnum.IsNotEqualTo, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 1, 3, 4, 5 } ],
+                    [ FilterOperatorEnum.IsGreaterThan, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 3, 4, 5 } ],
+                    [ FilterOperatorEnum.IsGreaterThanOrEqualTo, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperatorEnum.IsLessThan, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { } ],
+                    [ FilterOperatorEnum.IsLessThanOrEqualTo, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 2 } ],
+                    [ FilterOperatorEnum.BetweenInclusive, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), new DateTimeOffset(2022, 5, 22, 0, 0, 0, TimeSpan.Zero), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperatorEnum.BetweenExclusive, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), new DateTimeOffset(2022, 5, 22, 0, 0, 0, TimeSpan.Zero), new int[] { 3, 4 } ],
                 ];
             }
-        }        
-        
+        }
+
         /// <summary>
         /// TestData for Integer Filters.
         /// </summary>
@@ -130,21 +130,18 @@ namespace WpfDataGridFilter.Tests
 
         [TestMethod]
         [DynamicData(nameof(DateTimeTestData))]
-        public void DateTimeColumnFilterTests(FilterOperatorEnum filterOperator, DateTime? startDate, DateTime? endDate, int[] expected)
+        public void DateTimeColumnFilterTests(FilterOperatorEnum filterOperator, DateTimeOffset? startDate, DateTimeOffset? endDate, int[] expected)
         {
-            DateTimeColumnFilter<Person> dateTimeColumnFilter = new DateTimeColumnFilter<Person>
+            DateTimeFilterDescriptor filterDescriptor = new DateTimeFilterDescriptor
             {
-                ColumnName = "Birth Date",
-                PropertyGetter = (x) => x.BirthDate,
                 FilterOperator = filterOperator,
-                StartDate = startDate,
-                EndDate = endDate,
+                PropertyName = nameof(Person.BirthDate),
+                StartDateTime = startDate,
+                EndDateTime = endDate,
             };
 
-            Expression<Func<Person, bool>> filterPredicate = dateTimeColumnFilter.GetFilterPredicate();
-
             int[] filteredResults = GetPeople().AsQueryable()
-                .Where(filterPredicate)
+                .ApplyFilters([filterDescriptor])
                 .Select(x => x.Id)
                 .ToArray();
 
@@ -155,18 +152,15 @@ namespace WpfDataGridFilter.Tests
         [DynamicData(nameof(StringTestData))]
         public void StringColumnFilterTests(FilterOperatorEnum filterOperator, string? value, int[] expected)
         {
-            StringColumnFilter<Person> stringColumnFilter = new StringColumnFilter<Person>
+            StringFilterDescriptor filterDescriptor = new StringFilterDescriptor
             {
-                ColumnName = "Name",
-                PropertyGetter = (x) => x.Name,
+                FilterOperator = filterOperator,
+                PropertyName = nameof(Person.Name),
                 Value = value,
-                FilterOperator = filterOperator
             };
 
-            Expression<Func<Person, bool>> filterPredicate = stringColumnFilter.GetFilterPredicate();
-
             int[] filteredResults = GetPeople().AsQueryable()
-                .Where(filterPredicate)
+                .ApplyFilters([filterDescriptor])
                 .Select(x => x.Id)
                 .ToArray();
 
@@ -177,40 +171,34 @@ namespace WpfDataGridFilter.Tests
         [DynamicData(nameof(IntegerTestData))]
         public void IntegerColumnFilterTests(FilterOperatorEnum filterOperator, int? lowerValue, int? upperValue, int[] expected)
         {
-            NumericColumnFilter<Person, int?> numericColumnFilter = new NumericColumnFilter<Person, int?>
+            IntNumericFilterDescriptor filterDescriptor = new IntNumericFilterDescriptor
             {
-                ColumnName = "Number of Cars",
-                PropertyGetter = (x) => x.NumberOfCars,
+                FilterOperator = filterOperator,
+                PropertyName = nameof(Person.NumberOfCars),
                 LowerValue = lowerValue,
-                UpperValue = upperValue,
-                FilterOperator = filterOperator
+                UpperValue = upperValue
             };
 
-            Expression<Func<Person, bool>> filterPredicate = numericColumnFilter.GetFilterPredicate();
-
             int[] filteredResults = GetPeople().AsQueryable()
-                .Where(filterPredicate)
+                .ApplyFilters([filterDescriptor])
                 .Select(x => x.Id)
                 .ToArray();
 
             Assert.AreEqual(true, Enumerable.SequenceEqual(filteredResults, expected));
         }
-        
+
         [TestMethod]
         [DynamicData(nameof(BoolTestData))]
         public void BoolColumnFilterTests(FilterOperatorEnum filterOperator, int[] expected)
         {
-            BoolColumnFilter<Person> boolColumnFilter = new BoolColumnFilter<Person>
+            BooleanFilterDescriptor filterDescriptor = new BooleanFilterDescriptor
             {
-                ColumnName = "Number of Cars",
-                PropertyGetter = (x) => x.RockstarProgrammer,
-                FilterOperator = filterOperator
+                FilterOperator = filterOperator,
+                PropertyName = nameof(Person.RockstarProgrammer),
             };
 
-            Expression<Func<Person, bool>> filterPredicate = boolColumnFilter.GetFilterPredicate();
-
             int[] filteredResults = GetPeople().AsQueryable()
-                .Where(filterPredicate)
+                .ApplyFilters([filterDescriptor])
                 .Select(x => x.Id)
                 .ToArray();
 

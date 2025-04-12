@@ -1,25 +1,22 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq.Dynamic.Core;
 using WpfDataGridFilter.Filters.Models;
 
 namespace WpfDataGridFilter.DynamicLinq
 {
-    public static class DynamicLinqConverter
+    public static class DynamicQueryableExtensions
     {
-        public record DynamicLinqParameter
-        {
-            public int Index { get; set; }
+        private static string NullStr = "null";
 
-            public object? Value { get; set; }
-        }
-
-        public static string Translate(List<FilterDescriptor> filterDescriptors)
+        public static IQueryable<TEntity> ApplyFilters<TEntity>(this IQueryable<TEntity> source, ICollection<FilterDescriptor> filterDescriptors)
         {
             if (filterDescriptors.Count == 0)
             {
-                return string.Empty;
+                return source;
             }
 
+            // Translate all Filters
             List<string> filters = new();
 
             foreach (FilterDescriptor filterDescriptor in filterDescriptors)
@@ -29,13 +26,15 @@ namespace WpfDataGridFilter.DynamicLinq
                     continue;
                 }
 
-                var filter = TranslateFilter(filterDescriptor);
+                string? filter = TranslateFilter(filterDescriptor);
 
                 filters.Add(filter);
             }
 
-            return string.Join(" and ", filters
-                .Select(filter => $"({filter})"));
+            // Concatenate all Filters
+            string dynamicLinqFilter = string.Join(" and ", filters.Select(filter => $"({filter})")); ;
+
+            return source.Where(dynamicLinqFilter);
         }
 
         private static string TranslateFilter(FilterDescriptor filterDescriptor)
@@ -44,8 +43,6 @@ namespace WpfDataGridFilter.DynamicLinq
             {
                 case FilterTypeEnum.BooleanFilter:
                     return TranslateBooleanFilter((BooleanFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.DateFilter:
-                    return TranslateDateFilter((DateFilterDescriptor)filterDescriptor);
                 case FilterTypeEnum.DateTimeFilter:
                     return TranslateDateTimeFilter((DateTimeFilterDescriptor)filterDescriptor);
                 case FilterTypeEnum.StringFilter:
@@ -72,41 +69,7 @@ namespace WpfDataGridFilter.DynamicLinq
                 case FilterOperatorEnum.Yes:
                     return $"{filterDescriptor.PropertyName} eq true";
                 case FilterOperatorEnum.No:
-                    return $"{filterDescriptor.PropertyName} neq false";
-                default:
-                    throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
-            }
-        }
-
-        private static string TranslateDateFilter(DateFilterDescriptor filterDescriptor)
-        {
-            var startDate = ToDynamicLinqDate(filterDescriptor.StartDate);
-            var endDate = ToDynamicLinqDate(filterDescriptor.EndDate);
-
-            switch (filterDescriptor.FilterOperator)
-            {
-                case FilterOperatorEnum.IsNull:
-                    return $"{filterDescriptor.PropertyName} eq null";
-                case FilterOperatorEnum.IsNotNull:
-                    return $"{filterDescriptor.PropertyName} neq null";
-                case FilterOperatorEnum.IsEqualTo:
-                    return $"{filterDescriptor.PropertyName} eq \"{startDate}\"";
-                case FilterOperatorEnum.IsNotEqualTo:
-                    return $"{filterDescriptor.PropertyName} neq \"{startDate}\"";
-                case FilterOperatorEnum.After:
-                case FilterOperatorEnum.IsGreaterThan:
-                    return $"{filterDescriptor.PropertyName} gt \"{startDate}\"";
-                case FilterOperatorEnum.IsGreaterThanOrEqualTo:
-                    return $"{filterDescriptor.PropertyName} ge \"{startDate}\"";
-                case FilterOperatorEnum.Before:
-                case FilterOperatorEnum.IsLessThan:
-                    return $"{filterDescriptor.PropertyName} lt \"{startDate}\"";
-                case FilterOperatorEnum.IsLessThanOrEqualTo:
-                    return $"{filterDescriptor.PropertyName} le \"{startDate}\"";
-                case FilterOperatorEnum.BetweenExclusive:
-                    return $"({filterDescriptor.PropertyName} gt \"{startDate}\") and ({filterDescriptor.PropertyName}) lt \"{endDate}\")";
-                case FilterOperatorEnum.BetweenInclusive:
-                    return $"({filterDescriptor.PropertyName} ge \"{startDate}\") and ({filterDescriptor.PropertyName} le \"{endDate}\")";
+                    return $"{filterDescriptor.PropertyName} eq false";
                 default:
                     throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
             }
@@ -114,8 +77,8 @@ namespace WpfDataGridFilter.DynamicLinq
 
         private static string TranslateDateTimeFilter(DateTimeFilterDescriptor filterDescriptor)
         {
-            var startDate = ToDynamicLinqDateTime(filterDescriptor.StartDateTime);
-            var endDate = ToDynamicLinqDateTime(filterDescriptor.EndDateTime);
+            string? startDate = ToDynamicLinqDateTime(filterDescriptor.StartDateTime);
+            string? endDate = ToDynamicLinqDateTime(filterDescriptor.EndDateTime);
 
             switch (filterDescriptor.FilterOperator)
             {
@@ -124,23 +87,24 @@ namespace WpfDataGridFilter.DynamicLinq
                 case FilterOperatorEnum.IsNotNull:
                     return $"{filterDescriptor.PropertyName} neq null";
                 case FilterOperatorEnum.IsEqualTo:
-                    return $"{filterDescriptor.PropertyName} eq \"{startDate}\"";
+                    return $"{filterDescriptor.PropertyName} eq {startDate}";
                 case FilterOperatorEnum.IsNotEqualTo:
-                    return $"{filterDescriptor.PropertyName} neq \"{startDate}\"";
+                    return $"{filterDescriptor.PropertyName} neq {startDate}";
                 case FilterOperatorEnum.After:
                 case FilterOperatorEnum.IsGreaterThan:
-                    return $"{filterDescriptor.PropertyName} gt \"{startDate}\"";
+                    return $"({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} gt {startDate})";
                 case FilterOperatorEnum.IsGreaterThanOrEqualTo:
-                    return $"{filterDescriptor.PropertyName} le \"{startDate}\"";
+                    return $"({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} ge {startDate})";
                 case FilterOperatorEnum.Before:
                 case FilterOperatorEnum.IsLessThan:
-                    return $"{filterDescriptor.PropertyName} lt \"{startDate}\"";
+                    return $"({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} lt {startDate})";
                 case FilterOperatorEnum.IsLessThanOrEqualTo:
-                    return $"{filterDescriptor.PropertyName} le \"{startDate}\"";
+                    return $"({filterDescriptor.PropertyName}  neq null) and ({filterDescriptor.PropertyName} le {startDate})";
                 case FilterOperatorEnum.BetweenExclusive:
-                    return $"({filterDescriptor.PropertyName} gt \"{startDate}\") and ({filterDescriptor.PropertyName} lt \"{endDate}\")";
+                    return $"(({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} gt {startDate})) and (({filterDescriptor.PropertyName} neq null) and (({filterDescriptor.PropertyName}) lt {endDate}))";
                 case FilterOperatorEnum.BetweenInclusive:
-                    return $"({filterDescriptor.PropertyName} ge \"{startDate}\") and ({filterDescriptor.PropertyName} le \"{endDate}\")";
+                    return $"(({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} ge {startDate})) and (({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} le {endDate}))";
+
                 default:
                     throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
             }
@@ -148,6 +112,8 @@ namespace WpfDataGridFilter.DynamicLinq
 
         private static string TranslateStringFilter(StringFilterDescriptor filterDescriptor)
         {
+            string? value = ToDynamicLinqString(filterDescriptor.Value);
+
             switch (filterDescriptor.FilterOperator)
             {
                 case FilterOperatorEnum.IsNull:
@@ -155,30 +121,35 @@ namespace WpfDataGridFilter.DynamicLinq
                 case FilterOperatorEnum.IsNotNull:
                     return $"{filterDescriptor.PropertyName} ne null";
                 case FilterOperatorEnum.IsEqualTo:
-                    return $"{filterDescriptor.PropertyName} eq \"{filterDescriptor.Value}\"";
+                    return $"{filterDescriptor.PropertyName} eq {value}";
                 case FilterOperatorEnum.IsNotEqualTo:
-                    return $"{filterDescriptor.PropertyName} ne \"{filterDescriptor.Value}\"";
+                    return $"{filterDescriptor.PropertyName} neq {value}";
                 case FilterOperatorEnum.IsEmpty:
+                    return $"({filterDescriptor.PropertyName} eq null) or ({filterDescriptor.PropertyName} eq \"\")";
+                case FilterOperatorEnum.IsNullOrWhitespace:
                     return $"({filterDescriptor.PropertyName} eq null) or ({filterDescriptor.PropertyName}.Trim() eq \"\")";
                 case FilterOperatorEnum.IsNotEmpty:
+                    return $"({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName} ne \"\")";
+                case FilterOperatorEnum.IsNotNullOrWhitespace:
                     return $"({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName}.Trim() ne \"\")";
                 case FilterOperatorEnum.Contains:
-                    return $"{filterDescriptor.PropertyName}.Contains(\"{filterDescriptor.Value}\")";
+                    return $"({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName}.Contains({value}))";
                 case FilterOperatorEnum.NotContains:
-                    return $"not {filterDescriptor.PropertyName}.Contains(\"{filterDescriptor.Value}\")";
+                    return $"({filterDescriptor.PropertyName} ne null) and (not {filterDescriptor.PropertyName}.Contains(\"{filterDescriptor.Value}\"))";
                 case FilterOperatorEnum.StartsWith:
-                    return $"{filterDescriptor.PropertyName}.StartsWith(\"{filterDescriptor.Value}\")";
+                    return $"({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName}.StartsWith(\"{filterDescriptor.Value}\"))";
                 case FilterOperatorEnum.EndsWith:
-                    return $"{filterDescriptor.PropertyName}.EndsWith(\"{filterDescriptor.Value}\")";
+                    return $"({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName}.EndsWith(\"{filterDescriptor.Value}\"))";
                 default:
                     throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
             }
         }
 
+
         private static string TranslateIntNumericFilter(IntNumericFilterDescriptor filterDescriptor)
         {
-            var low = filterDescriptor.LowerValue?.ToString(CultureInfo.InvariantCulture);
-            var high = filterDescriptor.UpperValue?.ToString(CultureInfo.InvariantCulture);
+            string? low = ToDynamicLinqInt32(filterDescriptor.LowerValue);
+            string? high = ToDynamicLinqDouble(filterDescriptor.UpperValue);
 
             switch (filterDescriptor.FilterOperator)
             {
@@ -191,17 +162,17 @@ namespace WpfDataGridFilter.DynamicLinq
                 case FilterOperatorEnum.IsNotEqualTo:
                     return $"{filterDescriptor.PropertyName} ne {low}";
                 case FilterOperatorEnum.IsGreaterThan:
-                    return $"{filterDescriptor.PropertyName} gt {low}";
+                    return $"({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName} gt {low})";
                 case FilterOperatorEnum.IsGreaterThanOrEqualTo:
-                    return $"{filterDescriptor.PropertyName} ge {low}";
+                    return $"({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName} ge {low})";
                 case FilterOperatorEnum.IsLessThan:
-                    return $"{filterDescriptor.PropertyName} lt {low}";
+                    return $"({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName} lt {low})";
                 case FilterOperatorEnum.IsLessThanOrEqualTo:
-                    return $"{filterDescriptor.PropertyName} le {low}";
+                    return $"({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName} le {low})";
                 case FilterOperatorEnum.BetweenExclusive:
-                    return $"({filterDescriptor.PropertyName} gt {low}) and ({filterDescriptor.PropertyName} lt {high})";
+                    return $"(({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName} gt {low})) and (({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName} lt {high}))";
                 case FilterOperatorEnum.BetweenInclusive:
-                    return $"({filterDescriptor.PropertyName} ge {low}) and ({filterDescriptor.PropertyName} le {high})";
+                    return $"(({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName} ge {low})) and (({filterDescriptor.PropertyName} ne null) and ({filterDescriptor.PropertyName} le {high}))";
                 default:
                     throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
             }
@@ -209,8 +180,8 @@ namespace WpfDataGridFilter.DynamicLinq
 
         private static string TranslateDoubleNumericFilter(DoubleNumericFilterDescriptor filterDescriptor)
         {
-            var low = filterDescriptor.LowerValue?.ToString(CultureInfo.InvariantCulture);
-            var high = filterDescriptor.UpperValue?.ToString(CultureInfo.InvariantCulture);
+            var low = ToDynamicLinqDouble(filterDescriptor.LowerValue);
+            var high = ToDynamicLinqDouble(filterDescriptor.UpperValue);
 
             switch (filterDescriptor.FilterOperator)
             {
@@ -239,28 +210,45 @@ namespace WpfDataGridFilter.DynamicLinq
             }
         }
 
-        private static string? ToDynamicLinqDate(DateTimeOffset? dateTimeOffset)
-        {
-            if (dateTimeOffset == null)
-            {
-                return null;
-            }
-
-            return dateTimeOffset.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-        }
-
         private static string? ToDynamicLinqDateTime(DateTimeOffset? dateTimeOffset)
         {
-            if (dateTimeOffset == null)
+            if (dateTimeOffset == null) 
             {
-                return null;
+                return "null";
             }
 
-            return dateTimeOffset.Value
-                // ... Convert to Utc Zone
-                .ToUniversalTime()
-                // ... in ISO 8601 Format
-                .ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+            return $"DateTimeOffset({dateTimeOffset!.Value.Ticks}, TimeSpan.Parse(\"{dateTimeOffset.Value.Offset.ToString()}\"))";
+        }
+
+        private static string? ToDynamicLinqString(string? value)
+        {
+            if (value == null)
+            {
+                return "null";
+            }
+
+            return $"String(\"{value}\")";
+        }
+
+        private static string? ToDynamicLinqInt32(int? value)
+        {
+            if (value == null) 
+            {
+                return "null";
+            }
+
+            return $"Int32({value.Value.ToString(CultureInfo.InvariantCulture)})";
+        }
+
+        private static string? ToDynamicLinqDouble(double? value)
+        {
+            if (value == null) 
+            {
+                return "null";
+            }
+
+            return $"Double({value.Value.ToString(CultureInfo.InvariantCulture)})";
         }
     }
 }
+

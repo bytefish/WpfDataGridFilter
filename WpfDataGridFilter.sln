@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{78CF5C49
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDataGridFilter.Tests", "src\WpfDataGridFilter.Tests\WpfDataGridFilter.Tests.csproj", "{5C6F631C-C910-43DC-AC20-663E7E8DBF40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDataGridFilter.DynamicLinq.Tests", "src\WpfDataGridFilter.DynamicLinq.Tests\WpfDataGridFilter.DynamicLinq.Tests.csproj", "{6108D30E-9077-443D-A9AF-1C1F00C1DFB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{5C6F631C-C910-43DC-AC20-663E7E8DBF40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C6F631C-C910-43DC-AC20-663E7E8DBF40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C6F631C-C910-43DC-AC20-663E7E8DBF40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6108D30E-9077-443D-A9AF-1C1F00C1DFB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6108D30E-9077-443D-A9AF-1C1F00C1DFB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6108D30E-9077-443D-A9AF-1C1F00C1DFB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6108D30E-9077-443D-A9AF-1C1F00C1DFB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 		{C5CCF2AA-8611-4360-83E1-748BE5F634B1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{C57B0254-0248-4194-8950-A407590AAE4D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{5C6F631C-C910-43DC-AC20-663E7E8DBF40} = {78CF5C49-ED92-417C-9BB6-2725822B0341}
+		{6108D30E-9077-443D-A9AF-1C1F00C1DFB6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0C586A2-B3C5-4AFF-86CE-D5AB3853FF72}

@@ -29,16 +29,12 @@ public partial class MainWindowViewModel : ObservableObject
     {
         try
         {
-            string dynamicLinqQuery = DynamicLinqConverter.Translate(filters);
+            List<Person> filteredResult = MockData.People
+                .AsQueryable()
+                .ApplyFilters(filters)
+                .ToList();
 
-            IQueryable<Person> query = MockData.People.AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(dynamicLinqQuery))
-            {
-                query = query.Where(dynamicLinqQuery);
-            }
-
-            People = new ObservableCollection<Person>(query.ToList());
+            People = new ObservableCollection<Person>(filteredResult);
         }
         catch (Exception e)
         {

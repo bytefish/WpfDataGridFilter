@@ -34,7 +34,6 @@ namespace WpfDataGridFilter.Filters
         /// </summary>
         private readonly ConcurrentDictionary<string, FilterDescriptor> _filters = new();
 
-
         /// <summary>
         /// Gets a Typed Filter from the Filter Descriptor Dictionary.
         /// </summary>
