@@ -64,6 +64,7 @@ namespace WpfDataGridFilter.Filters.Controls
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsStartDateEnabled))]
         [NotifyPropertyChangedFor(nameof(IsEndDateEnabled))]
+        [NotifyPropertyChangedFor(nameof(IsApplyButtonEnabled))]
         private FilterOperatorEnum _selectedFilterOperator = FilterOperatorEnum.None;
 
         /// <summary>
@@ -75,6 +76,11 @@ namespace WpfDataGridFilter.Filters.Controls
         /// End Date is only visible for these operators.
         /// </summary>
         public bool IsEndDateEnabled => ValidOperatorsForEndDate.Contains(SelectedFilterOperator);
+
+        /// <summary>
+        /// End Date is only visible for these operators.
+        /// </summary>
+        public bool IsApplyButtonEnabled => SelectedFilterOperator != FilterOperatorEnum.None;
 
         /// <summary>
         /// Property Name this Filter handles.

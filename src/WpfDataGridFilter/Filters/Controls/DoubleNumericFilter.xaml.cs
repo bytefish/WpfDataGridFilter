@@ -46,6 +46,18 @@ namespace WpfDataGridFilter.Filters.Controls
         private ObservableCollection<EnumTranslation<FilterOperatorEnum>> _filterOperators = new();
 
         /// <summary>
+        /// Currently Selected Filter Operator.
+        /// </summary>
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsApplyButtonEnabled))]
+        private FilterOperatorEnum _selectedFilterOperator = FilterOperatorEnum.None;
+
+        /// <summary>
+        /// End Date is only visible for these operators.
+        /// </summary>
+        public bool IsApplyButtonEnabled => SelectedFilterOperator != FilterOperatorEnum.None;
+
+        /// <summary>
         /// Property Name this Filter handles.
         /// </summary>
         public readonly string PropertyName;
@@ -67,9 +79,6 @@ namespace WpfDataGridFilter.Filters.Controls
 
             SelectedFilterOperator = doubleNumericFilterDescriptor.FilterOperator;
         }
-
-        [ObservableProperty]
-        private FilterOperatorEnum _selectedFilterOperator = FilterOperatorEnum.None;
 
         public FilterDescriptor FilterDescriptor => new DoubleNumericFilterDescriptor
         {
