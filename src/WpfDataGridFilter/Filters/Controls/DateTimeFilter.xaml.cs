@@ -10,7 +10,7 @@ namespace WpfDataGridFilter.Filters.Controls
     /// <summary>
     /// ViewModel.
     /// </summary>
-    public partial class DateFilterViewModel : ObservableObject
+    public partial class DateTimeFilterViewModel : ObservableObject
     {
         /// <summary>
         /// Supported Filters for this Filter Control.
@@ -81,7 +81,7 @@ namespace WpfDataGridFilter.Filters.Controls
         /// </summary>
         public readonly string PropertyName;
 
-        public DateFilterViewModel(ITranslations translations, DateFilterDescriptor booleanFilterDescriptor)
+        public DateTimeFilterViewModel(ITranslations translations, DateTimeFilterDescriptor booleanFilterDescriptor)
         {
             Translations = translations;
 
@@ -97,7 +97,7 @@ namespace WpfDataGridFilter.Filters.Controls
             SelectedFilterOperator = booleanFilterDescriptor.FilterOperator;
         }
 
-        public FilterDescriptor FilterDescriptor => new DateFilterDescriptor
+        public FilterDescriptor FilterDescriptor => new DateTimeFilterDescriptor
         {
             FilterOperator = SelectedFilterOperator,
             PropertyName = PropertyName,
@@ -109,7 +109,7 @@ namespace WpfDataGridFilter.Filters.Controls
     /// <summary>
     /// Interaction logic for DateFilter.xaml
     /// </summary>
-    public partial class DateFilter : UserControl
+    public partial class DateTimeFilter : UserControl
     {
         /// <summary>
         /// Filter State.
@@ -119,14 +119,14 @@ namespace WpfDataGridFilter.Filters.Controls
         /// <summary>  
         ///  Selected Filter Operator in the ComboBox.
         /// </summary>
-        public DateFilterViewModel ViewModel { get; set; }
+        public DateTimeFilterViewModel ViewModel { get; set; }
 
         /// <summary>
         /// Creates a new Boolean Filter.
         /// </summary>
         /// <param name="propertyName">Property Name</param>
         /// <param name="filterState">Filter State</param>
-        public DateFilter(string propertyName, ITranslations translations, FilterState filterState)
+        public DateTimeFilter(string propertyName, ITranslations translations, FilterState filterState)
         {
             InitializeComponent();
 
@@ -137,18 +137,18 @@ namespace WpfDataGridFilter.Filters.Controls
             DataContext = this;
         }
 
-        private DateFilterViewModel GetFilterViewModel(string propertyName, ITranslations translations, FilterState filterState)
+        private DateTimeFilterViewModel GetFilterViewModel(string propertyName, ITranslations translations, FilterState filterState)
         {
-            DateFilterDescriptor booleanFilterDescriptor = GetFilterDescriptor(propertyName, filterState);
+            DateTimeFilterDescriptor booleanFilterDescriptor = GetFilterDescriptor(propertyName, filterState);
 
-            return new DateFilterViewModel(translations, booleanFilterDescriptor);
+            return new DateTimeFilterViewModel(translations, booleanFilterDescriptor);
         }
 
-        private DateFilterDescriptor GetFilterDescriptor(string propertyName, FilterState filterState)
+        private DateTimeFilterDescriptor GetFilterDescriptor(string propertyName, FilterState filterState)
         {
-            if (!filterState.TryGetFilter<DateFilterDescriptor>(propertyName, out var dateFilterDescriptor))
+            if (!filterState.TryGetFilter<DateTimeFilterDescriptor>(propertyName, out var dateFilterDescriptor))
             {
-                return new DateFilterDescriptor
+                return new DateTimeFilterDescriptor
                 {
                     PropertyName = propertyName,
                     FilterOperator = FilterOperatorEnum.None

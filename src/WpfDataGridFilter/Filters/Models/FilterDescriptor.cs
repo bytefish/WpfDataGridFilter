@@ -95,7 +95,28 @@ namespace WpfDataGridFilter.Filters.Models
     /// <summary>
     /// Date Range Filter to filter between a start and end date.
     /// </summary>
-    public class DateFilterDescriptor : FilterDescriptor
+    public class DateTimeFilterDescriptor : FilterDescriptor
+    {
+        /// <summary>
+        /// Start Date for range filtering.
+        /// </summary>
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// End Date for range filtering.
+        /// </summary>
+        public DateTime? EndDate { get; set; }
+
+        /// <summary>
+        /// Gets the Filter Type.
+        /// </summary>
+        public override FilterTypeEnum FilterType => FilterTypeEnum.DateTimeFilter;
+    }
+
+    /// <summary>
+    /// Date Range Filter to filter between a start and end date.
+    /// </summary>
+    public class DateTimeOffsetFilterDescriptor : FilterDescriptor
     {
         /// <summary>
         /// Start Date for range filtering.
@@ -110,28 +131,7 @@ namespace WpfDataGridFilter.Filters.Models
         /// <summary>
         /// Gets the Filter Type.
         /// </summary>
-        public override FilterTypeEnum FilterType => FilterTypeEnum.DateFilter;
-    }
-
-    /// <summary>
-    /// Date Range Filter to filter between a start and end date.
-    /// </summary>
-    public class DateTimeFilterDescriptor : FilterDescriptor
-    {
-        /// <summary>
-        /// Start Date for range filtering.
-        /// </summary>
-        public DateTimeOffset? StartDateTime { get; set; }
-
-        /// <summary>
-        /// End Date for range filtering.
-        /// </summary>
-        public DateTimeOffset? EndDateTime { get; set; }
-
-        /// <summary>
-        /// Gets the Filter Type.
-        /// </summary>
-        public override FilterTypeEnum FilterType => FilterTypeEnum.DateTimeFilter;
+        public override FilterTypeEnum FilterType => FilterTypeEnum.DateTimeOffsetFilter;
     }
 
 }

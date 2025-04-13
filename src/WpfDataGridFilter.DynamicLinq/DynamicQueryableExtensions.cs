@@ -45,6 +45,8 @@ namespace WpfDataGridFilter.DynamicLinq
                     return TranslateBooleanFilter((BooleanFilterDescriptor)filterDescriptor);
                 case FilterTypeEnum.DateTimeFilter:
                     return TranslateDateTimeFilter((DateTimeFilterDescriptor)filterDescriptor);
+                case FilterTypeEnum.DateTimeOffsetFilter:
+                    return TranslateDateTimeOffsetFilter((DateTimeOffsetFilterDescriptor)filterDescriptor);
                 case FilterTypeEnum.StringFilter:
                     return TranslateStringFilter((StringFilterDescriptor)filterDescriptor);
                 case FilterTypeEnum.IntNumericFilter:
@@ -77,8 +79,43 @@ namespace WpfDataGridFilter.DynamicLinq
 
         private static string TranslateDateTimeFilter(DateTimeFilterDescriptor filterDescriptor)
         {
-            string? startDate = ToDynamicLinqDateTime(filterDescriptor.StartDateTime);
-            string? endDate = ToDynamicLinqDateTime(filterDescriptor.EndDateTime);
+            string? startDate = ToDynamicLinqDateTime(filterDescriptor.StartDate);
+            string? endDate = ToDynamicLinqDateTime(filterDescriptor.EndDate);
+
+            switch (filterDescriptor.FilterOperator)
+            {
+                case FilterOperatorEnum.IsNull:
+                    return $"{filterDescriptor.PropertyName} eq null";
+                case FilterOperatorEnum.IsNotNull:
+                    return $"{filterDescriptor.PropertyName} neq null";
+                case FilterOperatorEnum.IsEqualTo:
+                    return $"{filterDescriptor.PropertyName} eq {startDate}";
+                case FilterOperatorEnum.IsNotEqualTo:
+                    return $"{filterDescriptor.PropertyName} neq {startDate}";
+                case FilterOperatorEnum.After:
+                case FilterOperatorEnum.IsGreaterThan:
+                    return $"({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} gt {startDate})";
+                case FilterOperatorEnum.IsGreaterThanOrEqualTo:
+                    return $"({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} ge {startDate})";
+                case FilterOperatorEnum.Before:
+                case FilterOperatorEnum.IsLessThan:
+                    return $"({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} lt {startDate})";
+                case FilterOperatorEnum.IsLessThanOrEqualTo:
+                    return $"({filterDescriptor.PropertyName}  neq null) and ({filterDescriptor.PropertyName} le {startDate})";
+                case FilterOperatorEnum.BetweenExclusive:
+                    return $"(({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} gt {startDate})) and (({filterDescriptor.PropertyName} neq null) and (({filterDescriptor.PropertyName}) lt {endDate}))";
+                case FilterOperatorEnum.BetweenInclusive:
+                    return $"(({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} ge {startDate})) and (({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} le {endDate}))";
+
+                default:
+                    throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
+            }
+        }
+
+        private static string TranslateDateTimeOffsetFilter(DateTimeOffsetFilterDescriptor filterDescriptor)
+        {
+            string? startDate = ToDynamicLinqDateTimeOffset(filterDescriptor.StartDate);
+            string? endDate = ToDynamicLinqDateTimeOffset(filterDescriptor.EndDate);
 
             switch (filterDescriptor.FilterOperator)
             {
@@ -149,7 +186,7 @@ namespace WpfDataGridFilter.DynamicLinq
         private static string TranslateIntNumericFilter(IntNumericFilterDescriptor filterDescriptor)
         {
             string? low = ToDynamicLinqInt32(filterDescriptor.LowerValue);
-            string? high = ToDynamicLinqDouble(filterDescriptor.UpperValue);
+            string? high = ToDynamicLinqInt32(filterDescriptor.UpperValue);
 
             switch (filterDescriptor.FilterOperator)
             {
@@ -210,7 +247,17 @@ namespace WpfDataGridFilter.DynamicLinq
             }
         }
 
-        private static string? ToDynamicLinqDateTime(DateTimeOffset? dateTimeOffset)
+        private static string? ToDynamicLinqDateTime(DateTime? dateTime)
+        {
+            if (dateTime == null)
+            {
+                return "null";
+            }
+
+            return $"DateTime({dateTime.Value.Ticks})";
+        }
+
+        private static string? ToDynamicLinqDateTimeOffset(DateTimeOffset? dateTimeOffset)
         {
             if (dateTimeOffset == null) 
             {

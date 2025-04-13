@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding ViewModel.People}" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding ViewModel.People}" AutoGenerateColumns="False" CanUserSortColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding PersonID}">
                     <DataGridTextColumn.Header>
@@ -21,7 +21,7 @@
                 </DataGridTextColumn>                
                 <DataGridTextColumn Binding="{Binding ValidFrom}">
                     <DataGridTextColumn.Header>
-                        <wpfdatagridfilter:FilterableDataGridColumnHeader FilterState="{Binding FilterState}" HeaderText="ValidFrom" PropertyName="ValidFrom" Height="30" FilterType="DateFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader FilterState="{Binding FilterState}" HeaderText="ValidFrom" PropertyName="ValidFrom" Height="30" FilterType="DateTimeFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </DataGrid.Columns>

@@ -345,7 +345,7 @@ namespace WpfDataGridFilter
             HeaderPopUp.Width = 400;
             HeaderPopUp.MinWidth = 400;
             HeaderPopUp.PopupAnimation = PopupAnimation.Slide;
-            HeaderPopUp.StaysOpen = true;
+            HeaderPopUp.StaysOpen = false;
         }
 
         private UserControl CreateFilterControl()
@@ -356,8 +356,8 @@ namespace WpfDataGridFilter
                     return new BooleanFilter(PropertyName, Translations, FilterState);
                 case FilterTypeEnum.StringFilter:
                     return new StringFilter(PropertyName, Translations, FilterState);
-                case FilterTypeEnum.DateFilter:
-                    return new DateFilter(PropertyName, Translations, FilterState);
+                case FilterTypeEnum.DateTimeFilter:
+                    return new DateTimeFilter(PropertyName, Translations, FilterState);
                 case FilterTypeEnum.IntNumericFilter:
                     return new IntNumericFilter(PropertyName, Translations, FilterState);
                 case FilterTypeEnum.DoubleNumericFilter:
