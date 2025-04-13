@@ -36,8 +36,8 @@ namespace WpfDataGridFilter.OData
             {
                 case FilterTypeEnum.BooleanFilter:
                     return TranslateBooleanFilter((BooleanFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.DateFilter:
-                    return TranslateDateFilter((DateFilterDescriptor)filterDescriptor);
+                case FilterTypeEnum.DateTimeOffsetFilter:
+                    return TranslateDateFilter((DateTimeOffsetFilterDescriptor)filterDescriptor);
                 case FilterTypeEnum.DateTimeFilter:
                     return TranslateDateTimeFilter((DateTimeFilterDescriptor)filterDescriptor);
                 case FilterTypeEnum.StringFilter:
@@ -70,7 +70,7 @@ namespace WpfDataGridFilter.OData
             }
         }
 
-        private static string TranslateDateFilter(DateFilterDescriptor filterDescriptor)
+        private static string TranslateDateFilter(DateTimeOffsetFilterDescriptor filterDescriptor)
         {
             var startDate = ToODataDate(filterDescriptor.StartDate);
             var endDate = ToODataDate(filterDescriptor.EndDate);
@@ -106,8 +106,8 @@ namespace WpfDataGridFilter.OData
 
         private static string TranslateDateTimeFilter(DateTimeFilterDescriptor filterDescriptor)
         {
-            var startDate = ToODataDateTime(filterDescriptor.StartDateTime);
-            var endDate = ToODataDateTime(filterDescriptor.EndDateTime);
+            var startDate = ToODataDateTime(filterDescriptor.StartDate);
+            var endDate = ToODataDateTime(filterDescriptor.EndDate);
 
             switch (filterDescriptor.FilterOperator)
             {
