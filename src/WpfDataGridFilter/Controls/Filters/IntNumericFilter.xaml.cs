@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using WpfDataGridFilter.Filters.Models;
+using WpfDataGridFilter.Models;
 using WpfDataGridFilter.Translations;
 
-namespace WpfDataGridFilter.Filters.Controls
+namespace WpfDataGridFilter.Controls
 {
     /// <summary>
     /// ViewModel.

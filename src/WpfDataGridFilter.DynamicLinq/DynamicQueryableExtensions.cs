@@ -1,6 +1,5 @@
 ﻿using System.Linq.Dynamic.Core;
-using WpfDataGridFilter.Filters;
-using WpfDataGridFilter.Filters.Models;
+using WpfDataGridFilter.Models;
 
 namespace WpfDataGridFilter.DynamicLinq
 {
@@ -15,15 +14,28 @@ namespace WpfDataGridFilter.DynamicLinq
                 .Count();
         }
 
-        public static IQueryable<TEntity> ApplyDataGridState<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState, int top, int skip)
+        public static IQueryable<TEntity> ApplyDataGridState<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState)
         {
             List<FilterDescriptor> filters = dataGridState.Filters.Values.ToList();
 
-            return source
+            IQueryable<TEntity> query = source
+                // First Apply the Filters:
                 .ApplyFilters(filters)
-                .ApplySort(dataGridState.SortColumn)
-                .Skip(skip)
-                .Take(top);            
+                // Then Sort them by the current Sort Column
+                .ApplySort(dataGridState.SortColumn);
+
+            // Now apply the Pagination Values
+            if(dataGridState.Skip.HasValue)
+            {
+                query = query.Skip(dataGridState.Skip.Value);
+            }
+
+            if(dataGridState.Top.HasValue)
+            {
+                query = query.Take(dataGridState.Top.Value);
+            }
+
+            return query;
         }
 
         private static IQueryable<TEntity> ApplySort<TEntity>(this IQueryable<TEntity> source, SortColumn? sortColumn)
@@ -236,7 +248,6 @@ namespace WpfDataGridFilter.DynamicLinq
 
         private static IQueryable<TEntity> TranslateDoubleNumericFilter<TEntity>(IQueryable<TEntity> source, DoubleNumericFilterDescriptor filterDescriptor)
         {
-
             switch (filterDescriptor.FilterOperator)
             {
                 case FilterOperatorEnum.IsNull:

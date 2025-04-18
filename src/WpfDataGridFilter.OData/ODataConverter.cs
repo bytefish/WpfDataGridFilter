@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using WpfDataGridFilter.Filters.Models;
+using WpfDataGridFilter.Models;
 
 namespace WpfDataGridFilter.OData
 {

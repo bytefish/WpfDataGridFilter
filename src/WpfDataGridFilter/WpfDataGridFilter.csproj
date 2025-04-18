@@ -44,7 +44,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Filters\Controls\DoubleNumericFilter.xaml.cs">
+        <Compile Update="Controls\Filters\DoubleNumericFilter.xaml.cs">
             <SubType>Code</SubType>
         </Compile>
     </ItemGroup>

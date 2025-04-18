@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Linq.Expressions;
 using WpfDataGridFilter.DynamicLinq;
-using WpfDataGridFilter.Filters.Models;
+using WpfDataGridFilter.Models;
 
 namespace WpfDataGridFilter.Tests
 {
@@ -169,7 +168,7 @@ namespace WpfDataGridFilter.Tests
             };
 
             int[] filteredResults = GetPeople().AsQueryable()
-                .ApplyFilters([filterDescriptor])
+                .ApplyDataGridState(new DataGridState(filters: [filterDescriptor]))
                 .Select(x => x.Id)
                 .ToArray();
 
@@ -190,7 +189,7 @@ namespace WpfDataGridFilter.Tests
             };
 
             int[] filteredResults = GetPeople().AsQueryable()
-                .ApplyFilters([filterDescriptor])
+                .ApplyDataGridState(new DataGridState(filters: [filterDescriptor]))
                 .Select(x => x.Id)
                 .ToArray();
 
@@ -210,7 +209,7 @@ namespace WpfDataGridFilter.Tests
             };
 
             int[] filteredResults = GetPeople().AsQueryable()
-                .ApplyFilters([filterDescriptor])
+                .ApplyDataGridState(new DataGridState(filters: [filterDescriptor]))
                 .Select(x => x.Id)
                 .ToArray();
 
@@ -230,7 +229,7 @@ namespace WpfDataGridFilter.Tests
             };
 
             int[] filteredResults = GetPeople().AsQueryable()
-                .ApplyFilters([filterDescriptor])
+                .ApplyDataGridState(new DataGridState(filters: [filterDescriptor]))
                 .Select(x => x.Id)
                 .ToArray();
 
@@ -248,7 +247,7 @@ namespace WpfDataGridFilter.Tests
             };
 
             int[] filteredResults = GetPeople().AsQueryable()
-                .ApplyFilters([filterDescriptor])
+                .ApplyDataGridState(new DataGridState(filters: [filterDescriptor]))
                 .Select(x => x.Id)
                 .ToArray();
 

@@ -11,17 +11,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding PersonID}">
                     <DataGridTextColumn.Header>
-                        <wpfdatagridfilter:FilterableDataGridColumnHeader FilterState="{Binding FilterState}" HeaderText="PersonID" PropertyName="PersonID" Height="30" FilterType="IntNumericFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader DataGridState="{Binding DataGridState}" HeaderText="PersonID" PropertyName="PersonID" Height="30" FilterType="IntNumericFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding FullName}">
                     <DataGridTextColumn.Header>
-                        <wpfdatagridfilter:FilterableDataGridColumnHeader FilterState="{Binding FilterState}" HeaderText="FullName" PropertyName="FullName" Height="30" FilterType="StringFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader DataGridState="{Binding DataGridState}" HeaderText="FullName" PropertyName="FullName" Height="30" FilterType="StringFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>                
                 <DataGridTextColumn Binding="{Binding ValidFrom}">
                     <DataGridTextColumn.Header>
-                        <wpfdatagridfilter:FilterableDataGridColumnHeader FilterState="{Binding FilterState}" HeaderText="ValidFrom" PropertyName="ValidFrom" Height="30" FilterType="DateTimeFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader DataGridState="{Binding DataGridState}" HeaderText="ValidFrom" PropertyName="ValidFrom" Height="30" FilterType="DateTimeFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </DataGrid.Columns>

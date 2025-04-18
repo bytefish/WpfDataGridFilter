@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using WpfDataGridFilter.DynamicLinq;
 using WpfDataGridFilter.Example.Models;
-using WpfDataGridFilter.Filters;
 
 namespace WpfDataGridFilter.Example;
 
@@ -21,7 +20,7 @@ public partial class MainWindowViewModel : ObservableObject
         // Get the Count with Filters
         List<Person> filteredResult = MockData.People
                 .AsQueryable()
-                .ApplyDataGridState(dataGridState, 50, 0)
+                .ApplyDataGridState(dataGridState)
                 .ToList();
 
         People = new ObservableCollection<Person>(filteredResult);

@@ -6,10 +6,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WpfDataGridFilter.Filters;
-using WpfDataGridFilter.Filters.Controls;
-using WpfDataGridFilter.Filters.Models;
+using WpfDataGridFilter.Controls;
+using WpfDataGridFilter.Models;
 using WpfDataGridFilter.Translations;
 using Path = System.Windows.Shapes.Path;
 
@@ -152,23 +150,23 @@ namespace WpfDataGridFilter
         /// <summary>  
         ///  FilterState of the current DataGrid.
         /// </summary>
-        public DataGridState FilterState
+        public DataGridState DataGridState
         {
-            get { return (DataGridState)GetValue(FilterStateProperty); }
-            set { SetValue(FilterStateProperty, value); }
+            get { return (DataGridState)GetValue(DataGridStateProperty); }
+            set { SetValue(DataGridStateProperty, value); }
         }
 
-        public static readonly DependencyProperty FilterStateProperty = DependencyProperty.Register(
-            "FilterState", typeof(DataGridState), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(null,
+        public static readonly DependencyProperty DataGridStateProperty = DependencyProperty.Register(
+            "DataGridState", typeof(DataGridState), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(null,
                 propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => 
                 {
-                    f.FilterState = (DataGridState)e.NewValue;
+                    f.DataGridState = (DataGridState)e.NewValue;
 
                     // Wow, this is super ugly. This needs to be designed much better.
-                    f.FilterState.DataGridStateChanged += delegate (object? sender, DataGridStateChangedEventArgs filterStateChangedEventArgs)
+                    f.DataGridState.DataGridStateChanged += delegate (object? sender, DataGridStateChangedEventArgs filterStateChangedEventArgs)
                     {
                         // Something has been changed in the Filter. Set the new Column Sort Direction.
-                        f.ColumnSortDirection = string.Equals(f.FilterState.SortColumn?.PropertyName, f.PropertyName) ? f.FilterState.SortColumn?.SortDirection : null;
+                        f.ColumnSortDirection = string.Equals(f.DataGridState.SortColumn?.PropertyName, f.PropertyName) ? f.DataGridState.SortColumn?.SortDirection : null;
 
                         // We will be able to bind to this Property
                         f.IsFiltered = filterStateChangedEventArgs.DataGridState.Filters.ContainsKey(f.PropertyName);
@@ -318,7 +316,7 @@ namespace WpfDataGridFilter
 
             SortButton.Click += delegate (object sender, RoutedEventArgs e) 
             {
-                FilterState.SetSortColumn(new SortColumn { PropertyName = PropertyName, SortDirection = GetNextSortDirection() });
+                DataGridState.SetSortColumn(new SortColumn(PropertyName, GetNextSortDirection()));
             };
 
             // Close the Popup, if we uncheck the Filter Toggle
@@ -392,15 +390,15 @@ namespace WpfDataGridFilter
             switch (FilterType)
             {
                 case FilterTypeEnum.BooleanFilter:
-                    return new BooleanFilter(PropertyName, Translations, FilterState);
+                    return new BooleanFilter(PropertyName, Translations, DataGridState);
                 case FilterTypeEnum.StringFilter:
-                    return new StringFilter(PropertyName, Translations, FilterState);
+                    return new StringFilter(PropertyName, Translations, DataGridState);
                 case FilterTypeEnum.DateTimeFilter:
-                    return new DateTimeFilter(PropertyName, Translations, FilterState);
+                    return new DateTimeFilter(PropertyName, Translations, DataGridState);
                 case FilterTypeEnum.IntNumericFilter:
-                    return new IntNumericFilter(PropertyName, Translations, FilterState);
+                    return new IntNumericFilter(PropertyName, Translations, DataGridState);
                 case FilterTypeEnum.DoubleNumericFilter:
-                    return new DoubleNumericFilter(PropertyName, Translations, FilterState);
+                    return new DoubleNumericFilter(PropertyName, Translations, DataGridState);
                 default:
                     throw new InvalidOperationException($"Filter Type '{FilterType}' is not supported");
             }

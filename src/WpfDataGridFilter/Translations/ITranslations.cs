@@ -1,5 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-using WpfDataGridFilter.Filters.Models;
+using WpfDataGridFilter.Models;
 
 namespace WpfDataGridFilter.Translations
 {

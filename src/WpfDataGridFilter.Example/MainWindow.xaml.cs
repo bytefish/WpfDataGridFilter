@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using WpfDataGridFilter.Filters;
 
 namespace WpfDataGridFilter.Example;
 
@@ -8,7 +7,7 @@ namespace WpfDataGridFilter.Example;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public DataGridState FilterState { get; set; }
+    public DataGridState DataGridState { get; set; }
 
     public MainWindowViewModel ViewModel { get; set; }
 
@@ -18,9 +17,9 @@ public partial class MainWindow : Window
         
         ViewModel = new MainWindowViewModel();
 
-        FilterState = new DataGridState();
+        DataGridState = new DataGridState([]);
 
-        FilterState.DataGridStateChanged += (s, e) =>
+        DataGridState.DataGridStateChanged += (s, e) =>
         {
             ViewModel.Filter(e.DataGridState);
         };
