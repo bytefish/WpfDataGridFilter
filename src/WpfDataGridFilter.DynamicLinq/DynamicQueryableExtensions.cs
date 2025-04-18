@@ -1,15 +1,52 @@
-﻿using System;
-using System.Globalization;
-using System.Linq.Dynamic.Core;
+﻿using System.Linq.Dynamic.Core;
+using WpfDataGridFilter.Filters;
 using WpfDataGridFilter.Filters.Models;
 
 namespace WpfDataGridFilter.DynamicLinq
 {
     public static class DynamicQueryableExtensions
     {
-        private static string NullStr = "null";
+        public static int GetTotalCount<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState)
+        {
+            List<FilterDescriptor> filters = dataGridState.Filters.Values.ToList();
 
-        public static IQueryable<TEntity> ApplyFilters<TEntity>(this IQueryable<TEntity> source, ICollection<FilterDescriptor> filterDescriptors)
+            return source
+                .ApplyFilters(filters)
+                .Count();
+        }
+
+        public static IQueryable<TEntity> ApplyDataGridState<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState, int top, int skip)
+        {
+            List<FilterDescriptor> filters = dataGridState.Filters.Values.ToList();
+
+            return source
+                .ApplyFilters(filters)
+                .ApplySort(dataGridState.SortColumn)
+                .Skip(skip)
+                .Take(top);            
+        }
+
+        private static IQueryable<TEntity> ApplySort<TEntity>(this IQueryable<TEntity> source, SortColumn? sortColumn)
+        {
+            if(sortColumn == null)
+            {
+                return source;
+            }
+
+            switch(sortColumn.SortDirection)
+            {
+                case null:
+                    return source;
+                case SortDirectionEnum.Ascending:
+                    return source.OrderBy($"{sortColumn.PropertyName} asc");
+                case SortDirectionEnum.Descending:
+                    return source.OrderBy($"{sortColumn.PropertyName} desc");
+                default:
+                    throw new InvalidOperationException($"Could not sort Column '{sortColumn.PropertyName}' by Direction '{sortColumn.SortDirection}'");
+            }
+        }
+
+        private static IQueryable<TEntity> ApplyFilters<TEntity>(this IQueryable<TEntity> source, ICollection<FilterDescriptor> filterDescriptors)
         {
             if (filterDescriptors.Count == 0)
             {
@@ -167,7 +204,6 @@ namespace WpfDataGridFilter.DynamicLinq
                     throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
             }
         }
-
 
         private static IQueryable<TEntity> TranslateIntNumericFilter<TEntity>(IQueryable<TEntity> source, IntNumericFilterDescriptor filterDescriptor)
         {

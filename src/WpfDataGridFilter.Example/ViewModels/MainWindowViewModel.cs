@@ -3,8 +3,6 @@ using System.Collections.ObjectModel;
 using WpfDataGridFilter.DynamicLinq;
 using WpfDataGridFilter.Example.Models;
 using WpfDataGridFilter.Filters;
-using System.Linq.Dynamic.Core;
-using WpfDataGridFilter.Filters.Models;
 
 namespace WpfDataGridFilter.Example;
 
@@ -18,27 +16,14 @@ public partial class MainWindowViewModel : ObservableObject
         People = new ObservableCollection<Person>(MockData.People);
     }
 
-    public void Filter(FilterState filterState)
+    public void Filter(DataGridState dataGridState)
     {
-        List<FilterDescriptor> filters = filterState.Filters.Values.ToList();
-
-        InternalFilter(filters);
-    }
-
-    public void InternalFilter(List<FilterDescriptor> filters)
-    {
-        try
-        {
-            List<Person> filteredResult = MockData.People
+        // Get the Count with Filters
+        List<Person> filteredResult = MockData.People
                 .AsQueryable()
-                .ApplyFilters(filters)
+                .ApplyDataGridState(dataGridState, 50, 0)
                 .ToList();
 
-            People = new ObservableCollection<Person>(filteredResult);
-        }
-        catch (Exception e)
-        {
-            // Some great Pokemon Exception Handling here ...
-        }
+        People = new ObservableCollection<Person>(filteredResult);
     }
 }

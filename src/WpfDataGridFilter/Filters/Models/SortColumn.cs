@@ -15,6 +15,6 @@ namespace WpfDataGridFilter.Filters.Models
         /// <summary>
         /// Gets or sets the sort direction.
         /// </summary>
-        public required SortDirectionEnum SortDirection { get; set; }
+        public required SortDirectionEnum? SortDirection { get; set; }
     }
 }

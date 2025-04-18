@@ -97,7 +97,7 @@ namespace WpfDataGridFilter.Filters.Controls
         /// <summary>
         /// Filter State.
         /// </summary>
-        public FilterState FilterState { get; }
+        public DataGridState FilterState { get; }
 
         /// <summary>  
         ///  Selected Filter Operator in the ComboBox.
@@ -109,7 +109,7 @@ namespace WpfDataGridFilter.Filters.Controls
         /// </summary>
         /// <param name="propertyName">Property Name</param>
         /// <param name="filterState">Filter State</param>
-        public IntNumericFilter(string propertyName, ITranslations translations, FilterState filterState)
+        public IntNumericFilter(string propertyName, ITranslations translations, DataGridState filterState)
         {
             InitializeComponent();
 
@@ -120,14 +120,14 @@ namespace WpfDataGridFilter.Filters.Controls
             DataContext = this;
         }
 
-        private IntNumericFilterViewModel GetFilterViewModel(string propertyName, ITranslations translations, FilterState filterState)
+        private IntNumericFilterViewModel GetFilterViewModel(string propertyName, ITranslations translations, DataGridState filterState)
         {
             IntNumericFilterDescriptor intNumericFilterDescriptor = GetFilterDescriptor(propertyName, filterState);
 
             return new IntNumericFilterViewModel(translations, intNumericFilterDescriptor);
         }
 
-        private IntNumericFilterDescriptor GetFilterDescriptor(string propertyName, FilterState filterState)
+        private IntNumericFilterDescriptor GetFilterDescriptor(string propertyName, DataGridState filterState)
         {
             if (!filterState.TryGetFilter<IntNumericFilterDescriptor>(propertyName, out var dateFilterDescriptor))
             {

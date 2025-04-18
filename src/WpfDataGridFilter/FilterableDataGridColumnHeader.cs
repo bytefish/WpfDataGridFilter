@@ -6,10 +6,12 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using WpfDataGridFilter.Filters;
 using WpfDataGridFilter.Filters.Controls;
 using WpfDataGridFilter.Filters.Models;
 using WpfDataGridFilter.Translations;
+using Path = System.Windows.Shapes.Path;
 
 namespace WpfDataGridFilter
 {
@@ -22,6 +24,13 @@ namespace WpfDataGridFilter
 
         // Header Layout Elements
         Border HeaderBorder;
+
+        // Sort Button
+        Button? SortButton;
+
+        Path? SortArrowNone;
+        Path? SortArrowAsc;
+        Path? SortArrowDesc;
 
         // Toggle for Filter Indicator
         TextBlock HeaderTextBlock;
@@ -49,6 +58,19 @@ namespace WpfDataGridFilter
             "HeaderTextFamily", typeof(FontFamily), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(new FontFamily("Verdana"),
                 propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.HeaderTextBlock.FontFamily = (FontFamily)e.NewValue)));
 
+        /// <summary>  
+        ///  Property for the current stretch type of the text used inside the header
+        /// </summary>
+        public SortDirectionEnum? ColumnSortDirection
+        {
+            get { return (SortDirectionEnum?)GetValue(ColumnSortDirectoryProperty); }
+            set { SetValue(ColumnSortDirectoryProperty, value); }
+        }
+
+        public static readonly DependencyProperty ColumnSortDirectoryProperty = DependencyProperty.Register(
+            "`ColumnSortDirection", typeof(SortDirectionEnum?), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(null,
+                propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => f.OnColumnSortChanged((SortDirectionEnum?) e.NewValue))));
+        
         /// <summary>  
         ///  Property for the current stretch type of the text used inside the header
         /// </summary>
@@ -130,22 +152,26 @@ namespace WpfDataGridFilter
         /// <summary>  
         ///  FilterState of the current DataGrid.
         /// </summary>
-        public FilterState FilterState
+        public DataGridState FilterState
         {
-            get { return (FilterState)GetValue(FilterStateProperty); }
+            get { return (DataGridState)GetValue(FilterStateProperty); }
             set { SetValue(FilterStateProperty, value); }
         }
 
         public static readonly DependencyProperty FilterStateProperty = DependencyProperty.Register(
-            "FilterState", typeof(FilterState), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(null,
+            "FilterState", typeof(DataGridState), typeof(FilterableDataGridColumnHeader), new PropertyMetadata(null,
                 propertyChangedCallback: (d, e) => HandlePropertyChange(d, e, (f, e) => 
                 {
-                    f.FilterState = (FilterState)e.NewValue;
+                    f.FilterState = (DataGridState)e.NewValue;
 
                     // Wow, this is super ugly. This needs to be designed much better.
-                    f.FilterState.FilterStateChanged += delegate (object? sender, FilterStateChangedEventArgs filterStateChangedEventArgs)
+                    f.FilterState.DataGridStateChanged += delegate (object? sender, DataGridStateChangedEventArgs filterStateChangedEventArgs)
                     {
-                        f.IsFiltered = filterStateChangedEventArgs.FilterState.Filters.ContainsKey(f.PropertyName);
+                        // Something has been changed in the Filter. Set the new Column Sort Direction.
+                        f.ColumnSortDirection = string.Equals(f.FilterState.SortColumn?.PropertyName, f.PropertyName) ? f.FilterState.SortColumn?.SortDirection : null;
+
+                        // We will be able to bind to this Property
+                        f.IsFiltered = filterStateChangedEventArgs.DataGridState.Filters.ContainsKey(f.PropertyName);
 
                         f.HeaderToggle.Content = f.IsFiltered ? f.ImageFilterRed : (object)f.ImageFilterBlack;
                     };
@@ -274,13 +300,26 @@ namespace WpfDataGridFilter
 
             HeaderBorder = (Border)LogicalTreeHelper.FindLogicalNode(RootObject, "ControlBorder");
 
+            // Header Text
             HeaderTextBlock = (TextBlock)LogicalTreeHelper.FindLogicalNode(RootObject, "ControlTextBlock");
             HeaderTextBlock.MinWidth = 75;
+
+            // Sort Icons
+            SortArrowNone = (Path)LogicalTreeHelper.FindLogicalNode(RootObject, "SortArrowNone");
+            SortArrowAsc = (Path)LogicalTreeHelper.FindLogicalNode(RootObject, "SortArrowAsc");
+            SortArrowDesc = (Path)LogicalTreeHelper.FindLogicalNode(RootObject, "SortArrowDesc");
+            
+            SortButton = (Button)LogicalTreeHelper.FindLogicalNode(RootObject, "SortButton");
 
             // Configure the Toggle Button for opening and closing the Filter Popup
             HeaderToggle = (ToggleButton)LogicalTreeHelper.FindLogicalNode(RootObject, "ControlToggle");
             HeaderToggle.Content = ImageFilterBlack;
             HeaderToggle.Visibility = Visibility.Visible;
+
+            SortButton.Click += delegate (object sender, RoutedEventArgs e) 
+            {
+                FilterState.SetSortColumn(new SortColumn { PropertyName = PropertyName, SortDirection = GetNextSortDirection() });
+            };
 
             // Close the Popup, if we uncheck the Filter Toggle
             HeaderToggle.Unchecked += delegate (object sender, RoutedEventArgs rea)
@@ -364,6 +403,43 @@ namespace WpfDataGridFilter
                     return new DoubleNumericFilter(PropertyName, Translations, FilterState);
                 default:
                     throw new InvalidOperationException($"Filter Type '{FilterType}' is not supported");
+            }
+        }
+
+        private SortDirectionEnum? GetNextSortDirection()
+        {
+            switch(ColumnSortDirection)
+            {
+                case null:
+                    return SortDirectionEnum.Ascending;
+                case SortDirectionEnum.Ascending:
+                    return SortDirectionEnum.Descending;
+                case SortDirectionEnum.Descending:
+                    return null;
+                default:
+                    throw new InvalidOperationException("Could not determine next Sort Direction");
+            }
+        }
+
+        private void OnColumnSortChanged(SortDirectionEnum? sortDirection)
+        {
+            // Hide all:
+            SortArrowAsc!.Visibility = Visibility.Collapsed;
+            SortArrowDesc!.Visibility = Visibility.Collapsed;
+            SortArrowNone!.Visibility = Visibility.Collapsed;
+
+            // And show the current one
+            switch(sortDirection)
+            {
+                case null:
+                    SortArrowNone.Visibility = Visibility.Visible;
+                    break;
+                case SortDirectionEnum.Ascending:
+                    SortArrowAsc.Visibility = Visibility.Visible;
+                    break;
+                case SortDirectionEnum.Descending:
+                    SortArrowDesc.Visibility = Visibility.Visible;
+                    break;
             }
         }
     }

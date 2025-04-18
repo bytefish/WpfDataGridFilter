@@ -8,7 +8,7 @@ namespace WpfDataGridFilter.Example;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public FilterState FilterState { get; set; }
+    public DataGridState FilterState { get; set; }
 
     public MainWindowViewModel ViewModel { get; set; }
 
@@ -18,11 +18,11 @@ public partial class MainWindow : Window
         
         ViewModel = new MainWindowViewModel();
 
-        FilterState = new FilterState();
+        FilterState = new DataGridState();
 
-        FilterState.FilterStateChanged += (s, e) =>
+        FilterState.DataGridStateChanged += (s, e) =>
         {
-            ViewModel.Filter(e.FilterState);
+            ViewModel.Filter(e.DataGridState);
         };
 
         DataContext = this;
