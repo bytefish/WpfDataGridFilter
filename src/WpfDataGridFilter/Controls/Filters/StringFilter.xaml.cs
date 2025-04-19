@@ -91,7 +91,7 @@ namespace WpfDataGridFilter.Controls
         /// <summary>
         /// Filter State.
         /// </summary>
-        public DataGridState FilterState { get; }
+        public DataGridState DataGridState { get; }
 
         /// <summary>  
         ///  Selected Filter Operator in the ComboBox.
@@ -102,13 +102,13 @@ namespace WpfDataGridFilter.Controls
         /// Creates a new Boolean Filter.
         /// </summary>
         /// <param name="propertyName">Property Name</param>
-        /// <param name="filterState">Filter State</param>
-        public StringFilter(string propertyName, ITranslations translations, DataGridState filterState)
+        /// <param name="dataGridState">Filter State</param>
+        public StringFilter(string propertyName, ITranslations translations, DataGridState dataGridState)
         {
             InitializeComponent();
 
-            FilterState = filterState;
-            ViewModel = GetFilterViewModel(propertyName, translations, filterState);
+            DataGridState = dataGridState;
+            ViewModel = GetFilterViewModel(propertyName, translations, dataGridState);
 
             DataContext = ViewModel;
             DataContext = this;
@@ -138,7 +138,7 @@ namespace WpfDataGridFilter.Controls
 
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
         {
-            FilterState.RemoveFilter(ViewModel.PropertyName);
+            DataGridState.RemoveFilter(ViewModel.PropertyName);
 
             ViewModel.SelectedFilterOperator = FilterOperatorEnum.None;
             ViewModel.Value = null;
@@ -146,7 +146,7 @@ namespace WpfDataGridFilter.Controls
 
         private void ButtonApply_Click(object sender, RoutedEventArgs e)
         {
-            FilterState.AddFilter(ViewModel.FilterDescriptor);
+            DataGridState.AddFilter(ViewModel.FilterDescriptor);
         }
     }
 }

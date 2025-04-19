@@ -120,7 +120,7 @@ namespace WpfDataGridFilter.Controls
         /// <summary>
         /// Filter State.
         /// </summary>
-        public DataGridState FilterState { get; }
+        public DataGridState DataGridState { get; }
 
         /// <summary>  
         ///  Selected Filter Operator in the ComboBox.
@@ -136,16 +136,16 @@ namespace WpfDataGridFilter.Controls
         {
             InitializeComponent();
 
-            FilterState = filterState;
+            DataGridState = filterState;
             ViewModel = GetFilterViewModel(propertyName, translations, filterState);
 
             DataContext = ViewModel;
             DataContext = this;
         }
 
-        private DateTimeFilterViewModel GetFilterViewModel(string propertyName, ITranslations translations, DataGridState filterState)
+        private DateTimeFilterViewModel GetFilterViewModel(string propertyName, ITranslations translations, DataGridState dataGridState)
         {
-            DateTimeFilterDescriptor booleanFilterDescriptor = GetFilterDescriptor(propertyName, filterState);
+            DateTimeFilterDescriptor booleanFilterDescriptor = GetFilterDescriptor(propertyName, dataGridState);
 
             return new DateTimeFilterViewModel(translations, booleanFilterDescriptor);
         }
@@ -166,7 +166,7 @@ namespace WpfDataGridFilter.Controls
 
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
         {
-            FilterState.RemoveFilter(ViewModel.PropertyName);
+            DataGridState.RemoveFilter(ViewModel.PropertyName);
 
             ViewModel.SelectedFilterOperator = FilterOperatorEnum.None;
             ViewModel.StartDate = null;
@@ -175,7 +175,7 @@ namespace WpfDataGridFilter.Controls
 
         private void ButtonApply_Click(object sender, RoutedEventArgs e)
         {
-            FilterState.AddFilter(ViewModel.FilterDescriptor);
+            DataGridState.AddFilter(ViewModel.FilterDescriptor);
         }
     }
 }

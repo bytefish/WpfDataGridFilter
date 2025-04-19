@@ -97,7 +97,7 @@ namespace WpfDataGridFilter.Controls
         /// <summary>
         /// Filter State.
         /// </summary>
-        public DataGridState FilterState { get; }
+        public DataGridState DataGridState { get; }
 
         /// <summary>  
         ///  Selected Filter Operator in the ComboBox.
@@ -113,7 +113,7 @@ namespace WpfDataGridFilter.Controls
         {
             InitializeComponent();
 
-            FilterState = filterState;
+            DataGridState = filterState;
             ViewModel = GetFilterViewModel(propertyName, translations, filterState);
 
             DataContext = ViewModel;
@@ -127,9 +127,9 @@ namespace WpfDataGridFilter.Controls
             return new DoubleNumericFilterViewModel(translations, intNumericFilterDescriptor);
         }
 
-        private DoubleNumericFilterDescriptor GetFilterDescriptor(string propertyName, DataGridState filterState)
+        private DoubleNumericFilterDescriptor GetFilterDescriptor(string propertyName, DataGridState dataGridState)
         {
-            if (!filterState.TryGetFilter<DoubleNumericFilterDescriptor>(propertyName, out var dateFilterDescriptor))
+            if (!dataGridState.TryGetFilter<DoubleNumericFilterDescriptor>(propertyName, out var dateFilterDescriptor))
             {
                 return new DoubleNumericFilterDescriptor
                 {
@@ -145,7 +145,7 @@ namespace WpfDataGridFilter.Controls
 
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
         {
-            FilterState.RemoveFilter(ViewModel.PropertyName);
+            DataGridState.RemoveFilter(ViewModel.PropertyName);
 
             ViewModel.SelectedFilterOperator = FilterOperatorEnum.None;
             ViewModel.LowerValue = null;
@@ -154,7 +154,7 @@ namespace WpfDataGridFilter.Controls
 
         private void ButtonApply_Click(object sender, RoutedEventArgs e)
         {
-            FilterState.AddFilter(ViewModel.FilterDescriptor);
+            DataGridState.AddFilter(ViewModel.FilterDescriptor);
         }
     }
 }

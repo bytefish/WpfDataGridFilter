@@ -3,28 +3,48 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfDataGridFilter.Example" xmlns:wpfdatagridfilter="clr-namespace:WpfDataGridFilter;assembly=WpfDataGridFilter" xmlns:models="clr-namespace:WpfDataGridFilter.Example.Models"
+        xmlns:local="clr-namespace:WpfDataGridFilter.Example" 
+        xmlns:wpfdatagridfilter="clr-namespace:WpfDataGridFilter;assembly=WpfDataGridFilter" xmlns:models="clr-namespace:WpfDataGridFilter.Example.Models" xmlns:controls="clr-namespace:WpfDataGridFilter.Example.Controls"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Unloaded="Window_Unloaded"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <DataGrid ItemsSource="{Binding ViewModel.People}" AutoGenerateColumns="False" CanUserSortColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding PersonID}">
                     <DataGridTextColumn.Header>
-                        <wpfdatagridfilter:FilterableDataGridColumnHeader DataGridState="{Binding DataGridState}" HeaderText="PersonID" PropertyName="PersonID" Height="30" FilterType="IntNumericFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader DataGridState="{Binding ViewModel.DataGridState}" HeaderText="PersonID" PropertyName="PersonID" Height="30" FilterType="IntNumericFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding FullName}">
                     <DataGridTextColumn.Header>
-                        <wpfdatagridfilter:FilterableDataGridColumnHeader DataGridState="{Binding DataGridState}" HeaderText="FullName" PropertyName="FullName" Height="30" FilterType="StringFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader DataGridState="{Binding ViewModel.DataGridState}" HeaderText="FullName" PropertyName="FullName" Height="30" FilterType="StringFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>                
                 <DataGridTextColumn Binding="{Binding ValidFrom}">
                     <DataGridTextColumn.Header>
-                        <wpfdatagridfilter:FilterableDataGridColumnHeader DataGridState="{Binding DataGridState}" HeaderText="ValidFrom" PropertyName="ValidFrom" Height="30" FilterType="DateTimeFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
+                        <wpfdatagridfilter:FilterableDataGridColumnHeader DataGridState="{Binding ViewModel.DataGridState}" HeaderText="ValidFrom" PropertyName="ValidFrom" Height="30" FilterType="DateTimeFilter"></wpfdatagridfilter:FilterableDataGridColumnHeader>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <DockPanel Grid.Row="1" LastChildFill="False" Margin="10">
+
+            <controls:PaginationControl 
+                CurrentPage="{Binding ViewModel.CurrentPage}"
+                FirstPage="{Binding ViewModel.FirstPageCommand}"
+                PreviousPage="{Binding ViewModel.PreviousPageCommand}"
+                NextPage="{Binding ViewModel.NextPageCommand}"
+                LastPage="{Binding ViewModel.LastPageCommand}" />
+
+            <TextBlock DockPanel.Dock="Right" Text="{Binding TotalCount}" />
+
+        </DockPanel> 
+        
     </Grid>
 </Window>

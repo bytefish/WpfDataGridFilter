@@ -103,8 +103,9 @@ namespace WpfDataGridFilter
         /// Sets the Top Value.
         /// </summary>
         /// <param name="sortColumn">Column to Sort</param>
-        public void SetTop(int? top)
+        public void SetSkipTop(int? skip, int? top)
         {
+            Skip = skip;
             Top = top;
 
             DataGridStateChanged?.Invoke(this, new DataGridStateChangedEventArgs { DataGridState = this });
