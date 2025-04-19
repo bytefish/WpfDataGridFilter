@@ -14,6 +14,7 @@
 
                         <ComboBox Name="PART_PageSizeSelector"
                                   HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center"
                                   BorderThickness="0"
                                   Width="80"
                                   SelectedIndex="0"

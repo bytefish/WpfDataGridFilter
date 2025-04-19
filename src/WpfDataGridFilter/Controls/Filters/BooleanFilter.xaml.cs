@@ -68,8 +68,6 @@ namespace WpfDataGridFilter.Controls
             SelectedFilterOperator = booleanFilterDescriptor.FilterOperator;
         }
 
-
-
         public FilterDescriptor FilterDescriptor => new BooleanFilterDescriptor
         {
             FilterOperator = SelectedFilterOperator,

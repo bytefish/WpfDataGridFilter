@@ -42,7 +42,7 @@ namespace WpfDataGridFilter.Models
         /// <summary>
         /// Gets or sets the string value.
         /// </summary>
-        public string? Value { get; set; }
+        public string Value { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets the Filter Type.

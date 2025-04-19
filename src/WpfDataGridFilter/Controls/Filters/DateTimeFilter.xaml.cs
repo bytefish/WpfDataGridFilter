@@ -17,6 +17,7 @@ namespace WpfDataGridFilter.Controls
         /// </summary>
         public static readonly FilterOperatorEnum[] SupportedFilterOperators =
         [
+            FilterOperatorEnum.None,
             FilterOperatorEnum.Before,
             FilterOperatorEnum.After,
             FilterOperatorEnum.BetweenExclusive,
@@ -36,7 +37,7 @@ namespace WpfDataGridFilter.Controls
             FilterOperatorEnum.IsEqualTo,
             FilterOperatorEnum.IsNotEqualTo,
         ];
-        
+
         private FilterOperatorEnum[] ValidOperatorsForEndDate =
         [
             FilterOperatorEnum.BetweenInclusive,

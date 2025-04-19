@@ -17,6 +17,7 @@ namespace WpfDataGridFilter.Controls
         /// </summary>
         public static readonly FilterOperatorEnum[] SupportedFilterOperators =
         [
+            FilterOperatorEnum.None,
             FilterOperatorEnum.IsEmpty,
             FilterOperatorEnum.IsNotEmpty,
             FilterOperatorEnum.IsNull,
@@ -33,7 +34,7 @@ namespace WpfDataGridFilter.Controls
         private ITranslations _translations;
 
         [ObservableProperty]
-        private string? _value;
+        private string _value = string.Empty;
 
         /// <summary>
         /// Translations used for the UI.
@@ -129,7 +130,7 @@ namespace WpfDataGridFilter.Controls
                 {
                     PropertyName = propertyName,
                     FilterOperator = FilterOperatorEnum.None,
-                    Value = null
+                    Value = string.Empty
                 };
             }
 
@@ -141,7 +142,7 @@ namespace WpfDataGridFilter.Controls
             DataGridState.RemoveFilter(ViewModel.PropertyName);
 
             ViewModel.SelectedFilterOperator = FilterOperatorEnum.None;
-            ViewModel.Value = null;
+            ViewModel.Value = string.Empty;
         }
 
         private void ButtonApply_Click(object sender, RoutedEventArgs e)
