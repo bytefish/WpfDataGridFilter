@@ -9,18 +9,18 @@
                 <ControlTemplate TargetType="controls:PaginationControl">
                     <StackPanel Orientation="Horizontal">
 
-                        <Button Name="PART_FirstPage" Content="&#xE892;" FontFamily="Segoe MDL2 Assets" />
-                        <Button Name="PART_PreviousPage" Content="&#xE72B;" FontFamily="Segoe MDL2 Assets" />
+                        <Button Name="PART_FirstPage" Width="30" Content="&#xE892;" FontFamily="Segoe MDL2 Assets" />
+                        <Button Name="PART_PreviousPage" Width="30" Content="&#xE72B;" FontFamily="Segoe MDL2 Assets" />
 
                         <ComboBox Name="PART_PageSizeSelector"
+                                  HorizontalContentAlignment="Center"
                                   BorderThickness="0"
                                   Width="80"
-                                  Background="Black"
                                   SelectedIndex="0"
                                   VerticalAlignment="Stretch"/>
-                        
-                        <Button Name="PART_NextPage" Content="&#xE72A;" FontFamily="Segoe MDL2 Assets" />
-                        <Button Name="PART_LastPage" Content="&#xE893;" FontFamily="Segoe MDL2 Assets" />
+
+                        <Button Name="PART_NextPage" Width="30" Content="&#xE72A;" FontFamily="Segoe MDL2 Assets" />
+                        <Button Name="PART_LastPage" Width="30" Content="&#xE893;" FontFamily="Segoe MDL2 Assets" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>

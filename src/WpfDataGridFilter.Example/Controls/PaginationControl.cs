@@ -96,6 +96,7 @@ namespace WpfDataGridFilter.Example.Controls
 
         #endregion
 
+
         #region Current page
 
         public static readonly DependencyProperty CurrentPageProperty = DependencyProperty.Register(

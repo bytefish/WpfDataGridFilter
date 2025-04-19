@@ -15,17 +15,39 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     public int _currentPage = 1;
 
-    [ObservableProperty]
-    private int _lastPage;
+    public int LastPage => ((TotalItemCount - 1) / PageSize) + 1;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(LastPage))]
     private int _totalItemCount;
 
     [ObservableProperty]
     private List<int> _pageSizes = new() { 10, 25, 50, 100, 250 };
 
-    [ObservableProperty]
     private int _pageSize = 25;
+
+    public int PageSize
+    {
+        get => _pageSize;
+        set
+        {
+            if(SetProperty(ref _pageSize, value))
+            {
+                // We could also calculate the page, that contains 
+                // the current element, but it's better to just set 
+                // it to 1 I think.
+                CurrentPage = 1;
+                
+                // The Last Page has changed, so we can update the 
+                // UI. The Last Page is also used to determine the 
+                // bounds.
+                OnPropertyChanged(nameof(LastPage));
+
+                // Update the Page.
+                SetSkipTop();
+            }
+        }
+    }
 
     [ObservableProperty]
     private DataGridState _dataGridState;
@@ -102,15 +124,32 @@ public partial class MainWindowViewModel : ObservableObject
     {
         await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
         {
-            // Get the Total Count
+            // If there's no Page Size, we don't need to load anything.
+            if(PageSize == 0)
+            {
+                return;
+            }
+
+            // Get the Total Count, so we can update the First and Last Page.
             TotalItemCount = MockData.People
                 .AsQueryable()
-                .GetTotalCount(DataGridState);
+                .GetTotalItemCount(DataGridState);
 
-            // Adjust the Page number and Page count with the Query results:
-            LastPage = (TotalItemCount + PageSize - 1) / PageSize;
+            // If our current page is not beyond the last Page, we'll need to rerequest data. At
+            // the moment this is going to trigger yet another query for the Count. Obviously that's
+            // a big TODO for a better implementation.
+            if (CurrentPage > 0 && CurrentPage > LastPage)
+            {
+                // If the number of items has reduced such that the current page index is no longer valid, move
+                // automatically to the final valid page index and trigger a further data load.
+                CurrentPage = LastPage;
 
-            // Notify all Event Handlers:
+                SetSkipTop();
+
+                return;
+            }
+
+            // Notify all Event Handlers, so we can enable or disable the 
             FirstPageCommand.NotifyCanExecuteChanged();
             PreviousPageCommand.NotifyCanExecuteChanged();
             NextPageCommand.NotifyCanExecuteChanged();

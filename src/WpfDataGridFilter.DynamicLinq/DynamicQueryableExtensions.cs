@@ -5,7 +5,7 @@ namespace WpfDataGridFilter.DynamicLinq
 {
     public static class DynamicQueryableExtensions
     {
-        public static int GetTotalCount<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState)
+        public static int GetTotalItemCount<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState)
         {
             List<FilterDescriptor> filters = dataGridState.Filters.Values.ToList();
 
@@ -24,7 +24,7 @@ namespace WpfDataGridFilter.DynamicLinq
                 // Then Sort them by the current Sort Column
                 .ApplySort(dataGridState.SortColumn);
 
-            // Now apply the Pagination Values
+            // Now apply optional Pagination Values
             if(dataGridState.Skip.HasValue)
             {
                 query = query.Skip(dataGridState.Skip.Value);

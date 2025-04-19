@@ -33,18 +33,34 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <DockPanel Grid.Row="1" LastChildFill="False" Margin="10">
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
             <controls:PaginationControl 
+                Grid.Column="0"
+                HorizontalAlignment="Center"
+                SelectedPageSize="{Binding ViewModel.PageSize, Mode=TwoWay}"
+                PageSizes="{Binding ViewModel.PageSizes}"
                 CurrentPage="{Binding ViewModel.CurrentPage}"
                 FirstPage="{Binding ViewModel.FirstPageCommand}"
                 PreviousPage="{Binding ViewModel.PreviousPageCommand}"
                 NextPage="{Binding ViewModel.NextPageCommand}"
                 LastPage="{Binding ViewModel.LastPageCommand}" />
 
-            <TextBlock DockPanel.Dock="Right" Text="{Binding TotalCount}" />
+            
+            <TextBlock Width="150" Grid.Column="0"  HorizontalAlignment="Right">
+                <Run Text="Page" />
+                <Run Text="{Binding ViewModel.CurrentPage, Mode=OneWay}" d:Text="0" />
+                <Run Text="/" />
+                <Run Text="{Binding ViewModel.LastPage, Mode=OneWay}" d:Text="0" />
+                <LineBreak />
+                <Run Text="Number of Elements:"></Run>
+                <Run Text="{Binding ViewModel.TotalItemCount, Mode=OneWay}" d:Text="1020" />
+            </TextBlock>
 
-        </DockPanel> 
+        </Grid> 
         
     </Grid>
 </Window>
