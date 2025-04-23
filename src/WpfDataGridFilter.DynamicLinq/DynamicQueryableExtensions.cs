@@ -276,4 +276,3 @@ namespace WpfDataGridFilter.DynamicLinq
         }
     }
 }
-

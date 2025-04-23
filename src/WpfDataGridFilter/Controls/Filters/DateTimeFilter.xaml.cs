@@ -88,11 +88,13 @@ namespace WpfDataGridFilter.Controls
         /// </summary>
         public readonly string PropertyName;
 
-        public DateTimeFilterViewModel(ITranslations translations, DateTimeFilterDescriptor booleanFilterDescriptor)
+        public DateTimeFilterViewModel(ITranslations translations, DateTimeFilterDescriptor dateTimeFilterDescriptor)
         {
             Translations = translations;
 
-            PropertyName = booleanFilterDescriptor.PropertyName;
+            PropertyName = dateTimeFilterDescriptor.PropertyName;
+            StartDate = dateTimeFilterDescriptor.StartDate;
+            EndDate = dateTimeFilterDescriptor.EndDate;
 
             foreach (var supportedFilterOperator in SupportedFilterOperators)
             {
@@ -101,7 +103,7 @@ namespace WpfDataGridFilter.Controls
                 FilterOperators.Add(translation);
             }
 
-            SelectedFilterOperator = booleanFilterDescriptor.FilterOperator;
+            SelectedFilterOperator = dateTimeFilterDescriptor.FilterOperator;
         }
 
         public FilterDescriptor FilterDescriptor => new DateTimeFilterDescriptor
@@ -146,9 +148,9 @@ namespace WpfDataGridFilter.Controls
 
         private DateTimeFilterViewModel GetFilterViewModel(string propertyName, ITranslations translations, DataGridState dataGridState)
         {
-            DateTimeFilterDescriptor booleanFilterDescriptor = GetFilterDescriptor(propertyName, dataGridState);
+            DateTimeFilterDescriptor dateTimeFilterDescriptor = GetFilterDescriptor(propertyName, dataGridState);
 
-            return new DateTimeFilterViewModel(translations, booleanFilterDescriptor);
+            return new DateTimeFilterViewModel(translations, dateTimeFilterDescriptor);
         }
 
         private DateTimeFilterDescriptor GetFilterDescriptor(string propertyName, DataGridState filterState)
