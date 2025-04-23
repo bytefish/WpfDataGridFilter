@@ -16,26 +16,26 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding ViewModel.People}" AutoGenerateColumns="False" CanUserSortColumns="False">
+        <DataGrid ItemsSource="{Binding ViewModel.People}" AutoGenerateColumns="False" CanUserSortColumns="False" MinColumnWidth="150">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding PersonID}">
                     <DataGridTextColumn.HeaderTemplate>
                         <ItemContainerTemplate>
-                            <wpfdatagridfilter:FilterableColumnHeader DataGridState="{Binding ViewModel.DataGridState, ElementName=MainWindowRoot}" HeaderText="PersonID" PropertyName="PersonID" Height="40" FilterType="IntNumericFilter" Width="150" ></wpfdatagridfilter:FilterableColumnHeader>
+                            <wpfdatagridfilter:FilterableColumnHeader DataGridState="{Binding ViewModel.DataGridState, ElementName=MainWindowRoot}" HeaderText="PersonID" PropertyName="PersonID" Height="40" MinWidth="150" FilterType="IntNumericFilter"></wpfdatagridfilter:FilterableColumnHeader>
                         </ItemContainerTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding FullName}">
                     <DataGridTextColumn.HeaderTemplate>
                         <ItemContainerTemplate>
-                            <wpfdatagridfilter:FilterableColumnHeader DataGridState="{Binding ViewModel.DataGridState, ElementName=MainWindowRoot}" HeaderText="FullName" PropertyName="FullName" Height="40" Width="150" FilterType="StringFilter"></wpfdatagridfilter:FilterableColumnHeader>
+                            <wpfdatagridfilter:FilterableColumnHeader DataGridState="{Binding ViewModel.DataGridState, ElementName=MainWindowRoot}" HeaderText="FullName" PropertyName="FullName" Height="40" MinWidth="150" FilterType="StringFilter"></wpfdatagridfilter:FilterableColumnHeader>
                         </ItemContainerTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>                
                 <DataGridTextColumn Binding="{Binding ValidFrom}">
                     <DataGridTextColumn.HeaderTemplate>
                         <ItemContainerTemplate>
-                            <wpfdatagridfilter:FilterableColumnHeader DataGridState="{Binding ViewModel.DataGridState, ElementName=MainWindowRoot}" HeaderText="ValidFrom" PropertyName="ValidFrom" Height="40" Width="150" FilterType="DateTimeFilter"></wpfdatagridfilter:FilterableColumnHeader>
+                            <wpfdatagridfilter:FilterableColumnHeader DataGridState="{Binding ViewModel.DataGridState, ElementName=MainWindowRoot}" HeaderText="ValidFrom" PropertyName="ValidFrom" Height="40" MinWidth="150" FilterType="DateTimeFilter"></wpfdatagridfilter:FilterableColumnHeader>
                         </ItemContainerTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
@@ -57,7 +57,6 @@
                 NextPage="{Binding ViewModel.NextPageCommand}"
                 LastPage="{Binding ViewModel.LastPageCommand}" />
 
-            
             <TextBlock Width="150" Grid.Column="0"  HorizontalAlignment="Right">
                 <Run Text="Page" />
                 <Run Text="{Binding ViewModel.CurrentPage, Mode=OneWay}" d:Text="0" />

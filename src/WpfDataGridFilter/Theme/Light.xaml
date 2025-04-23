@@ -19,8 +19,8 @@
     <SolidColorBrush x:Key="HeaderSortButtonBackground" Color="Transparent" />
     
     <!-- Filter Image -->
-    <sys:Double x:Key="HeaderFilterToggleImageWidth">16</sys:Double>
-    <sys:Double x:Key="HeaderFilterToggleImageHeight">16</sys:Double>
+    <SolidColorBrush x:Key="FilterIconEnabledFillColor" Color="#FFE6A9A9" />
+    <SolidColorBrush x:Key="FilterIconDisabledFillColor" Color="Transparent" />
 
 
     <!-- Popup Container -->

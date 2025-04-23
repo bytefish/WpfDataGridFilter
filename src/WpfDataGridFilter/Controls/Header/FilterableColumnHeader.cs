@@ -484,7 +484,7 @@ namespace WpfDataGridFilter.Controls
             if(HeaderTextBlock != null)
             {
                 HeaderTextBlock.Text = HeaderText;
-            }            
+            }
         }
 
         private void OnHeaderPopupMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
