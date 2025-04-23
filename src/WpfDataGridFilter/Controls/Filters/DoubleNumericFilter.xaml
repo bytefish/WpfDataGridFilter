@@ -18,7 +18,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-
         <TextBlock Grid.Row="0" Grid.Column="0" Style="{DynamicResource FilterLabelStyle}">Filter Operator:</TextBlock>
         <ComboBox Grid.Row="0" Grid.Column="1" 
                   Style="{DynamicResource FilterComboBoxStyle}"

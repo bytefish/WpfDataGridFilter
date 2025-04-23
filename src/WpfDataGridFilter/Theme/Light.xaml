@@ -61,7 +61,6 @@
         <Setter Property="MinWidth" Value="150" />
     </Style>
 
-
     <!-- We need to adjust the FontSize for the Calendar Control -->
     <Style x:Key="FilterCalendarStyle" TargetType="{x:Type Calendar}">
         <Setter Property="Template">
