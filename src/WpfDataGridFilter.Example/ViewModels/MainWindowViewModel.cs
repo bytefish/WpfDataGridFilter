@@ -13,6 +13,9 @@ public partial class MainWindowViewModel : ObservableObject
     private ObservableCollection<Person> _people;
 
     [ObservableProperty]
+    private DataGridState _dataGridState;
+
+    [ObservableProperty]
     public int _currentPage = 1;
 
     public int LastPage => ((TotalItemCount - 1) / PageSize) + 1;
@@ -48,9 +51,6 @@ public partial class MainWindowViewModel : ObservableObject
             }
         }
     }
-
-    [ObservableProperty]
-    private DataGridState _dataGridState;
 
     public IRelayCommand FirstPageCommand { get; }
 
