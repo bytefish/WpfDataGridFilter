@@ -18,24 +18,25 @@ namespace WpfDataGridFilter.Controls
         public static readonly FilterOperatorEnum[] SupportedFilterOperators =
         [
             FilterOperatorEnum.None,
-            FilterOperatorEnum.Before,
-            FilterOperatorEnum.After,
-            FilterOperatorEnum.BetweenExclusive,
-            FilterOperatorEnum.BetweenInclusive,
             FilterOperatorEnum.IsNull,
             FilterOperatorEnum.IsNotNull,
             FilterOperatorEnum.IsEqualTo,
             FilterOperatorEnum.IsNotEqualTo,
-        ];
-
-        private FilterOperatorEnum[] ValidOperatorsForStartDate =
-        [
             FilterOperatorEnum.Before,
             FilterOperatorEnum.After,
             FilterOperatorEnum.BetweenExclusive,
             FilterOperatorEnum.BetweenInclusive,
+
+        ];
+
+        private FilterOperatorEnum[] ValidOperatorsForStartDate =
+        [
             FilterOperatorEnum.IsEqualTo,
             FilterOperatorEnum.IsNotEqualTo,
+            FilterOperatorEnum.Before,
+            FilterOperatorEnum.After,
+            FilterOperatorEnum.BetweenExclusive,
+            FilterOperatorEnum.BetweenInclusive,
         ];
 
         private FilterOperatorEnum[] ValidOperatorsForEndDate =
