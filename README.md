@@ -10,9 +10,17 @@ The library allows to add a Custom DataGridHeader to each column of a Grid:
 
 ![Filter Column](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-datagridcolumnheader.jpg?raw=true)
 
-By clicking on the Filter Symbol, a Popup appears with the current Filter for the Column:
+By clicking on the Filter Symbol, a Popup appears with the Filter for the Column:
+
+![Filter Opened](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-opened.jpg?raw=true)
+
+Based on the Type of the Column, you can then select a Filter Operator (the Example is a String Column):
 
 ![Filter Popup](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-operator-list.jpg?raw=true)
+
+Once the Filter has been applied, the Filter Symbol is highlighted:
+
+![Filter Applied](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-applied.jpg?raw=true)
 
 ## Using it
 
