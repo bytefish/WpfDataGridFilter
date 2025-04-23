@@ -6,6 +6,12 @@ using System.Windows;
 
 namespace WpfDataGridFilter.Controls
 {
+    /// <summary>
+    /// This has been taken from a great Pagination Control Implementation at:
+    /// 
+    ///     * https://github.com/Allesad/Y-POS/blob/36ed0c79d5b9dd169669af2451ef0510311272cb/YumaPos.WPF.UI/Controls/PaginationControl.cs
+    ///     
+    /// </summary>
     [TemplatePart(Name = "PART_CurrentPage", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_FirstPage", Type = typeof(ButtonBase))]
     [TemplatePart(Name = "PART_LastPage", Type = typeof(ButtonBase))]
@@ -168,6 +174,7 @@ namespace WpfDataGridFilter.Controls
         private void BindCommand(string partName)
         {
             ButtonBase? btn = GetTemplateChild(partName) as ButtonBase;
+
             if (btn == null)
             {
                 return;
