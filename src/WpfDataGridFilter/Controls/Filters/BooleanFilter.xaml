@@ -15,16 +15,25 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold">Filter Operator:</TextBlock>
-        <ComboBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" Margin="10,0,10,0" MinWidth="150"
+        <TextBlock Grid.Row="0" Grid.Column="0" Style="{DynamicResource FilterLabelStyle}">Filter Operator:</TextBlock>
+        
+        <ComboBox Grid.Row="0" Grid.Column="1"  
+                  Style="{DynamicResource FilterComboBoxStyle}"
                   DisplayMemberPath="Translation" 
                   SelectedValuePath="Value"
                   ItemsSource="{Binding ViewModel.FilterOperators, Mode=TwoWay}"
                   SelectedValue="{Binding ViewModel.SelectedFilterOperator, Mode=TwoWay}" />
 
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="ButtonReset" Width="80" Height="20" Margin="10,0,10,0" Click="ButtonReset_Click" Content="{Binding ViewModel.Translations.ResetButton}"></Button>
-            <Button x:Name="ButtonApply" IsEnabled="{Binding ViewModel.IsApplyButtonEnabled}" Width="80" Height="20" Margin="0,0,10,0" Click="ButtonApply_Click" Content="{Binding ViewModel.Translations.ApplyButton}"></Button>
+            <Button x:Name="ButtonReset" 
+                    Style="{DynamicResource FilterButtonStyle}" 
+                    Click="ButtonReset_Click"
+                    Content="{Binding ViewModel.Translations.ResetButton}"></Button>
+            <Button x:Name="ButtonApply" 
+                    Style="{DynamicResource FilterButtonStyle}" 
+                    IsEnabled="{Binding ViewModel.IsApplyButtonEnabled}" 
+                    Click="ButtonApply_Click" 
+                    Content="{Binding ViewModel.Translations.ApplyButton}"></Button>
         </StackPanel>
     </Grid>
 </UserControl>

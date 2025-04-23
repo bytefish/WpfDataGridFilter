@@ -30,6 +30,24 @@ namespace WpfDataGridFilter.Controls
             FilterOperatorEnum.BetweenInclusive
         ];
 
+        public static readonly FilterOperatorEnum[] ValidOperatorsForLowerValue =
+        [
+            FilterOperatorEnum.IsEqualTo,
+            FilterOperatorEnum.IsNotEqualTo,
+            FilterOperatorEnum.IsGreaterThan,
+            FilterOperatorEnum.IsGreaterThanOrEqualTo,
+            FilterOperatorEnum.IsLessThan,
+            FilterOperatorEnum.IsLessThanOrEqualTo,
+            FilterOperatorEnum.BetweenExclusive,
+            FilterOperatorEnum.BetweenInclusive
+        ];
+                
+        public static readonly FilterOperatorEnum[] ValidOperatorsForUpperValue =
+        [
+            FilterOperatorEnum.BetweenExclusive,
+            FilterOperatorEnum.BetweenInclusive
+        ];
+
         [ObservableProperty]
         private ITranslations _translations;
 
@@ -49,10 +67,21 @@ namespace WpfDataGridFilter.Controls
         /// Currently Selected Filter Operator.
         /// </summary>
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsLowerValueEnabled))]
+        [NotifyPropertyChangedFor(nameof(IsUpperValueEnabled))]
         [NotifyPropertyChangedFor(nameof(IsApplyButtonEnabled))]
         private FilterOperatorEnum _selectedFilterOperator = FilterOperatorEnum.None;
 
         /// <summary>
+        /// LowerValue enabled for these Operator.
+        /// </summary>
+        public bool IsLowerValueEnabled => ValidOperatorsForLowerValue.Contains(SelectedFilterOperator);
+        
+        /// <summary>
+        /// UpperValue enabled for these operators.
+        /// </summary>
+        public bool IsUpperValueEnabled => ValidOperatorsForUpperValue.Contains(SelectedFilterOperator);
+
         /// End Date is only visible for these operators.
         /// </summary>
         public bool IsApplyButtonEnabled => SelectedFilterOperator != FilterOperatorEnum.None;

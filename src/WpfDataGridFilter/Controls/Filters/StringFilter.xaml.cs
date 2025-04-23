@@ -30,6 +30,16 @@ namespace WpfDataGridFilter.Controls
             FilterOperatorEnum.EndsWith,
         ];
 
+        public static readonly FilterOperatorEnum[] ValidOperatorsForValue =
+        [
+            FilterOperatorEnum.IsEqualTo,
+            FilterOperatorEnum.IsNotEqualTo,
+            FilterOperatorEnum.Contains,
+            FilterOperatorEnum.NotContains,
+            FilterOperatorEnum.StartsWith,
+            FilterOperatorEnum.EndsWith,
+        ];
+
         [ObservableProperty]
         private ITranslations _translations;
 
@@ -46,8 +56,14 @@ namespace WpfDataGridFilter.Controls
         /// Currently Selected Filter Operator.
         /// </summary>
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsValueEnabled))]
         [NotifyPropertyChangedFor(nameof(IsApplyButtonEnabled))]
         private FilterOperatorEnum _selectedFilterOperator = FilterOperatorEnum.None;
+
+        /// <summary>
+        /// End Date is only visible for these operators.
+        /// </summary>
+        public bool IsValueEnabled => ValidOperatorsForValue.Contains(SelectedFilterOperator);
 
         /// <summary>
         /// End Date is only visible for these operators.
