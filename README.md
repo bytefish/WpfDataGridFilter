@@ -26,7 +26,7 @@ Once the Filter has been applied, the Filter Symbol is highlighted:
 
 You start by adding the `WpfDataGridFilter` Styles to your `App.xaml`, like this:
 
-```
+```xml
 <Application x:Class="WpfDataGridFilter.Example.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -63,24 +63,22 @@ shows how to use the Pagination Control.
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <!-- The Data Grid -- >
         <DataGrid ItemsSource="{Binding ViewModel.People}" AutoGenerateColumns="False" CanUserSortColumns="False" MinColumnWidth="150">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding PersonID}">
-                        <DataGridTextColumn.HeaderTemplate>
-                            <ItemContainerTemplate>
-                                <wpfdatagridfilter:FilterableColumnHeader DataGridState="{Binding ViewModel.DataGridState, ElementName=MainWindowRoot}" HeaderText="PersonID" PropertyName="PersonID" Height="40" MinWidth="150" FilterType="IntNumericFilter"></wpfdatagridfilter:FilterableColumnHeader>
-                            </ItemContainerTemplate>
-                        </DataGridTextColumn.HeaderTemplate>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding PersonID}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <ItemContainerTemplate>
+                            <wpfdatagridfilter:FilterableColumnHeader DataGridState="{Binding ViewModel.DataGridState, ElementName=MainWindowRoot}" HeaderText="PersonID" PropertyName="PersonID" Height="40" MinWidth="150" FilterType="IntNumericFilter"></wpfdatagridfilter:FilterableColumnHeader>
+                        </ItemContainerTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
         </DataGrid>
-        <!-- ... -->
-          <Grid Grid.Row="1" Margin="10">
+        <Grid Grid.Row="1" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
+            
             <wpfdatagridfilter:PaginationControl 
                 Grid.Column="0"
                 HorizontalAlignment="Center"
@@ -91,7 +89,7 @@ shows how to use the Pagination Control.
                 PreviousPage="{Binding ViewModel.PreviousPageCommand}"
                 NextPage="{Binding ViewModel.NextPageCommand}"
                 LastPage="{Binding ViewModel.LastPageCommand}" />
-
+            
             <TextBlock Width="150" Grid.Column="0"  HorizontalAlignment="Right">
                 <Run Text="Page" />
                 <Run Text="{Binding ViewModel.CurrentPage, Mode=OneWay}" d:Text="0" />
@@ -101,11 +99,8 @@ shows how to use the Pagination Control.
                 <Run Text="Number of Elements:"></Run>
                 <Run Text="{Binding ViewModel.TotalItemCount, Mode=OneWay}" d:Text="1020" />
             </TextBlock>
-
         </Grid> 
-        
     </Grid>
-
 </Window>
 ```
 
