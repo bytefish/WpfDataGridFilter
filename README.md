@@ -8,11 +8,11 @@ This library simplifies adding server-side filtering, pagination and sorting to 
 
 The library allows to add a Custom DataGridHeader to each column of a Grid:
 
-![Filter Header Overview](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-datagridcolumnheader.jpg?raw=true)
+![Filter Column](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-datagridcolumnheader.jpg?raw=true)
 
 By clicking on the Filter Symbol, a Popup appears with the current Filter for the Column:
 
-![Filter Popup Opened With Filter Operators](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-operator-list.jpg?raw=true)
+![Filter Popup](https://github.com/bytefish/WpfDataGridFilter/blob/main/doc/filter-operator-list.jpg?raw=true)
 
 ## Using it
 
