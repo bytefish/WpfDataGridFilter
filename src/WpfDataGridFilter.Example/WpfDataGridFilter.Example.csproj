@@ -23,4 +23,8 @@
     <ProjectReference Include="..\WpfDataGridFilter\WpfDataGridFilter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>
+
 </Project>

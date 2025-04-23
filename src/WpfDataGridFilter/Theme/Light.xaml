@@ -1,0 +1,32 @@
+<!--
+    This Source Code Form is subject to the terms of the MIT License.
+    If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
+    Copyright (C) Leszek Pomianowski and WPF UI Contributors.
+    All Rights Reserved.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Header Text Block -->
+    <SolidColorBrush x:Key="HeaderTextBlockBackground" Color="Transparent" />
+    <Thickness x:Key="HeaderTextBlockMargin">5,0,5,0</Thickness>
+    
+    <!-- Sort Icon -->
+    <SolidColorBrush x:Key="SortIconColor" Color="Black" />
+    <sys:Double x:Key="SortIconWidth">8</sys:Double>
+    <sys:Double x:Key="SortIconHeight">6</sys:Double>
+
+    <!-- Sort Button -->
+    <SolidColorBrush x:Key="HeaderSortButtonBackground" Color="Transparent" />
+    
+    <!-- Filter Image -->
+    <sys:Double x:Key="HeaderFilterToggleImageWidth">16</sys:Double>
+    <sys:Double x:Key="HeaderFilterToggleImageHeight">16</sys:Double>
+
+
+    <!-- Popup Container -->
+    <SolidColorBrush x:Key="PopupFilterContainerBackground" Color="#fff" />
+    <SolidColorBrush x:Key="PopupFilterContainerBorderBrush" Color="#000" />
+    
+    <Thickness x:Key="PopupFilterContainerBorderThickness">1</Thickness>
+    
+</ResourceDictionary>

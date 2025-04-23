@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows;
 
-namespace WpfDataGridFilter.Example.Controls
+namespace WpfDataGridFilter.Controls
 {
     [TemplatePart(Name = "PART_CurrentPage", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_FirstPage", Type = typeof(ButtonBase))]
@@ -23,8 +23,7 @@ namespace WpfDataGridFilter.Example.Controls
 
         static PaginationControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PaginationControl),
-                new FrameworkPropertyMetadata(typeof(PaginationControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PaginationControl), new FrameworkPropertyMetadata(typeof(PaginationControl)));
         }
 
         #endregion
@@ -95,7 +94,6 @@ namespace WpfDataGridFilter.Example.Controls
         }
 
         #endregion
-
 
         #region Current page
 

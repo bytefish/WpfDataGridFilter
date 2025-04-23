@@ -1,30 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:WpfDataGridFilter.Example.Controls">
-    <!-- PAGINATOR -->
-    <Style TargetType="controls:PaginationControl">
-        <Setter Property="Margin" Value="10,0"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="controls:PaginationControl">
-                    <StackPanel Orientation="Horizontal">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:wpfdatagridfilter="clr-namespace:WpfDataGridFilter.Markup;assembly=WpfDataGridFilter">
 
-                        <Button Name="PART_FirstPage" Width="30" Content="&#xE892;" FontFamily="Segoe MDL2 Assets" />
-                        <Button Name="PART_PreviousPage" Width="30" Content="&#xE72B;" FontFamily="Segoe MDL2 Assets" />
 
-                        <ComboBox Name="PART_PageSizeSelector"
-                                  HorizontalContentAlignment="Center"
-                                  VerticalContentAlignment="Center"
-                                  BorderThickness="0"
-                                  Width="80"
-                                  SelectedIndex="0"
-                                  VerticalAlignment="Stretch"/>
-
-                        <Button Name="PART_NextPage" Width="30" Content="&#xE72A;" FontFamily="Segoe MDL2 Assets" />
-                        <Button Name="PART_LastPage" Width="30" Content="&#xE893;" FontFamily="Segoe MDL2 Assets" />
-                    </StackPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 </ResourceDictionary>

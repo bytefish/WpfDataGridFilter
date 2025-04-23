@@ -11,11 +11,10 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
-        InitializeComponent();
-        
         ViewModel = new MainWindowViewModel(new DataGridState([]));
-
         DataContext = this;
+
+        InitializeComponent();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
