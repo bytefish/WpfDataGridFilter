@@ -29,13 +29,11 @@ namespace WpfDataGridFilter.Controls
         public const string PartName_HeaderAroundBorder = "PART_HeaderAroundBorder";
         public const string PartName_HeaderTextBlock = "PART_HeaderTextBlock";
         public const string PartName_HeaderFilterToggle = "PART_HeaderFilterToggle";
-        public const string PartName_HeaderFilterToggleImage = "PART_HeaderFilterToggleImage";
         public const string PartName_HeaderSortButton = "PART_HeaderSortButton";
         public const string PartName_SortArrowNone = "PART_SortArrowNone";
         public const string PartName_SortArrowAsc = "PART_SortArrowAsc";
         public const string PartName_SortArrowDesc = "PART_SortArrowDesc";
         
-
         public static Thickness StandardHeaderTextBoxBorderThickness = new Thickness(0.5, 1, 0, 1);
 
         // Header Layout Elements
@@ -53,8 +51,6 @@ namespace WpfDataGridFilter.Controls
         // Toggle for Filter Indicator
         TextBlock? HeaderTextBlock;
         ToggleButton? HeaderToggleButton;
-
-        Image? HeaderToggleButtonImage;
 
         // Popup invoked on User Click
         Popup? HeaderPopup;
@@ -438,10 +434,10 @@ namespace WpfDataGridFilter.Controls
             base.OnApplyTemplate();
 
             HeaderPopup = GetTemplateChild(PartName_Popup) as Popup;
+            HeaderBorder = GetTemplateChild(PartName_HeaderAroundBorder) as Border;
             HeaderPopupFilterContainer = GetTemplateChild(PartName_PopupFilterContainer) as Border;
             HeaderTextBlock = GetTemplateChild(PartName_HeaderTextBlock) as TextBlock;
             HeaderToggleButton = GetTemplateChild(PartName_HeaderFilterToggle) as ToggleButton;
-            HeaderToggleButtonImage = GetTemplateChild(PartName_HeaderFilterToggleImage) as Image;
             HeaderSortButton = GetTemplateChild(PartName_HeaderSortButton) as Button;
 
             SortArrowAsc = GetTemplateChild(PartName_SortArrowAsc) as Path;
