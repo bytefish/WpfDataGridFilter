@@ -24,29 +24,17 @@ I have a week off, so I have written a small library to make it easier.
 
 The idea is to provide a custom `DataGridColumnHeader` control, that enables us to filter the content in a `DataGrid` column:
 
-<div style="display:flex; align-items:center; justify-content:center;margin-bottom:15px;">
-    <a href="https://raw.githubusercontent.com/bytefish/WpfDataGridFilter/refs/heads/main/doc/filter-datagridcolumnheader.jpg">
-        <img src="https://raw.githubusercontent.com/bytefish/WpfDataGridFilter/refs/heads/main/doc/filter-datagridcolumnheader.jpg" alt="WPF Filter and Pagination Control">
-    </a>
-</div>
+![WPF Filter and Pagination Control](https://raw.githubusercontent.com/bytefish/WpfDataGridFilter/refs/heads/main/doc/filter-datagridcolumnheader.jpg)
 
 The Filter Symbol turns red for filtered columns.
 
 If you click on the Filter Symbol in the DataGrid Header, a Popup with a Filter Control is shown:
 
-<div style="display:flex; align-items:center; justify-content:center;margin-bottom:15px;">
-    <a href="https://raw.githubusercontent.com/bytefish/WpfDataGridFilter/refs/heads/main/doc/filter-opened.jpg">
-        <img src="https://raw.githubusercontent.com/bytefish/WpfDataGridFilter/refs/heads/main/doc/filter-opened.jpg" alt="WPF Filter Control Popup">
-    </a>
-</div>
+![WPF Filter Control Popup](https://raw.githubusercontent.com/bytefish/WpfDataGridFilter/refs/heads/main/doc/filter-opened.jpg)
 
 The Filter Controls support several Filter Operators, based on their Type. For a `StringFilter`, it looks like this:
 
-<div style="display:flex; align-items:center; justify-content:center;margin-bottom:15px;">
-    <a href="https://raw.githubusercontent.com/bytefish/WpfDataGridFilter/refs/heads/main/doc/filter-operator-list.jpg">
-        <img src="https://raw.githubusercontent.com/bytefish/WpfDataGridFilter/refs/heads/main/doc/filter-operator-list.jpg" alt="WPF Filter Operators">
-    </a>
-</div>
+![WPF String Filter Operators](https://raw.githubusercontent.com/bytefish/WpfDataGridFilter/refs/heads/main/doc/filter-operator-list.jpg)
 
 ## Using It ##
 
