@@ -303,20 +303,40 @@ namespace WpfDataGridFilter.Controls
         /// <summary>  
         ///  FilterType of the Column.
         /// </summary>
-        public FilterTypeEnum FilterType
+        public string FilterType
         {
-            get { return (FilterTypeEnum)GetValue(FilterTypeProperty); }
+            get { return (string)GetValue(FilterTypeProperty); }
             set { SetValue(FilterTypeProperty, value); }
         }
 
-        public static readonly DependencyProperty FilterTypeProperty = DependencyProperty.Register("FilterType", typeof(FilterTypeEnum), typeof(FilterableColumnHeader), new PropertyMetadata(FilterTypeEnum.StringFilter,
-            OnFilterTypeChanged));
+        public static readonly DependencyProperty FilterTypeProperty = DependencyProperty.Register("FilterType", 
+            typeof(string), typeof(FilterableColumnHeader), new PropertyMetadata("StringFilter", OnFilterTypeChanged));
 
         private static void OnFilterTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is FilterableColumnHeader header)
             {
-                header.FilterType = (FilterTypeEnum)e.NewValue;
+                header.FilterType = (string)e.NewValue;
+            }
+        }
+        
+        /// <summary>  
+        ///  FilterProvider for the FilterControls.
+        /// </summary>
+        public IFilterControlProvider FilterControlProvider
+        {
+            get { return (IFilterControlProvider)GetValue(FilterControlProviderProperty); }
+            set { SetValue(FilterControlProviderProperty, value); }
+        }
+
+        public static readonly DependencyProperty FilterControlProviderProperty = DependencyProperty.Register("FilterControlProvider", 
+            typeof(IFilterControlProvider), typeof(FilterableColumnHeader), new PropertyMetadata(new FilterControlProvider(), OnFilterControlProviderChanged));
+
+        private static void OnFilterControlProviderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FilterableColumnHeader header)
+            {
+                header.FilterControlProvider = (IFilterControlProvider)e.NewValue;
             }
         }
 
@@ -633,50 +653,15 @@ namespace WpfDataGridFilter.Controls
             }
         }
 
-        private Control CreateFilterControl()
+        private FilterControl CreateFilterControl()
         {
-            switch (FilterType)
-            {
-                case FilterTypeEnum.BooleanFilter:
-                    return new BooleanFilterControl 
-                    {
-                        PropertyName = PropertyName,
-                        Translations = Translations,
-                        DataGridState = DataGridState 
-                    };
-                case FilterTypeEnum.StringFilter:
-                    return new StringFilterControl
-                    {
-                        PropertyName = PropertyName,
-                        Translations = Translations,
-                        DataGridState = DataGridState
-                    };
-                case FilterTypeEnum.DateTimeFilter:
-                    return new DateTimeFilterControl
-                    {
-                        PropertyName = PropertyName,
-                        Translations = Translations,
-                        DataGridState = DataGridState
-                    };
-                case FilterTypeEnum.IntNumericFilter:
-                    return new IntNumericFilterControl
-                    {
-                        PropertyName = PropertyName,
-                        Translations = Translations,
-                        DataGridState = DataGridState
-                    };
-                case FilterTypeEnum.DoubleNumericFilter:
-                    return new DoubleNumericFilterControl
-                    {
-                        PropertyName = PropertyName,
-                        Translations = Translations,
-                        DataGridState = DataGridState
-                    };
-                default:
-                    throw new InvalidOperationException($"Filter Type '{FilterType}' is not supported");
-            }
-        }
+            FilterControl filterControl = FilterControlProvider.CreateFilterControl(FilterType);
 
-        
+            filterControl.PropertyName = PropertyName;
+            filterControl.Translations = Translations;
+            filterControl.DataGridState = DataGridState;
+
+            return filterControl;
+        }
     }
 }

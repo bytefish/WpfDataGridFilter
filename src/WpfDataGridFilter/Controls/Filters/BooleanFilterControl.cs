@@ -1,12 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using WpfDataGridFilter.Infrastructure;
 using WpfDataGridFilter.Models;
 using WpfDataGridFilter.Translations;
 
 namespace WpfDataGridFilter.Controls
 {
-    public class BooleanFilterControl : Control 
+    public class BooleanFilterControl : FilterControl
     {
         /// <summary>
         /// Supported Filters for this Filter Control.
@@ -20,7 +21,6 @@ namespace WpfDataGridFilter.Controls
             FilterOperatorEnum.IsNull,
         ];
 
-
         #region Controls 
 
         Button? ApplyButton;
@@ -29,14 +29,14 @@ namespace WpfDataGridFilter.Controls
         
         #endregion Controls
 
-        public string PropertyName { get; set; } = string.Empty;
+        public override string PropertyName { get; set; } = string.Empty;
 
         public List<EnumTranslation<FilterOperatorEnum>> FilterOperators { get; private set; } = [];
 
         /// <summary>  
         ///  Translations
         /// </summary>
-        public ITranslations Translations
+        public override ITranslations Translations
         {
             get { return (ITranslations)GetValue(TranslationsProperty); }
             set { SetValue(TranslationsProperty, value); }
@@ -56,7 +56,7 @@ namespace WpfDataGridFilter.Controls
         /// <summary>  
         ///  FilterState of the current DataGrid.
         /// </summary>
-        public DataGridState DataGridState
+        public override DataGridState DataGridState
         {
             get { return (DataGridState)GetValue(DataGridStateProperty); }
             set { SetValue(DataGridStateProperty, value); }
@@ -74,6 +74,15 @@ namespace WpfDataGridFilter.Controls
                 booleanFilterControl.RefreshFilterDescriptor();
             }
         }
+
+        /// <summary>
+        /// Builds the FilterDescriptor described by this Control.
+        /// </summary>
+        public override FilterDescriptor FilterDescriptor => new BooleanFilterDescriptor
+        {
+            PropertyName = PropertyName,
+            FilterOperator = GetCurrentFilterOperator(),
+        };
 
         private BooleanFilterDescriptor GetFilterDescriptor(DataGridState dataGridState, string propertyName)
         {
@@ -167,13 +176,7 @@ namespace WpfDataGridFilter.Controls
 
         private void OnApplyButtonClick(object sender, RoutedEventArgs e)
         {
-            FilterDescriptor booleanFilterDescriptor = new BooleanFilterDescriptor
-            {
-                PropertyName = PropertyName,
-                FilterOperator = GetCurrentFilterOperator(),
-            };
-
-            DataGridState.AddFilter(booleanFilterDescriptor);
+            DataGridState.AddFilter(FilterDescriptor);
         }
 
         private FilterOperatorEnum GetCurrentFilterOperator()

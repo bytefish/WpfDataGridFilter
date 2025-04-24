@@ -3,10 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:WpfDataGridFilter.Controls">
 
-    <Style TargetType="{x:Type controls:IntNumericFilterControl}">
+    <Style TargetType="{x:Type controls:DoubleNumericFilterControl}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:IntNumericFilterControl}">
+                <ControlTemplate TargetType="{x:Type controls:DoubleNumericFilterControl}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="120"/>

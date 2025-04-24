@@ -1,12 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using WpfDataGridFilter.Infrastructure;
 using WpfDataGridFilter.Models;
 using WpfDataGridFilter.Translations;
 
 namespace WpfDataGridFilter.Controls
 {
-    public class StringFilterControl : Control
+    public class StringFilterControl : FilterControl
     {
         /// <summary>
         /// Supported Filters for this Filter Control.
@@ -45,14 +46,14 @@ namespace WpfDataGridFilter.Controls
 
         #endregion Controls
 
-        public string PropertyName { get; set; } = string.Empty;
+        public override string PropertyName { get; set; } = string.Empty;
 
         public List<EnumTranslation<FilterOperatorEnum>> FilterOperators { get; private set; } = [];
 
         /// <summary>  
         ///  Translations
         /// </summary>
-        public ITranslations Translations
+        public override ITranslations Translations
         {
             get { return (ITranslations)GetValue(TranslationsProperty); }
             set { SetValue(TranslationsProperty, value); }
@@ -72,7 +73,7 @@ namespace WpfDataGridFilter.Controls
         /// <summary>  
         ///  FilterState of the current DataGrid.
         /// </summary>
-        public DataGridState DataGridState
+        public override DataGridState DataGridState
         {
             get { return (DataGridState)GetValue(DataGridStateProperty); }
             set { SetValue(DataGridStateProperty, value); }
@@ -96,7 +97,22 @@ namespace WpfDataGridFilter.Controls
         /// </summary>
         public bool IsValueEnabled => ValidOperatorsForValue.Contains(GetCurrentFilterOperator());
 
+        /// <summary>
+        /// Builds a FilterDescriptor described by this Control.
+        /// </summary>
+        public override FilterDescriptor FilterDescriptor => new StringFilterDescriptor
+        {
+            PropertyName = PropertyName,
+            FilterOperator = GetCurrentFilterOperator(),
+            Value = ValueTextBox?.Text ?? string.Empty
+        };
 
+        /// <summary>
+        /// Gets the Filter Descriptor off of the DataGridState or creates a new one.
+        /// </summary>
+        /// <param name="dataGridState">DataGridState with Filters</param>
+        /// <param name="propertyName">PropertyName</param>
+        /// <returns>The existing FilterDescriptor or a new one</returns>
         private StringFilterDescriptor GetFilterDescriptor(DataGridState dataGridState, string propertyName)
         {
             if (!dataGridState.TryGetFilter<StringFilterDescriptor>(propertyName, out StringFilterDescriptor? stringFilterDescriptor))
@@ -202,14 +218,7 @@ namespace WpfDataGridFilter.Controls
 
         private void OnApplyButtonClick(object sender, RoutedEventArgs e)
         {
-            FilterDescriptor stringFilterDescriptor = new StringFilterDescriptor
-            {
-                PropertyName = PropertyName,
-                FilterOperator = GetCurrentFilterOperator(),
-                Value = ValueTextBox?.Text ?? string.Empty
-            };
-
-            DataGridState.AddFilter(stringFilterDescriptor);
+            DataGridState.AddFilter(FilterDescriptor);
         }
 
         private FilterOperatorEnum GetCurrentFilterOperator()

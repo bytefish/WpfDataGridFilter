@@ -1,12 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using WpfDataGridFilter.Infrastructure;
 using WpfDataGridFilter.Models;
 using WpfDataGridFilter.Translations;
 
 namespace WpfDataGridFilter.Controls
 {
-    public class DoubleNumericFilterControl : Control 
+    public class DoubleNumericFilterControl : FilterControl
     {
         /// <summary>
         /// Supported Filters for this Filter Control.
@@ -50,14 +51,14 @@ namespace WpfDataGridFilter.Controls
 
         #endregion Controls
 
-        public string PropertyName { get; set; } = string.Empty;
+        public override string PropertyName { get; set; } = string.Empty;
 
         public List<EnumTranslation<FilterOperatorEnum>> FilterOperators { get; private set; } = [];
 
         /// <summary>  
         ///  Translations
         /// </summary>
-        public ITranslations Translations
+        public override ITranslations Translations
         {
             get { return (ITranslations)GetValue(TranslationsProperty); }
             set { SetValue(TranslationsProperty, value); }
@@ -77,7 +78,7 @@ namespace WpfDataGridFilter.Controls
         /// <summary>  
         ///  FilterState of the current DataGrid.
         /// </summary>
-        public DataGridState DataGridState
+        public override DataGridState DataGridState
         {
             get { return (DataGridState)GetValue(DataGridStateProperty); }
             set { SetValue(DataGridStateProperty, value); }
@@ -106,6 +107,23 @@ namespace WpfDataGridFilter.Controls
         /// </summary>
         public bool IsUpperValueEnabled => ValidOperatorsForUpperValue.Contains(GetCurrentFilterOperator());
 
+        /// <summary>
+        /// Creates a FilterDescriptor this Control describes.
+        /// </summary>
+        public override FilterDescriptor FilterDescriptor => new DoubleNumericFilterDescriptor
+        {
+            PropertyName = PropertyName,
+            FilterOperator = GetCurrentFilterOperator(),
+            LowerValue = GetDoubleValue(LowerValueTextBox?.Text),
+            UpperValue = GetDoubleValue(UpperValueTextBox?.Text),
+        };
+
+        /// <summary>
+        /// Gets the Filter Descriptor off of the DataGridState or creates a new one.
+        /// </summary>
+        /// <param name="dataGridState">DataGridState with Filters</param>
+        /// <param name="propertyName">PropertyName</param>
+        /// <returns>The existing FilterDescriptor or a new one</returns>
         private DoubleNumericFilterDescriptor GetFilterDescriptor(DataGridState dataGridState, string propertyName)
         {
             if (!dataGridState.TryGetFilter<DoubleNumericFilterDescriptor>(propertyName, out var descriptor))
@@ -226,15 +244,7 @@ namespace WpfDataGridFilter.Controls
 
         private void OnApplyButtonClick(object sender, RoutedEventArgs e)
         {
-            FilterDescriptor descriptor = new DoubleNumericFilterDescriptor
-            {
-                PropertyName = PropertyName,
-                FilterOperator = GetCurrentFilterOperator(),
-                LowerValue = GetDoubleValue(LowerValueTextBox?.Text),
-                UpperValue = GetDoubleValue(UpperValueTextBox?.Text),
-            };
-
-            DataGridState.AddFilter(descriptor);
+            DataGridState.AddFilter(FilterDescriptor);
         }
 
         private double? GetDoubleValue(string? value)
