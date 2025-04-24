@@ -6,6 +6,12 @@
 -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Controls/Filters/DateTimeFilterControl.xaml" />
+        <ResourceDictionary Source="Controls/Filters/BooleanFilterControl.xaml" />
+        <ResourceDictionary Source="Controls/Filters/IntNumericFilterControl.xaml" />
+        <ResourceDictionary Source="Controls/Filters/DoubleNumericFilterControl.xaml" />
+        <ResourceDictionary Source="Controls/Filters/StringFilterControl.xaml" />
+
         <ResourceDictionary Source="Controls/Header/FilterableColumnHeader.xaml" />
         <ResourceDictionary Source="Controls/Pagination/PaginationControl.xaml" />
     </ResourceDictionary.MergedDictionaries>

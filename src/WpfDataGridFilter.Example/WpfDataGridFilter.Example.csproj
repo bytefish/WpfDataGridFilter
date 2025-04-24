@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WpfDataGridFilter.DynamicLinq\WpfDataGridFilter.DynamicLinq.csproj" />
     <ProjectReference Include="..\WpfDataGridFilter\WpfDataGridFilter.csproj" />
   </ItemGroup>

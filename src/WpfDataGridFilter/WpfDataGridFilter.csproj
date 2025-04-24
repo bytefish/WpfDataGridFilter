@@ -22,16 +22,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Controls\Filters\DoubleNumericFilter.xaml.cs">
-            <SubType>Code</SubType>
-        </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
         <!-- IMPORTANT: adding the Readme as a link -->
         <None Include="..\..\README.md" Pack="true" PackagePath="">
             <Link>Properties\README.md</Link>

@@ -326,7 +326,7 @@ namespace WpfDataGridFilter.Controls
         public ITranslations Translations
         {
             get { return (ITranslations)GetValue(TranslationsProperty); }
-            set { SetValue(FilterTypeProperty, value); }
+            set { SetValue(TranslationsProperty, value); }
         }
 
         public static readonly DependencyProperty TranslationsProperty = DependencyProperty.Register(
@@ -444,7 +444,6 @@ namespace WpfDataGridFilter.Controls
             SortArrowDesc = GetTemplateChild(PartName_SortArrowDesc) as Path;
             SortArrowNone = GetTemplateChild(PartName_SortArrowNone) as Path;
             
-
             // Subscribe to Events
             if (HeaderPopup != null)
             {
@@ -634,20 +633,45 @@ namespace WpfDataGridFilter.Controls
             }
         }
 
-        private UserControl CreateFilterControl()
+        private Control CreateFilterControl()
         {
             switch (FilterType)
             {
                 case FilterTypeEnum.BooleanFilter:
-                    return new BooleanFilter(PropertyName, Translations, DataGridState);
+                    return new BooleanFilterControl 
+                    {
+                        PropertyName = PropertyName,
+                        Translations = Translations,
+                        DataGridState = DataGridState 
+                    };
                 case FilterTypeEnum.StringFilter:
-                    return new StringFilter(PropertyName, Translations, DataGridState);
+                    return new StringFilterControl
+                    {
+                        PropertyName = PropertyName,
+                        Translations = Translations,
+                        DataGridState = DataGridState
+                    };
                 case FilterTypeEnum.DateTimeFilter:
-                    return new DateTimeFilter(PropertyName, Translations, DataGridState);
+                    return new DateTimeFilterControl
+                    {
+                        PropertyName = PropertyName,
+                        Translations = Translations,
+                        DataGridState = DataGridState
+                    };
                 case FilterTypeEnum.IntNumericFilter:
-                    return new IntNumericFilter(PropertyName, Translations, DataGridState);
+                    return new IntNumericFilterControl
+                    {
+                        PropertyName = PropertyName,
+                        Translations = Translations,
+                        DataGridState = DataGridState
+                    };
                 case FilterTypeEnum.DoubleNumericFilter:
-                    return new DoubleNumericFilter(PropertyName, Translations, DataGridState);
+                    return new DoubleNumericFilterControl
+                    {
+                        PropertyName = PropertyName,
+                        Translations = Translations,
+                        DataGridState = DataGridState
+                    };
                 default:
                     throw new InvalidOperationException($"Filter Type '{FilterType}' is not supported");
             }
