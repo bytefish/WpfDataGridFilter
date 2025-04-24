@@ -85,17 +85,15 @@ namespace WpfDataGridFilter.DynamicLinq
         {
             switch (filterDescriptor.FilterType)
             {
-                case FilterTypeEnum.BooleanFilter:
+                case FilterTypes.BooleanFilter:
                     return TranslateBooleanFilter(source, (BooleanFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.DateTimeFilter:
+                case FilterTypes.DateTimeFilter:
                     return TranslateDateTimeFilter(source, (DateTimeFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.DateTimeOffsetFilter:
-                    return TranslateDateTimeOffsetFilter(source, (DateTimeOffsetFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.StringFilter:
+                case FilterTypes.StringFilter:
                     return TranslateStringFilter(source, (StringFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.IntNumericFilter:
+                case FilterTypes.IntNumericFilter:
                     return TranslateIntNumericFilter(source, (IntNumericFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.DoubleNumericFilter:
+                case FilterTypes.DoubleNumericFilter:
                     return TranslateDoubleNumericFilter(source, (DoubleNumericFilterDescriptor)filterDescriptor);
                 default:
                     throw new ArgumentException($"Could not translate Filter Type '{filterDescriptor.FilterType}'");
@@ -147,38 +145,6 @@ namespace WpfDataGridFilter.DynamicLinq
                     return source.Where($"(({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} gt @0)) and (({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} lt @1))", filterDescriptor.StartDate, filterDescriptor.EndDate);
                 case FilterOperatorEnum.BetweenInclusive:
                     return source.Where($"(({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} ge @0)) and (({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} le @1))", filterDescriptor.StartDate, filterDescriptor.EndDate);
-                default:
-                    throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
-            }
-        }
-
-        private static IQueryable<TEntity> TranslateDateTimeOffsetFilter<TEntity>(IQueryable<TEntity> source, DateTimeOffsetFilterDescriptor filterDescriptor)
-        {
-            switch (filterDescriptor.FilterOperator)
-            {
-                case FilterOperatorEnum.IsNull:
-                    return source.Where($"{filterDescriptor.PropertyName} eq null");
-                case FilterOperatorEnum.IsNotNull:
-                    return source.Where($"{filterDescriptor.PropertyName} neq null");
-                case FilterOperatorEnum.IsEqualTo:
-                    return source.Where($"{filterDescriptor.PropertyName} eq @0", filterDescriptor.StartDate);
-                case FilterOperatorEnum.IsNotEqualTo:
-                    return source.Where($"{filterDescriptor.PropertyName} neq  @0", filterDescriptor.StartDate);
-                case FilterOperatorEnum.After:
-                case FilterOperatorEnum.IsGreaterThan:
-                    return source.Where($"({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} gt  @0)", filterDescriptor.StartDate);
-                case FilterOperatorEnum.IsGreaterThanOrEqualTo:
-                    return source.Where($"({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} ge  @0)", filterDescriptor.StartDate);
-                case FilterOperatorEnum.Before:
-                case FilterOperatorEnum.IsLessThan:
-                    return source.Where($"({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} lt  @0)", filterDescriptor.StartDate);
-                case FilterOperatorEnum.IsLessThanOrEqualTo:
-                    return source.Where($"({filterDescriptor.PropertyName}  neq null) and ({filterDescriptor.PropertyName} le  @0)", filterDescriptor.StartDate);
-                case FilterOperatorEnum.BetweenExclusive:
-                    return source.Where($"(({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} gt @0)) and (({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} lt @1))", filterDescriptor.StartDate, filterDescriptor.EndDate);
-                case FilterOperatorEnum.BetweenInclusive:
-                    return source.Where($"(({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} ge @0)) and (({filterDescriptor.PropertyName} neq null) and ({filterDescriptor.PropertyName} le @1))", filterDescriptor.StartDate, filterDescriptor.EndDate);
-
                 default:
                     throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
             }

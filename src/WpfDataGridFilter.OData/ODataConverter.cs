@@ -34,17 +34,15 @@ namespace WpfDataGridFilter.OData
         {
             switch (filterDescriptor.FilterType)
             {
-                case FilterTypeEnum.BooleanFilter:
+                case FilterTypes.BooleanFilter:
                     return TranslateBooleanFilter((BooleanFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.DateTimeOffsetFilter:
-                    return TranslateDateFilter((DateTimeOffsetFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.DateTimeFilter:
+                case FilterTypes.DateTimeFilter:
                     return TranslateDateTimeFilter((DateTimeFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.StringFilter:
+                case FilterTypes.StringFilter:
                     return TranslateStringFilter((StringFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.IntNumericFilter:
+                case FilterTypes.IntNumericFilter:
                     return TranslateIntNumericFilter((IntNumericFilterDescriptor)filterDescriptor);
-                case FilterTypeEnum.DoubleNumericFilter:
+                case FilterTypes.DoubleNumericFilter:
                     return TranslateDoubleNumericFilter((DoubleNumericFilterDescriptor)filterDescriptor);
                 default:
                     throw new ArgumentException($"Could not translate Filter Type '{filterDescriptor.FilterType}'");
@@ -65,40 +63,6 @@ namespace WpfDataGridFilter.OData
                     return $"{filterDescriptor.PropertyName} eq true";
                 case FilterOperatorEnum.No:
                     return $"{filterDescriptor.PropertyName} eq false";
-                default:
-                    throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
-            }
-        }
-
-        private static string TranslateDateFilter(DateTimeOffsetFilterDescriptor filterDescriptor)
-        {
-            var startDate = ToODataDate(filterDescriptor.StartDate);
-            var endDate = ToODataDate(filterDescriptor.EndDate);
-
-            switch (filterDescriptor.FilterOperator)
-            {
-                case FilterOperatorEnum.IsNull:
-                    return $"{filterDescriptor.PropertyName} eq null";
-                case FilterOperatorEnum.IsNotNull:
-                    return $"{filterDescriptor.PropertyName} ne null";
-                case FilterOperatorEnum.IsEqualTo:
-                    return $"date({filterDescriptor.PropertyName}) eq {startDate}";
-                case FilterOperatorEnum.IsNotEqualTo:
-                    return $"date({filterDescriptor.PropertyName}) ne {startDate}";
-                case FilterOperatorEnum.After:
-                case FilterOperatorEnum.IsGreaterThan:
-                    return $"date({filterDescriptor.PropertyName}) gt {startDate}";
-                case FilterOperatorEnum.IsGreaterThanOrEqualTo:
-                    return $"date({filterDescriptor.PropertyName}) ge {startDate}";
-                case FilterOperatorEnum.Before:
-                case FilterOperatorEnum.IsLessThan:
-                    return $"date({filterDescriptor.PropertyName}) lt {startDate}";
-                case FilterOperatorEnum.IsLessThanOrEqualTo:
-                    return $"date({filterDescriptor.PropertyName}) le {startDate}";
-                case FilterOperatorEnum.BetweenExclusive:
-                    return $"(date({filterDescriptor.PropertyName}) gt {startDate}) and (date({filterDescriptor.PropertyName}) lt {endDate})";
-                case FilterOperatorEnum.BetweenInclusive:
-                    return $"(date({filterDescriptor.PropertyName}) ge {startDate}) and (date({filterDescriptor.PropertyName}) le {endDate})";
                 default:
                     throw new ArgumentException($"Could not translate Filter Operator '{filterDescriptor.FilterOperator}'");
             }

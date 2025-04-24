@@ -1,8 +1,9 @@
-﻿using System.Windows;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using WpfDataGridFilter.Infrastructure;
 using WpfDataGridFilter.Models;
 using WpfDataGridFilter.Translations;

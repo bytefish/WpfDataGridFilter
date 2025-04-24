@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using WpfDataGridFilter.Models;
 using WpfDataGridFilter.Translations;
 
@@ -33,16 +34,5 @@ namespace WpfDataGridFilter.Infrastructure
         /// Gets the Filter Descriptor for this Filter Control.
         /// </summary>
         FilterDescriptor FilterDescriptor { get; }        
-    }
-
-    public abstract class FilterControl : Control, IFilterControl
-    {
-        public abstract string PropertyName { get; set; }
-
-        public abstract DataGridState DataGridState { get; set; }
-        
-        public abstract ITranslations Translations { get; set; }
-
-        public abstract FilterDescriptor FilterDescriptor { get;  }
     }
 }

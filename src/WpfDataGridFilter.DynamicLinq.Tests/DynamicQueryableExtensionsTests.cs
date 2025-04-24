@@ -82,31 +82,6 @@ namespace WpfDataGridFilter.Tests
         /// <summary>
         /// TestData for DateTime Filters.
         /// </summary>
-        public static IEnumerable<object?[]> DateTimeOffsetTestData
-        {
-            get
-            {
-                return
-                [
-                    [ FilterOperatorEnum.IsNull, default(DateTimeOffset?), default(DateTimeOffset?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotNull, default(DateTimeOffset?), default(DateTimeOffset?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsEqualTo, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 2 } ],
-                    [ FilterOperatorEnum.IsEqualTo, default(DateTimeOffset?), default(DateTimeOffset?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, default(DateTimeOffset?), default(DateTimeOffset?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 1, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsGreaterThan, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsGreaterThanOrEqualTo, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsLessThan, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { } ],
-                    [ FilterOperatorEnum.IsLessThanOrEqualTo, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), default(DateTimeOffset?), new int[] { 2 } ],
-                    [ FilterOperatorEnum.BetweenInclusive, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), new DateTimeOffset(2022, 5, 22, 0, 0, 0, TimeSpan.Zero), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.BetweenExclusive, new DateTimeOffset(2000, 3, 1, 0, 0, 0, TimeSpan.Zero), new DateTimeOffset(2022, 5, 22, 0, 0, 0, TimeSpan.Zero), new int[] { 3, 4 } ],
-                ];
-            }
-        }
-
-        /// <summary>
-        /// TestData for DateTime Filters.
-        /// </summary>
         public static IEnumerable<object?[]> DateTimeTestData
         {
             get
@@ -156,27 +131,6 @@ namespace WpfDataGridFilter.Tests
         }
 
         [TestMethod]
-        [DynamicData(nameof(DateTimeOffsetTestData))]
-        public void DateTimeOffsetColumnFilterTests(FilterOperatorEnum filterOperator, DateTimeOffset? startDate, DateTimeOffset? endDate, int[] expected)
-        {
-            DateTimeOffsetFilterDescriptor filterDescriptor = new DateTimeOffsetFilterDescriptor
-            {
-                FilterOperator = filterOperator,
-                PropertyName = nameof(Person.BirthDate),
-                StartDate = startDate,
-                EndDate = endDate,
-            };
-
-            int[] filteredResults = GetPeople().AsQueryable()
-                .ApplyDataGridState(new DataGridState(filters: [filterDescriptor]))
-                .Select(x => x.Id)
-                .ToArray();
-
-            Assert.AreEqual(true, Enumerable.SequenceEqual(filteredResults, expected));
-        }
-
-
-        [TestMethod]
         [DynamicData(nameof(DateTimeTestData))]
         public void DateTimeColumnFilterTests(FilterOperatorEnum filterOperator, DateTime? startDate, DateTime? endDate, int[] expected)
         {
@@ -205,7 +159,7 @@ namespace WpfDataGridFilter.Tests
             {
                 FilterOperator = filterOperator,
                 PropertyName = nameof(Person.Name),
-                Value = value,
+                Value = value ?? string.Empty,
             };
 
             int[] filteredResults = GetPeople().AsQueryable()
