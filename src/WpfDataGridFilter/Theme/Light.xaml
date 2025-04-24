@@ -18,7 +18,6 @@
     <SolidColorBrush x:Key="FilterIconEnabledFillColor" Color="#FFE6A9A9" />
     <SolidColorBrush x:Key="FilterIconDisabledFillColor" Color="Transparent" />
 
-
     <!-- Popup Container -->
     <SolidColorBrush x:Key="PopupFilterContainerBackground" Color="#fff" />
     <SolidColorBrush x:Key="PopupFilterContainerBorderBrush" Color="#000" />
