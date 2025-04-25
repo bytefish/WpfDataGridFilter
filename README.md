@@ -2,7 +2,7 @@
 
 [WpfDataGridFilter]: https://github.com/bytefish/WpfDataGridFilter
 
-"I just want to filter some data in a DataGrid, why is all this so complicated?"... said everyone using a WPF DataGrid. 
+"I just want to server-side filter some data in a DataGrid, why is all this so complicated?"... said everyone using a WPF DataGrid. 
 
 So I have written [WpfDataGridFilter], which is a small library to simplify server-side filtering, pagination and sorting 
 in a WPF DataGrid. It works by using a custom `DataGridColumnHeader` template and comes with its own Pagination control and 
@@ -14,9 +14,9 @@ All code can be found in a Git repository at:
 
 ## The Problem ##
 
-The WPF `DataGrid` control is a powerful component, but it lacks very basic features, such as filtering and pagination for 
-data. And while it's somewhat easy to add client-side sorting and filtering using a `CollectionViewSource`, doing server-side 
-processing required all kinds of hacks.
+The WPF `DataGrid` control is a powerful component, but it lacks very basic features for server-side data processing, such as filtering 
+and pagination for data. And while it's somewhat easy to add client-side sorting and filtering using a `CollectionViewSource`, doing 
+server-side processing requires all kinds of hacks.
 
 I have a week off, so I have written a small library to make it easier.
 
