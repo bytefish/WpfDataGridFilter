@@ -34,13 +34,13 @@ public partial class MainWindowViewModel : ObservableObject
         get => _pageSize;
         set
         {
-            if(SetProperty(ref _pageSize, value))
+            if (SetProperty(ref _pageSize, value))
             {
                 // We could also calculate the page, that contains 
                 // the current element, but it's better to just set 
                 // it to 1 I think.
                 CurrentPage = 1;
-                
+
                 // The Last Page has changed, so we can update the 
                 // UI. The Last Page is also used to determine the 
                 // bounds.
@@ -59,7 +59,9 @@ public partial class MainWindowViewModel : ObservableObject
     public IRelayCommand NextPageCommand { get; }
 
     public IRelayCommand LastPageCommand { get; }
-    
+
+    public IAsyncRelayCommand RefreshDataCommand { get; }
+
     public void OnLoaded()
     {
         DataGridState.DataGridStateChanged += DataGridState_DataGridStateChanged;
@@ -72,12 +74,9 @@ public partial class MainWindowViewModel : ObservableObject
         DataGridState.DataGridStateChanged -= DataGridState_DataGridStateChanged;
     }
 
-    private async void DataGridState_DataGridStateChanged(object? sender, DataGridStateChangedEventArgs e)
+    private void DataGridState_DataGridStateChanged(object? sender, DataGridStateChangedEventArgs e)
     {
-        await Dispatcher.CurrentDispatcher.InvokeAsync(async () =>
-        {
-            await Refresh();
-        });
+        RefreshDataCommand.Execute(null);
     }
 
     public MainWindowViewModel(DataGridState dataGridState)
@@ -113,6 +112,10 @@ public partial class MainWindowViewModel : ObservableObject
             SetSkipTop();
         },
         () => CurrentPage != LastPage);
+
+        RefreshDataCommand = new AsyncRelayCommand(
+            execute: () => RefreshAsync(),
+            canExecute: () => true);
     }
 
     public void SetSkipTop()
@@ -120,47 +123,46 @@ public partial class MainWindowViewModel : ObservableObject
         DataGridState.SetSkipTop((CurrentPage - 1) * PageSize, PageSize);
     }
 
-    public async Task Refresh()
+    public Task RefreshAsync()
     {
-        await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+        // If there's no Page Size, we don't need to load anything.
+        if (PageSize == 0)
         {
-            // If there's no Page Size, we don't need to load anything.
-            if(PageSize == 0)
-            {
-                return;
-            }
+            return Task.CompletedTask;
+        }
 
-            // Get the Total Count, so we can update the First and Last Page.
-            TotalItemCount = MockData.People
+        // Get the Total Count, so we can update the First and Last Page.
+        TotalItemCount = MockData.People
+            .AsQueryable()
+            .GetTotalItemCount(DataGridState);
+
+        // If our current page is not beyond the last Page, we'll need to rerequest data. At
+        // the moment this is going to trigger yet another query for the Count. Obviously that's
+        // a big TODO for a better implementation.
+        if (CurrentPage > 0 && CurrentPage > LastPage)
+        {
+            // If the number of items has reduced such that the current page index is no longer valid, move
+            // automatically to the final valid page index and trigger a further data load.
+            CurrentPage = LastPage;
+
+            SetSkipTop();
+
+            return Task.CompletedTask;
+        }
+
+        // Notify all Event Handlers, so we can enable or disable the 
+        FirstPageCommand.NotifyCanExecuteChanged();
+        PreviousPageCommand.NotifyCanExecuteChanged();
+        NextPageCommand.NotifyCanExecuteChanged();
+        LastPageCommand.NotifyCanExecuteChanged();
+
+        List<Person> filteredResult = MockData.People
                 .AsQueryable()
-                .GetTotalItemCount(DataGridState);
+                .ApplyDataGridState(DataGridState)
+                .ToList();
 
-            // If our current page is not beyond the last Page, we'll need to rerequest data. At
-            // the moment this is going to trigger yet another query for the Count. Obviously that's
-            // a big TODO for a better implementation.
-            if (CurrentPage > 0 && CurrentPage > LastPage)
-            {
-                // If the number of items has reduced such that the current page index is no longer valid, move
-                // automatically to the final valid page index and trigger a further data load.
-                CurrentPage = LastPage;
+        People = new ObservableCollection<Person>(filteredResult);
 
-                SetSkipTop();
-
-                return;
-            }
-
-            // Notify all Event Handlers, so we can enable or disable the 
-            FirstPageCommand.NotifyCanExecuteChanged();
-            PreviousPageCommand.NotifyCanExecuteChanged();
-            NextPageCommand.NotifyCanExecuteChanged();
-            LastPageCommand.NotifyCanExecuteChanged();
-
-            List<Person> filteredResult = MockData.People
-                    .AsQueryable()
-                    .ApplyDataGridState(DataGridState)
-                    .ToList();
-
-            People = new ObservableCollection<Person>(filteredResult);
-        });
+        return Task.CompletedTask;
     }
 }
