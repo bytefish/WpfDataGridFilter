@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+
     <!-- Header Text Block -->
     <SolidColorBrush x:Key="HeaderTextBlockBackground" Color="Transparent" />
     <Thickness x:Key="HeaderTextBlockMargin">5,0,5,0</Thickness>
@@ -36,18 +40,18 @@
             </Style>
         </Style.Resources>
     </Style>
-    
+
     <Style x:Key="FilterLabelStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Margin" Value="10,0,10,0" />
     </Style>
-    
+
     <Style x:Key="FilterTextBoxStyle" TargetType="TextBox">
         <Setter Property="Height" Value="20" />
         <Setter Property="Margin" Value="10,0,10,0" />
     </Style>
-    
+
     <Style x:Key="FilterComboBoxStyle" TargetType="ComboBox">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="10,0,10,0" />

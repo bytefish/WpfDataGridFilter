@@ -4,63 +4,70 @@
     xmlns:controls="clr-namespace:WpfDataGridFilter.Controls">
 
     <Style TargetType="{x:Type controls:FilterableColumnHeader}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:FilterableColumnHeader}">
-                    <Border x:Name="PART_HeaderAroundBorder" BorderBrush="Black" BorderThickness="1">
-                        <Grid x:Name="PART_HeaderLayoutRoot">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Button x:Name="PART_HeaderSortButton" 
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="PART_HeaderAroundBorder" BorderBrush="Black" BorderThickness="1">
+                            <Grid x:Name="PART_HeaderLayoutRoot">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Button x:Name="PART_HeaderSortButton" 
                                     Grid.Column="0" 
                                     Padding="5" 
                                     Background="{DynamicResource HeaderSortButtonBackground}" 
                                     Width="30"
                                     BorderThickness="0">
-                                <StackPanel>
-                                    <Path x:Name="PART_SortArrowNone" Visibility="Visible" Data="M 0,0 L 1,0 0.5,1 z" Stretch="Fill" Width="{DynamicResource SortIconWidth}" Height="{DynamicResource SortIconHeight}" Fill="{DynamicResource SortIconColor}" Margin="0,0,8,0" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.4">
-                                        <Path.LayoutTransform>
-                                            <RotateTransform Angle="90"/>
-                                        </Path.LayoutTransform>
-                                    </Path>
-                                    <Path x:Name="PART_SortArrowAsc" Visibility="Collapsed" Data="M 0,0 L 1,0 0.5,1 z" Stretch="Fill" Width="{DynamicResource SortIconWidth}" Height="{DynamicResource SortIconHeight}" Fill="{DynamicResource SortIconColor}" Margin="0,0,8,0" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.4">
-                                        <Path.LayoutTransform>
-                                            <RotateTransform Angle="180"/>
-                                        </Path.LayoutTransform>
-                                    </Path>
-                                    <Path x:Name="PART_SortArrowDesc" Visibility="Collapsed" Data="M 0,0 L 1,0 0.5,1 z" Stretch="Fill" Width="{DynamicResource SortIconWidth}" Height="{DynamicResource SortIconHeight}" Fill="{DynamicResource SortIconColor}" Margin="0,0,8,0" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.4"/>
-                                </StackPanel>
-                            </Button>
+                                    <StackPanel>
+                                        <Path x:Name="PART_SortArrowNone" Visibility="Visible" Data="M 0,0 L 1,0 0.5,1 z" Stretch="Fill" Width="{DynamicResource SortIconWidth}" Height="{DynamicResource SortIconHeight}" Fill="{DynamicResource SortIconColor}" Margin="0,0,8,0" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.4">
+                                            <Path.LayoutTransform>
+                                                <RotateTransform Angle="90"/>
+                                            </Path.LayoutTransform>
+                                        </Path>
+                                        <Path x:Name="PART_SortArrowAsc" Visibility="Collapsed" Data="M 0,0 L 1,0 0.5,1 z" Stretch="Fill" Width="{DynamicResource SortIconWidth}" Height="{DynamicResource SortIconHeight}" Fill="{DynamicResource SortIconColor}" Margin="0,0,8,0" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.4">
+                                            <Path.LayoutTransform>
+                                                <RotateTransform Angle="180"/>
+                                            </Path.LayoutTransform>
+                                        </Path>
+                                        <Path x:Name="PART_SortArrowDesc" Visibility="Collapsed" Data="M 0,0 L 1,0 0.5,1 z" Stretch="Fill" Width="{DynamicResource SortIconWidth}" Height="{DynamicResource SortIconHeight}" Fill="{DynamicResource SortIconColor}" Margin="0,0,8,0" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.4"/>
+                                    </StackPanel>
+                                </Button>
 
-                            <Border Grid.Column="1" BorderThickness="0">
-                                <TextBlock x:Name="PART_HeaderTextBlock" 
+                                <Border Grid.Column="1" BorderThickness="0">
+                                    <TextBlock HorizontalAlignment="Center" x:Name="PART_HeaderTextBlock" 
                                            Background="{DynamicResource HeaderTextBlockBackground}" 
                                            Margin="{DynamicResource HeaderTextBlockMargin}"
                                            VerticalAlignment="Center" />
-                            </Border>
+                                </Border>
 
-                            <ToggleButton x:Name="PART_HeaderFilterToggle" 
+                                <ToggleButton x:Name="PART_HeaderFilterToggle" 
                                           Background="Transparent"
                                           Grid.Column="2"
                                           BorderThickness="0">
                                     <Path x:Name="PART_FilterEnabledIcon"  Stroke="Black" StrokeThickness="1"  Visibility="Visible" Data="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z" Stretch="Fill" Width="16" Height="16" Fill="Red"  VerticalAlignment="Center" Margin="5,0,5,0" />
-                            </ToggleButton>
+                                </ToggleButton>
 
-                            <Popup x:Name="PART_FilterPopup" StaysOpen="False">
-                                <Border x:Name="PART_PopupFilterContainer" 
+                                <Popup x:Name="PART_FilterPopup" StaysOpen="False">
+                                    <Border x:Name="PART_PopupFilterContainer" 
                                         Background="{DynamicResource PopupFilterContainerBackground}" 
                                         BorderBrush="{DynamicResource PopupFilterContainerBorderBrush}"
                                         BorderThickness="{DynamicResource PopupFilterContainerBorderThickness}">
-                                </Border>
-                            </Popup>
-                        </Grid>
-                    </Border>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFiltered" Value="true">
                             <Setter TargetName="PART_FilterEnabledIcon" Property="Fill" Value="{DynamicResource FilterIconEnabledFillColor}" />

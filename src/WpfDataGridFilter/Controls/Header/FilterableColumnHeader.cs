@@ -56,7 +56,6 @@ namespace WpfDataGridFilter.Controls
         // Popup invoked on User Click
         Popup? HeaderPopup;
 
-
         static FilterableColumnHeader()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FilterableColumnHeader), new FrameworkPropertyMetadata(typeof(FilterableColumnHeader)));
