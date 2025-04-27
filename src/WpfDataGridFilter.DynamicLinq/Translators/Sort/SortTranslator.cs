@@ -4,7 +4,7 @@ using System.Linq.Dynamic.Core;
 using WpfDataGridFilter.DynamicLinq.Infrastructure;
 using WpfDataGridFilter.Models;
 
-namespace WpfDataGridFilter.DynamicLinq.Converters.Sorts
+namespace WpfDataGridFilter.DynamicLinq.Translators
 {
     public class SortTranslator : ISortTranslator
     {

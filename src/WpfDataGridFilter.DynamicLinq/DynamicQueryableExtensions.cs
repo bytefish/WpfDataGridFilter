@@ -1,8 +1,8 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Linq.Dynamic.Core;
-using WpfDataGridFilter.DynamicLinq.Converters.Sorts;
 using WpfDataGridFilter.DynamicLinq.Infrastructure;
+using WpfDataGridFilter.DynamicLinq.Translators;
 using WpfDataGridFilter.Models;
 
 namespace WpfDataGridFilter.DynamicLinq
@@ -22,17 +22,17 @@ namespace WpfDataGridFilter.DynamicLinq
         /// </summary>
         private static ISortTranslator DefaultSortTranslator = new SortTranslator();
 
-        public static int GetTotalItemCount<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState, IFilterTranslatorProvider? FilterTranslatorProvider = null)
+        public static int GetTotalItemCount<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState, IFilterTranslatorProvider? filterTranslatorProvider = null)
         {
-            if (FilterTranslatorProvider == null)
+            if (filterTranslatorProvider == null)
             {
-                FilterTranslatorProvider = DefaultFilterTranslatorProvider;
+                filterTranslatorProvider = DefaultFilterTranslatorProvider;
             }
 
             List<FilterDescriptor> filters = dataGridState.Filters.Values.ToList();
 
             return source
-                .ApplyFilters(filters, FilterTranslatorProvider)
+                .ApplyFilters(filters, filterTranslatorProvider)
                 .Count();
         }
 
@@ -42,22 +42,27 @@ namespace WpfDataGridFilter.DynamicLinq
         /// <typeparam name="TEntity">Type of the Entity to apply the <see cref="DataGridState"/> on</typeparam>
         /// <param name="source">The Data Source to filter for</param>
         /// <param name="dataGridState">The <see cref="DataGridState"/> applied</param>
-        /// <param name="FilterTranslatorProvider">An optional Provider for FilterTranslators</param>
+        /// <param name="filterTranslatorProvider">An optional Provider for FilterTranslators</param>
         /// <returns>The <paramref name="source"> with Filtering, Sorting and Pagination applied</returns>
-        public static IQueryable<TEntity> ApplyDataGridState<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState, IFilterTranslatorProvider? FilterTranslatorProvider = null)
+        public static IQueryable<TEntity> ApplyDataGridState<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState, IFilterTranslatorProvider? filterTranslatorProvider = null, ISortTranslator sortTranslator? = null)
         {
-            if (FilterTranslatorProvider == null)
+            if (filterTranslatorProvider == null)
             {
-                FilterTranslatorProvider = DefaultFilterTranslatorProvider;
+                filterTranslatorProvider = DefaultFilterTranslatorProvider;
+            }
+
+            if (sortTranslator == null)
+            {
+                sortTranslator = DefaultSortTranslator;
             }
 
             List<FilterDescriptor> filters = dataGridState.Filters.Values.ToList();
 
             IQueryable<TEntity> query = source
                 // First Apply the Filters:
-                .ApplyFilters(filters)
+                .ApplyFilters(filters, filterTranslatorProvider)
                 // Then Sort them by the current Sort Column
-                .ApplySort(dataGridState.SortColumn);
+                .ApplySort(dataGridState.SortColumn, sortTranslator);
 
             // Now apply optional Pagination Values
             if(dataGridState.Skip.HasValue)
