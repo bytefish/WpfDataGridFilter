@@ -14,6 +14,23 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
             FilterConverters = filterConverters.ToDictionary(x => x.FilterType, x => x);
         }
 
+        /// <inheritdoc/>
+        public FilterConverter GetFilterConverterByName(string name)
+        {
+            if (!FilterConverters.ContainsKey(name))
+            {
+                throw new InvalidOperationException($"No FilterConverter with Name '{name}' available");
+            }
+
+            return FilterConverters[name];
+        }
+
+        /// <summary>
+        /// Returns a <see cref="IFilterConverterProvider"/> with the Default Converters and additional 
+        /// Converters supplied by the user.
+        /// </summary>
+        /// <param name="additionalFilters">Additional Filters</param>
+        /// <returns>The Provider with the Default and optional user-supplied filters</returns>
         public static IFilterConverterProvider GetDefault(params FilterConverter[] additionalFilters)
         {
             FilterConverter[] filterConverters =
@@ -23,17 +40,6 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
             ];
 
             return new FilterConverterProvider(filterConverters);
-        }
-
-        /// <inheritdoc/>
-        public FilterConverter GetFilterConverterByName(string name)
-        {
-            if(!FilterConverters.ContainsKey(name))
-            {
-                throw new InvalidOperationException($"No FilterConverter with Name '{name}' available");
-            }
-
-            return FilterConverters[name];
         }
 
         /// <summary>
