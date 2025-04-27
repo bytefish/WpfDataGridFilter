@@ -3,7 +3,6 @@
 using System.Linq.Dynamic.Core;
 using WpfDataGridFilter.DynamicLinq.Infrastructure;
 using WpfDataGridFilter.DynamicLinq.Translators;
-using WpfDataGridFilter.Infrastructure;
 using WpfDataGridFilter.Models;
 
 namespace WpfDataGridFilter.DynamicLinq
@@ -108,18 +107,18 @@ namespace WpfDataGridFilter.DynamicLinq
         /// <typeparam name="TEntity">Entity Type to be filtered for</typeparam>
         /// <param name="source">Source to apply the Filters to</param>
         /// <param name="filterDescriptors">List of FilterDescriptors to apply</param>
-        /// <param name="FilterTranslatorProvider">Optional Translator to provide custom sorts</param>
+        /// <param name="filterTranslatorProvider">Optional Translator to provide custom sorts</param>
         /// <returns>The <paramref name="source"/> with the filters applied</returns>
-        public static IQueryable<TEntity> ApplyFilters<TEntity>(this IQueryable<TEntity> source, ICollection<FilterDescriptor> filterDescriptors, IFilterTranslatorProvider? FilterTranslatorProvider = null)
+        public static IQueryable<TEntity> ApplyFilters<TEntity>(this IQueryable<TEntity> source, ICollection<FilterDescriptor> filterDescriptors, IFilterTranslatorProvider? filterTranslatorProvider = null)
         {
             if (filterDescriptors.Count == 0)
             {
                 return source;
             }
             
-            if (FilterTranslatorProvider == null)
+            if (filterTranslatorProvider == null)
             {
-                FilterTranslatorProvider = DefaultFilterTranslatorProvider;
+                filterTranslatorProvider = DefaultFilterTranslatorProvider;
             }
 
             foreach (FilterDescriptor filterDescriptor in filterDescriptors)
@@ -129,16 +128,16 @@ namespace WpfDataGridFilter.DynamicLinq
                     continue;
                 }
 
-                source = TranslateFilter(source, filterDescriptor);
+                source = TranslateFilter(source, filterDescriptor, filterTranslatorProvider);
             }
 
             return source;
         }
 
-        private static IQueryable<TEntity> TranslateFilter<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor)
+        private static IQueryable<TEntity> TranslateFilter<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor, IFilterTranslatorProvider filterTranslatorProvider)
         {
             // Gets the FilterTranslator
-            IFilterTranslator converter = DefaultFilterTranslatorProvider.GetFilterTranslator(filterDescriptor.FilterType);
+            IFilterTranslator converter = filterTranslatorProvider.GetFilterTranslator(filterDescriptor.FilterType);
 
             return converter.Convert(source, filterDescriptor);
         }
