@@ -10,11 +10,9 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
     /// </summary>
     public class FilterTranslatorProvider : IFilterTranslatorProvider
     {
-        public Dictionary<FilterType, IFilterTranslator> FilterTranslators => _registrations;
+        private readonly Dictionary<FilterType, IFilterTranslator> FilterTranslators = new();
 
-        private Dictionary<FilterType, IFilterTranslator> _registrations => new();
-
-        public FilterTranslatorProvider(params IFilterTranslator[] filterTranslators)
+        public FilterTranslatorProvider()
         {
             AddOrReplace(new BooleanFilterTranslator());
             AddOrReplace(new DateTimeFilterTranslator());
