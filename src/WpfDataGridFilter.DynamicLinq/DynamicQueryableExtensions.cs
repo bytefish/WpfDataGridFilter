@@ -36,6 +36,14 @@ namespace WpfDataGridFilter.DynamicLinq
                 .Count();
         }
 
+        /// <summary>
+        /// Applies the <see cref="DataGridState"/> to the given <see cref="IQueryable{T}"/>.
+        /// </summary>
+        /// <typeparam name="TEntity">Type of the Entity to apply the <see cref="DataGridState"/> on</typeparam>
+        /// <param name="source">The Data Source to filter for</param>
+        /// <param name="dataGridState">The <see cref="DataGridState"/> applied</param>
+        /// <param name="FilterTranslatorProvider">An optional Provider for FilterTranslators</param>
+        /// <returns>The <paramref name="source"> with Filtering, Sorting and Pagination applied</returns>
         public static IQueryable<TEntity> ApplyDataGridState<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState, IFilterTranslatorProvider? FilterTranslatorProvider = null)
         {
             if (FilterTranslatorProvider == null)
@@ -65,6 +73,14 @@ namespace WpfDataGridFilter.DynamicLinq
             return query;
         }
 
+        /// <summary>
+        /// Applies the Sort to the <see cref="IQueryable{T}"/>.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity Type with Sort Properties</typeparam>
+        /// <param name="source">Data Source to apply the Sort on</param>
+        /// <param name="sortColumn">Column to Sort</param>
+        /// <param name="sortTranslator">Optional Translator for custom sorting</param>
+        /// <returns>An <see cref="IQueryable{T}"/> with order applied</returns>
         public static IQueryable<TEntity> ApplySort<TEntity>(this IQueryable<TEntity> source, SortColumn? sortColumn, ISortTranslator? sortTranslator = null)
         {
             if(sortColumn == null)
@@ -74,28 +90,31 @@ namespace WpfDataGridFilter.DynamicLinq
 
             if(sortTranslator == null)
             {
-                sortTranslator = new SortTranslator();
+                sortTranslator = DefaultSortTranslator;
             }
 
             return sortTranslator.Sort(source, sortColumn);
-
         }
 
+        /// <summary>
+        /// Applies a given List of Filters to an <see cref="IQueryable{T}"/>.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity Type to be filtered for</typeparam>
+        /// <param name="source">Source to apply the Filters to</param>
+        /// <param name="filterDescriptors">List of FilterDescriptors to apply</param>
+        /// <param name="FilterTranslatorProvider">Optional Translator to provide custom sorts</param>
+        /// <returns>The <paramref name="source"/> with the filters applied</returns>
         public static IQueryable<TEntity> ApplyFilters<TEntity>(this IQueryable<TEntity> source, ICollection<FilterDescriptor> filterDescriptors, IFilterTranslatorProvider? FilterTranslatorProvider = null)
         {
             if (filterDescriptors.Count == 0)
             {
                 return source;
             }
-
+            
             if (FilterTranslatorProvider == null)
             {
                 FilterTranslatorProvider = DefaultFilterTranslatorProvider;
             }
-
-
-            // Translate all Filters
-            List<string> filters = new();
 
             foreach (FilterDescriptor filterDescriptor in filterDescriptors)
             {
