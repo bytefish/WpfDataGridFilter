@@ -3,6 +3,7 @@
 using System.Linq.Dynamic.Core;
 using WpfDataGridFilter.DynamicLinq.Infrastructure;
 using WpfDataGridFilter.DynamicLinq.Translators;
+using WpfDataGridFilter.Infrastructure;
 using WpfDataGridFilter.Models;
 
 namespace WpfDataGridFilter.DynamicLinq
@@ -15,7 +16,7 @@ namespace WpfDataGridFilter.DynamicLinq
         /// <summary>
         /// The default Filter Translator as a static field, so we don't create a new one for each call.
         /// </summary>
-        private static IFilterTranslatorProvider DefaultFilterTranslatorProvider = FilterTranslatorProvider.GetDefault();
+        private static IFilterTranslatorProvider DefaultFilterTranslatorProvider = new FilterTranslatorProvider();
         
         /// <summary>
         /// The default Sort Translator as a Static Field, so we don't create a new one for each call.

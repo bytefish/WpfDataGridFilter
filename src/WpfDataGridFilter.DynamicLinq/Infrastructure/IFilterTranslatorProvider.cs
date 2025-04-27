@@ -15,6 +15,11 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
         /// <param name="filterType">Filter Type</param>
         /// <returns>The Translator, if any</returns>
         IFilterTranslator GetFilterTranslator(FilterType filterType);
-    }
 
+        /// <summary>
+        /// Returns all Filter Translators.
+        /// </summary>
+        /// <returns></returns>
+        IFilterTranslator[] GetAllFilterTranslators();
+    }
 }

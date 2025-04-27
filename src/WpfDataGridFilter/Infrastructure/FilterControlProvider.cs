@@ -21,14 +21,9 @@ namespace WpfDataGridFilter.Infrastructure
             _filterControls.Add(FilterType.StringFilter, () => new StringFilterControl());
         }
 
-        public void AddFilterControl(FilterType filterType, Func<FilterControl> filterControlFunc)
+        public void AddOrReplace(FilterType filterType, Func<FilterControl> filterControlFunc)
         {
-            if (_filterControls.ContainsKey(filterType))
-            {
-                throw new InvalidOperationException($"The Provider already contains a Filter Control for '{filterType.Name}'");
-            }
-
-            _filterControls.Add(filterType, filterControlFunc);
+            _filterControls[filterType] = filterControlFunc;
         }
 
         public FilterControl CreateFilterControl(FilterType filterType)

@@ -2,7 +2,7 @@
 
 using WpfDataGridFilter.Models;
 
-namespace WpfDataGridFilter.DynamicLinq.Infrastructure
+namespace WpfDataGridFilter.DynamicLinq.Translators
 {
     public interface ISortTranslator
     {

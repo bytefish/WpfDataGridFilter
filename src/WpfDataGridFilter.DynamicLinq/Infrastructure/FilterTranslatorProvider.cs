@@ -10,11 +10,27 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
     /// </summary>
     public class FilterTranslatorProvider : IFilterTranslatorProvider
     {
-        public readonly IReadOnlyDictionary<FilterType, IFilterTranslator> FilterTranslators;
+        public Dictionary<FilterType, IFilterTranslator> FilterTranslators => _registrations;
+
+        private Dictionary<FilterType, IFilterTranslator> _registrations => new();
 
         public FilterTranslatorProvider(params IFilterTranslator[] filterTranslators)
         {
-            FilterTranslators = filterTranslators.ToDictionary(x => x.FilterType, x => x);
+            AddOrReplace(new BooleanFilterTranslator());
+            AddOrReplace(new DateTimeFilterTranslator());
+            AddOrReplace(new DoubleNumericFilterTranslator());
+            AddOrReplace(new IntNumericFilterTranslator());
+            AddOrReplace(new StringFilterTranslator());
+        }
+
+        /// <summary>
+        /// Adds or Replaces a Filter.
+        /// </summary>
+        /// <param name="filterType"></param>
+        /// <param name="filterTranslator"></param>
+        public void AddOrReplace(IFilterTranslator filterTranslator)
+        {
+            FilterTranslators[filterTranslator.FilterType] = filterTranslator;
         }
 
         /// <inheritdoc/>
@@ -28,33 +44,9 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
             return FilterTranslators[filterType];
         }
 
-        /// <summary>
-        /// Returns a <see cref="IFilterTranslatorProvider"/> with the Default Converters and additional 
-        /// Converters supplied by the user.
-        /// </summary>
-        /// <param name="additionalFilters">Additional Filters</param>
-        /// <returns>The Provider with the Default and optional user-supplied filters</returns>
-        public static IFilterTranslatorProvider GetDefault(params IFilterTranslator[] additionalFilters)
+        public IFilterTranslator[] GetAllFilterTranslators()
         {
-            IFilterTranslator[] filterTranslators =
-            [
-                .. DefaultFilterTranslators,
-                .. additionalFilters
-            ];
-
-            return new FilterTranslatorProvider(filterTranslators);
+            return FilterTranslators.Values.ToArray();
         }
-
-        /// <summary>
-        /// Returns the List of Default Filters the library provides.
-        /// </summary>
-        public static IFilterTranslator[] DefaultFilterTranslators =>
-        [
-            new BooleanFilterTranslator(),
-            new DateTimeFilterTranslator(),
-            new DoubleNumericFilterTranslator(),
-            new IntNumericFilterTranslator(),
-            new StringFilterTranslator(),
-        ];
     }
 }
