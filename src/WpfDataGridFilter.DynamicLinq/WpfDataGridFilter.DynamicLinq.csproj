@@ -12,7 +12,7 @@
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/bytefish/WpfDataGridFilter</RepositoryUrl>
         <PackageTags>wpf; datagrid</PackageTags>
-        <Version>0.4.0</Version>
+        <Version>0.5.0</Version>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
