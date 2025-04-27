@@ -136,9 +136,19 @@ namespace WpfDataGridFilter.DynamicLinq
 
         private static IQueryable<TEntity> TranslateFilter<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor, IFilterTranslatorProvider filterTranslatorProvider)
         {
-            // Gets the FilterTranslator
             IFilterTranslator converter = filterTranslatorProvider.GetFilterTranslator(filterDescriptor.FilterType);
 
+            // If we don't have this exact property, it's most likely we are either being attacked or 
+            // or the FilterDescriptor has an error. Whatever's the case, it's wrong to just silently 
+            // return the original Queryable.
+            //
+            // Make it visible and stop filtering immediately.
+            if(!TypeExtensions.HasProperty(typeof(TEntity), filterDescriptor.PropertyName))
+            {
+                throw new InvalidOperationException($"The Property '{filterDescriptor.PropertyName}' does not exist on Type '{typeof(TEntity)}'");
+            }
+
+            // We can now safely convert the Filter without injection attacks
             return converter.Convert(source, filterDescriptor);
         }
     }
