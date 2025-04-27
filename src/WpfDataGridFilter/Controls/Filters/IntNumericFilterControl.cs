@@ -195,14 +195,14 @@ namespace WpfDataGridFilter.Controls
                 FilterOperatorsComboBox.SelectedValue = intNumericFilterDescriptor.FilterOperator;
             }
 
-            if (UpperValueTextBox != null)
-            {
-                UpperValueTextBox.Text = intNumericFilterDescriptor.LowerValue.ToString();
-            }
-
             if (LowerValueTextBox != null)
             {
-                LowerValueTextBox.Text = intNumericFilterDescriptor.UpperValue.ToString();
+                LowerValueTextBox.Text = intNumericFilterDescriptor.LowerValue.ToString();
+            }
+
+            if (UpperValueTextBox != null)
+            {
+                UpperValueTextBox.Text = intNumericFilterDescriptor.UpperValue.ToString();
             }
 
             UpdateIntNumericFilterControls();

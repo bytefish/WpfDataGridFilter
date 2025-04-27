@@ -194,15 +194,16 @@ namespace WpfDataGridFilter.Controls
                 FilterOperatorsComboBox.SelectedValue = doubleNumericFilterDescriptor.FilterOperator;
             }
 
-            if (UpperValueTextBox != null)
-            {
-                UpperValueTextBox.Text = doubleNumericFilterDescriptor.LowerValue.ToString();
-            }
-
             if (LowerValueTextBox != null)
             {
-                LowerValueTextBox.Text = doubleNumericFilterDescriptor.UpperValue.ToString();
+                LowerValueTextBox.Text = doubleNumericFilterDescriptor.LowerValue.ToString();
             }
+
+            if (UpperValueTextBox != null)
+            {
+                UpperValueTextBox.Text = doubleNumericFilterDescriptor.UpperValue.ToString();
+            }
+
 
             UpdateDoubleNumericFilterControls();
         }
