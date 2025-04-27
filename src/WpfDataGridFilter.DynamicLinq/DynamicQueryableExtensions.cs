@@ -44,7 +44,7 @@ namespace WpfDataGridFilter.DynamicLinq
         /// <param name="dataGridState">The <see cref="DataGridState"/> applied</param>
         /// <param name="filterTranslatorProvider">An optional Provider for FilterTranslators</param>
         /// <returns>The <paramref name="source"> with Filtering, Sorting and Pagination applied</returns>
-        public static IQueryable<TEntity> ApplyDataGridState<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState, IFilterTranslatorProvider? filterTranslatorProvider = null, ISortTranslator sortTranslator? = null)
+        public static IQueryable<TEntity> ApplyDataGridState<TEntity>(this IQueryable<TEntity> source, DataGridState dataGridState, IFilterTranslatorProvider? filterTranslatorProvider = null, ISortTranslator? sortTranslator = null)
         {
             if (filterTranslatorProvider == null)
             {
