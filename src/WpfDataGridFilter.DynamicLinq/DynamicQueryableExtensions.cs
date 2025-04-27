@@ -118,7 +118,7 @@ namespace WpfDataGridFilter.DynamicLinq
 
             foreach (FilterDescriptor filterDescriptor in filterDescriptors)
             {
-                if (filterDescriptor.FilterOperator == FilterOperatorEnum.None)
+                if (filterDescriptor.FilterOperator == FilterOperator.None)
                 {
                     continue;
                 }
@@ -132,7 +132,7 @@ namespace WpfDataGridFilter.DynamicLinq
         private static IQueryable<TEntity> TranslateFilter<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor)
         {
             // Gets the FilterTranslator
-            IFilterTranslator converter = DefaultFilterTranslatorProvider.GetFilterTranslatorByName(filterDescriptor.FilterType);
+            IFilterTranslator converter = DefaultFilterTranslatorProvider.GetFilterTranslator(filterDescriptor.FilterType);
 
             return converter.Convert(source, filterDescriptor);
         }

@@ -21,29 +21,29 @@ namespace WpfDataGridFilter.Translations
         /// <summary>
         /// Translations for Filter Operators.
         /// </summary>
-        IReadOnlyList<EnumTranslation<FilterOperatorEnum>> FilterOperatorTranslations { get; }
+        IReadOnlyList<Translation<FilterOperator>> FilterOperatorTranslations { get; }
 
         /// <summary>
         /// Translations for Filter Operators.
         /// </summary>
-        IReadOnlyList<EnumTranslation<SortDirectionEnum>> SortDirectionTranslations { get; }
+        IReadOnlyList<Translation<SortDirectionEnum>> SortDirectionTranslations { get; }
     }
 
     /// <summary>
     /// An Enumeration Translation
     /// </summary>
-    /// <typeparam name="TEnum"></typeparam>
-    public class EnumTranslation<TEnum>
+    /// <typeparam name="T"></typeparam>
+    public record Translation<T>
     {
         /// <summary>
         /// Enumeration Value.
         /// </summary>
-        public required TEnum Value { get; set; }
+        public required T Value { get; set; }
 
         /// <summary>
         /// Enumeration Translation.
         /// </summary>
-        public required string Translation { get; set; }
+        public required string Text { get; set; }
     }
 
     /// <summary>
@@ -51,41 +51,40 @@ namespace WpfDataGridFilter.Translations
     /// </summary>
     public class NeutralTranslations : ITranslations
     {
-
         public string ApplyButton => "Apply";
 
         public string ResetButton => "Reset";
 
-        public IReadOnlyList<EnumTranslation<FilterOperatorEnum>> FilterOperatorTranslations =>
+        public IReadOnlyList<Translation<FilterOperator>> FilterOperatorTranslations =>
         [
-            new () { Value = FilterOperatorEnum.None, Translation =  "None" },
-            new () { Value = FilterOperatorEnum.All, Translation =  "All" },
-            new () { Value = FilterOperatorEnum.IsEqualTo, Translation =  "Is Equal To" },
-            new () { Value = FilterOperatorEnum.IsNotEqualTo, Translation = "Is Not Equal To" },
-            new () { Value = FilterOperatorEnum.IsLessThan, Translation = "Is Less Than" },
-            new () { Value = FilterOperatorEnum.IsGreaterThan, Translation = "Is Greater Than" },
-            new () { Value = FilterOperatorEnum.IsLessThanOrEqualTo, Translation = "Is Less Than or Equal To" },
-            new () { Value = FilterOperatorEnum.IsGreaterThanOrEqualTo, Translation = "Is Greater Than or Equal To" },
-            new () { Value = FilterOperatorEnum.NotContains, Translation = "Does Not Contain" },
-            new () { Value = FilterOperatorEnum.Contains, Translation = "Contains" },
-            new () { Value = FilterOperatorEnum.StartsWith, Translation = "Starts with" },
-            new () { Value = FilterOperatorEnum.EndsWith, Translation = "Ends with" },
-            new () { Value = FilterOperatorEnum.BetweenInclusive, Translation = "Between (Inclusive)" },
-            new () { Value = FilterOperatorEnum.BetweenExclusive, Translation = "Between (Exclusive)" },
-            new () { Value = FilterOperatorEnum.Yes, Translation = "Yes" },
-            new () { Value = FilterOperatorEnum.No, Translation = "No" },
-            new () { Value = FilterOperatorEnum.IsNull, Translation = "Is Null" },
-            new () { Value = FilterOperatorEnum.IsNotNull, Translation = "Is Not Null" },
-            new () { Value = FilterOperatorEnum.IsEmpty, Translation = "Is Empty" },
-            new () { Value = FilterOperatorEnum.IsNotEmpty, Translation = "Is Not Empty" },
-            new () { Value = FilterOperatorEnum.Before, Translation = "Before" },
-            new () { Value = FilterOperatorEnum.After, Translation = "After" },
+            new () { Value = FilterOperator.None, Text =  "None" },
+            new () { Value = FilterOperator.All, Text =  "All" },
+            new () { Value = FilterOperator.IsEqualTo, Text =  "Is Equal To" },
+            new () { Value = FilterOperator.IsNotEqualTo, Text = "Is Not Equal To" },
+            new () { Value = FilterOperator.IsLessThan, Text = "Is Less Than" },
+            new () { Value = FilterOperator.IsGreaterThan, Text = "Is Greater Than" },
+            new () { Value = FilterOperator.IsLessThanOrEqualTo, Text = "Is Less Than or Equal To" },
+            new () { Value = FilterOperator.IsGreaterThanOrEqualTo, Text = "Is Greater Than or Equal To" },
+            new () { Value = FilterOperator.NotContains, Text = "Does Not Contain" },
+            new () { Value = FilterOperator.Contains, Text = "Contains" },
+            new () { Value = FilterOperator.StartsWith, Text = "Starts with" },
+            new () { Value = FilterOperator.EndsWith, Text = "Ends with" },
+            new () { Value = FilterOperator.BetweenInclusive, Text = "Between (Inclusive)" },
+            new () { Value = FilterOperator.BetweenExclusive, Text = "Between (Exclusive)" },
+            new () { Value = FilterOperator.Yes, Text = "Yes" },
+            new () { Value = FilterOperator.No, Text = "No" },
+            new () { Value = FilterOperator.IsNull, Text = "Is Null" },
+            new () { Value = FilterOperator.IsNotNull, Text = "Is Not Null" },
+            new () { Value = FilterOperator.IsEmpty, Text = "Is Empty" },
+            new () { Value = FilterOperator.IsNotEmpty, Text = "Is Not Empty" },
+            new () { Value = FilterOperator.Before, Text = "Before" },
+            new () { Value = FilterOperator.After, Text = "After" },
         ];
 
-        public IReadOnlyList<EnumTranslation<SortDirectionEnum>> SortDirectionTranslations =>
+        public IReadOnlyList<Translation<SortDirectionEnum>> SortDirectionTranslations =>
         [
-            new ()  { Value = SortDirectionEnum.Ascending, Translation =  "Ascending" },
-            new ()  { Value = SortDirectionEnum.Descending, Translation =  "Descending" },
+            new ()  { Value = SortDirectionEnum.Ascending, Text =  "Ascending" },
+            new ()  { Value = SortDirectionEnum.Descending, Text =  "Descending" },
         ];
 
     }

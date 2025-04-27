@@ -8,7 +8,7 @@ namespace WpfDataGridFilter.DynamicLinq.Translators
 {
     public class DateTimeFilterTranslator : IFilterTranslator
     {
-        public string FilterType => "DateTimeFilter";
+        public FilterType FilterType => FilterType.DateTimeFilter;
 
         public IQueryable<TEntity> Convert<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor)
         {
@@ -19,27 +19,27 @@ namespace WpfDataGridFilter.DynamicLinq.Translators
 
             switch (f.FilterOperator)
             {
-                case FilterOperatorEnum.IsNull:
+                case var _ when f.FilterOperator == FilterOperator.IsNull:
                     return source.Where($"{f.PropertyName} eq null");
-                case FilterOperatorEnum.IsNotNull:
+                case var _ when f.FilterOperator == FilterOperator.IsNotNull:
                     return source.Where($"{f.PropertyName} neq null");
-                case FilterOperatorEnum.IsEqualTo:
+                case var _ when f.FilterOperator == FilterOperator.IsEqualTo:
                     return source.Where($"{f.PropertyName} eq @0", f.StartDate);
-                case FilterOperatorEnum.IsNotEqualTo:
+                case var _ when f.FilterOperator == FilterOperator.IsNotEqualTo:
                     return source.Where($"{f.PropertyName} neq  @0", f.StartDate);
-                case FilterOperatorEnum.After:
-                case FilterOperatorEnum.IsGreaterThan:
+                case var _ when f.FilterOperator == FilterOperator.After:
+                case var _ when f.FilterOperator == FilterOperator.IsGreaterThan:
                     return source.Where($"({f.PropertyName} neq null) and ({f.PropertyName} gt  @0)", f.StartDate);
-                case FilterOperatorEnum.IsGreaterThanOrEqualTo:
+                case var _ when f.FilterOperator == FilterOperator.IsGreaterThanOrEqualTo:
                     return source.Where($"({f.PropertyName} neq null) and ({f.PropertyName} ge  @0)", f.StartDate);
-                case FilterOperatorEnum.Before:
-                case FilterOperatorEnum.IsLessThan:
+                case var _ when f.FilterOperator == FilterOperator.Before:
+                case var _ when f.FilterOperator == FilterOperator.IsLessThan:
                     return source.Where($"({f.PropertyName} neq null) and ({f.PropertyName} lt  @0)", f.StartDate);
-                case FilterOperatorEnum.IsLessThanOrEqualTo:
+                case var _ when f.FilterOperator == FilterOperator.IsLessThanOrEqualTo:
                     return source.Where($"({f.PropertyName}  neq null) and ({f.PropertyName} le  @0)", f.StartDate);
-                case FilterOperatorEnum.BetweenExclusive:
+                case var _ when f.FilterOperator == FilterOperator.BetweenExclusive:
                     return source.Where($"(({f.PropertyName} neq null) and ({f.PropertyName} gt @0)) and (({f.PropertyName} neq null) and ({f.PropertyName} lt @1))", f.StartDate, f.EndDate);
-                case FilterOperatorEnum.BetweenInclusive:
+                case var _ when f.FilterOperator == FilterOperator.BetweenInclusive:
                     return source.Where($"(({f.PropertyName} neq null) and ({f.PropertyName} ge @0)) and (({f.PropertyName} neq null) and ({f.PropertyName} le @1))", f.StartDate, f.EndDate);
                 default:
                     throw new ArgumentException($"Could not translate Filter Operator '{f.FilterOperator}'");

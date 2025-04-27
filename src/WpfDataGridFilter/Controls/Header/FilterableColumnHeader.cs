@@ -655,7 +655,10 @@ namespace WpfDataGridFilter.Controls
 
         private FilterControl CreateFilterControl()
         {
-            FilterControl filterControl = FilterControlProvider.CreateFilterControl(FilterType);
+            // Maybe we could pass the FilterType explicitly, but it would lead to an ugly XAML API.
+            FilterType filterType = new FilterType { Name = FilterType };
+
+            FilterControl filterControl = FilterControlProvider.CreateFilterControl(filterType);
 
             filterControl.PropertyName = PropertyName;
             filterControl.Translations = Translations;

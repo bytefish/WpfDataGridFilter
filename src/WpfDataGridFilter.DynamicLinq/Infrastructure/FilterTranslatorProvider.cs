@@ -1,6 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using WpfDataGridFilter.DynamicLinq.Translators;
+using WpfDataGridFilter.Models;
 
 namespace WpfDataGridFilter.DynamicLinq.Infrastructure
 {
@@ -9,7 +10,7 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
     /// </summary>
     public class FilterTranslatorProvider : IFilterTranslatorProvider
     {
-        public readonly IReadOnlyDictionary<string, IFilterTranslator> FilterTranslators;
+        public readonly IReadOnlyDictionary<FilterType, IFilterTranslator> FilterTranslators;
 
         public FilterTranslatorProvider(params IFilterTranslator[] filterTranslators)
         {
@@ -17,14 +18,14 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
         }
 
         /// <inheritdoc/>
-        public IFilterTranslator GetFilterTranslatorByName(string name)
+        public IFilterTranslator GetFilterTranslator(FilterType filterType)
         {
-            if (!FilterTranslators.ContainsKey(name))
+            if (!FilterTranslators.ContainsKey(filterType))
             {
-                throw new InvalidOperationException($"No FilterTranslator with Name '{name}' available");
+                throw new InvalidOperationException($"No FilterTranslator with Type '{filterType.Name}' available");
             }
 
-            return FilterTranslators[name];
+            return FilterTranslators[filterType];
         }
 
         /// <summary>

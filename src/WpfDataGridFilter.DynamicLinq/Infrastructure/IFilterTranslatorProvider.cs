@@ -1,5 +1,7 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using WpfDataGridFilter.Models;
+
 namespace WpfDataGridFilter.DynamicLinq.Infrastructure
 {
     /// <summary>
@@ -8,11 +10,11 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
     public interface IFilterTranslatorProvider
     {
         /// <summary>
-        /// Returns the Filter Translator by its name.
+        /// Returns the Filter Translator.
         /// </summary>
-        /// <param name="name">Filter Type Name</param>
+        /// <param name="filterType">Filter Type</param>
         /// <returns>The Translator, if any</returns>
-        IFilterTranslator GetFilterTranslatorByName(string name);
+        IFilterTranslator GetFilterTranslator(FilterType filterType);
     }
 
 }

@@ -34,15 +34,15 @@ namespace WpfDataGridFilter.OData
         {
             switch (filterDescriptor.FilterType)
             {
-                case FilterTypes.BooleanFilter:
+                case FilterType.BooleanFilter:
                     return TranslateBooleanFilter((BooleanFilterDescriptor)filterDescriptor);
-                case FilterTypes.DateTimeFilter:
+                case FilterType.DateTimeFilter:
                     return TranslateDateTimeFilter((DateTimeFilterDescriptor)filterDescriptor);
-                case FilterTypes.StringFilter:
+                case FilterType.StringFilter:
                     return TranslateStringFilter((StringFilterDescriptor)filterDescriptor);
-                case FilterTypes.IntNumericFilter:
+                case FilterType.IntNumericFilter:
                     return TranslateIntNumericFilter((IntNumericFilterDescriptor)filterDescriptor);
-                case FilterTypes.DoubleNumericFilter:
+                case FilterType.DoubleNumericFilter:
                     return TranslateDoubleNumericFilter((DoubleNumericFilterDescriptor)filterDescriptor);
                 default:
                     throw new ArgumentException($"Could not translate Filter Type '{filterDescriptor.FilterType}'");

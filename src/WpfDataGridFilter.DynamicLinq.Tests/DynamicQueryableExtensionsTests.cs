@@ -45,10 +45,10 @@ namespace WpfDataGridFilter.Tests
             {
                 return
                 [
-                    [ FilterOperatorEnum.IsNull, new int[] { 1 } ],
-                    [ FilterOperatorEnum.Yes, new int[] { 2 } ],
-                    [ FilterOperatorEnum.No, new int[] { 3, 4, 5 } ],
-                    [ FilterOperatorEnum.All, new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.IsNull, new int[] { 1 } ],
+                    [ FilterOperator.Yes, new int[] { 2 } ],
+                    [ FilterOperator.No, new int[] { 3, 4, 5 } ],
+                    [ FilterOperator.All, new int[] { 2, 3, 4, 5 } ],
                 ];
             }
         }
@@ -62,18 +62,18 @@ namespace WpfDataGridFilter.Tests
             {
                 return
                 [
-                    [ FilterOperatorEnum.IsNull, default(string?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotNull, default(string?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsEqualTo, "Philipp Wagner", new int[] { 2 } ],
-                    [ FilterOperatorEnum.IsEqualTo, default(string?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, "Philipp Wagner", new int[] { 1, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, default(string?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.Contains, "JSON", new int[] { 5 } ],
-                    [ FilterOperatorEnum.NotContains, "JSON", new int[] { 2, 3, 4 } ],
-                    [ FilterOperatorEnum.IsNullOrWhitespace, default(string?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotNullOrWhitespace, default(string?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.StartsWith, "JS", new int[] { 5 } ],
-                    [ FilterOperatorEnum.EndsWith, "ourne", new int[] { 5 } ],
+                    [ FilterOperator.IsNull, default(string?), new int[] { 1 } ],
+                    [ FilterOperator.IsNotNull, default(string?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.IsEqualTo, "Philipp Wagner", new int[] { 2 } ],
+                    [ FilterOperator.IsEqualTo, default(string?), new int[] { 1 } ],
+                    [ FilterOperator.IsNotEqualTo, "Philipp Wagner", new int[] { 1, 3, 4, 5 } ],
+                    [ FilterOperator.IsNotEqualTo, default(string?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.Contains, "JSON", new int[] { 5 } ],
+                    [ FilterOperator.NotContains, "JSON", new int[] { 2, 3, 4 } ],
+                    [ FilterOperator.IsNullOrWhitespace, default(string?), new int[] { 1 } ],
+                    [ FilterOperator.IsNotNullOrWhitespace, default(string?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.StartsWith, "JS", new int[] { 5 } ],
+                    [ FilterOperator.EndsWith, "ourne", new int[] { 5 } ],
 
                 ];
             }
@@ -88,18 +88,18 @@ namespace WpfDataGridFilter.Tests
             {
                 return
                 [
-                    [ FilterOperatorEnum.IsNull, default(DateTime?), default(DateTime?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotNull, default(DateTime?), default(DateTime?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 2 } ],
-                    [ FilterOperatorEnum.IsEqualTo, default(DateTime?), default(DateTime?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, default(DateTime?), default(DateTime?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 1, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsGreaterThan, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsGreaterThanOrEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsLessThan, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { } ],
-                    [ FilterOperatorEnum.IsLessThanOrEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 2 } ],
-                    [ FilterOperatorEnum.BetweenInclusive, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 5, 22, 0, 0, 0, DateTimeKind.Utc), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.BetweenExclusive, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 5, 22, 0, 0, 0, DateTimeKind.Utc), new int[] { 3, 4 } ],
+                    [ FilterOperator.IsNull, default(DateTime?), default(DateTime?), new int[] { 1 } ],
+                    [ FilterOperator.IsNotNull, default(DateTime?), default(DateTime?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.IsEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 2 } ],
+                    [ FilterOperator.IsEqualTo, default(DateTime?), default(DateTime?), new int[] { 1 } ],
+                    [ FilterOperator.IsNotEqualTo, default(DateTime?), default(DateTime?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.IsNotEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 1, 3, 4, 5 } ],
+                    [ FilterOperator.IsGreaterThan, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 3, 4, 5 } ],
+                    [ FilterOperator.IsGreaterThanOrEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.IsLessThan, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { } ],
+                    [ FilterOperator.IsLessThanOrEqualTo, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), default(DateTime?), new int[] { 2 } ],
+                    [ FilterOperator.BetweenInclusive, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 5, 22, 0, 0, 0, DateTimeKind.Utc), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.BetweenExclusive, new DateTime(2000, 3, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 5, 22, 0, 0, 0, DateTimeKind.Utc), new int[] { 3, 4 } ],
                 ];
             }
         }
@@ -114,25 +114,25 @@ namespace WpfDataGridFilter.Tests
             {
                 return
                 [
-                    [ FilterOperatorEnum.IsNull, default(int?), default(int?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotNull, default(int?), default(int?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsEqualTo, 2, default(int?), new int[] { 2 } ],
-                    [ FilterOperatorEnum.IsEqualTo, default(int?), default(int?), new int[] { 1 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, default(int?), default(int?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsNotEqualTo, 2, default(int?), new int[] { 1, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsGreaterThan, 2, default(int?), new int[] { 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsGreaterThanOrEqualTo, 2, default(int?), new int[] { 2, 3, 4, 5 } ],
-                    [ FilterOperatorEnum.IsLessThan, 3, default(int?), new int[] { 2 } ],
-                    [ FilterOperatorEnum.IsLessThanOrEqualTo, 3, default(int?), new int[] { 2, 3 } ],
-                    [ FilterOperatorEnum.BetweenInclusive, 2, 4, new int[] { 2, 3, 4 } ],
-                    [ FilterOperatorEnum.BetweenExclusive, 2, 4, new int[] { 3 } ],
+                    [ FilterOperator.IsNull, default(int?), default(int?), new int[] { 1 } ],
+                    [ FilterOperator.IsNotNull, default(int?), default(int?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.IsEqualTo, 2, default(int?), new int[] { 2 } ],
+                    [ FilterOperator.IsEqualTo, default(int?), default(int?), new int[] { 1 } ],
+                    [ FilterOperator.IsNotEqualTo, default(int?), default(int?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.IsNotEqualTo, 2, default(int?), new int[] { 1, 3, 4, 5 } ],
+                    [ FilterOperator.IsGreaterThan, 2, default(int?), new int[] { 3, 4, 5 } ],
+                    [ FilterOperator.IsGreaterThanOrEqualTo, 2, default(int?), new int[] { 2, 3, 4, 5 } ],
+                    [ FilterOperator.IsLessThan, 3, default(int?), new int[] { 2 } ],
+                    [ FilterOperator.IsLessThanOrEqualTo, 3, default(int?), new int[] { 2, 3 } ],
+                    [ FilterOperator.BetweenInclusive, 2, 4, new int[] { 2, 3, 4 } ],
+                    [ FilterOperator.BetweenExclusive, 2, 4, new int[] { 3 } ],
                 ];
             }
         }
 
         [TestMethod]
         [DynamicData(nameof(DateTimeTestData))]
-        public void DateTimeColumnFilterTests(FilterOperatorEnum filterOperator, DateTime? startDate, DateTime? endDate, int[] expected)
+        public void DateTimeColumnFilterTests(FilterOperator filterOperator, DateTime? startDate, DateTime? endDate, int[] expected)
         {
             DateTimeFilterDescriptor filterDescriptor = new DateTimeFilterDescriptor
             {
@@ -153,7 +153,7 @@ namespace WpfDataGridFilter.Tests
 
         [TestMethod]
         [DynamicData(nameof(StringTestData))]
-        public void StringColumnFilterTests(FilterOperatorEnum filterOperator, string? value, int[] expected)
+        public void StringColumnFilterTests(FilterOperator filterOperator, string? value, int[] expected)
         {
             StringFilterDescriptor filterDescriptor = new StringFilterDescriptor
             {
@@ -172,7 +172,7 @@ namespace WpfDataGridFilter.Tests
 
         [TestMethod]
         [DynamicData(nameof(IntegerTestData))]
-        public void IntegerColumnFilterTests(FilterOperatorEnum filterOperator, int? lowerValue, int? upperValue, int[] expected)
+        public void IntegerColumnFilterTests(FilterOperator filterOperator, int? lowerValue, int? upperValue, int[] expected)
         {
             IntNumericFilterDescriptor filterDescriptor = new IntNumericFilterDescriptor
             {
@@ -192,7 +192,7 @@ namespace WpfDataGridFilter.Tests
 
         [TestMethod]
         [DynamicData(nameof(BoolTestData))]
-        public void BoolColumnFilterTests(FilterOperatorEnum filterOperator, int[] expected)
+        public void BoolColumnFilterTests(FilterOperator filterOperator, int[] expected)
         {
             BooleanFilterDescriptor filterDescriptor = new BooleanFilterDescriptor
             {

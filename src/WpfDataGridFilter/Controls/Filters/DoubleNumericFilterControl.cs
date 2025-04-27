@@ -13,33 +13,33 @@ namespace WpfDataGridFilter.Controls
         /// <summary>
         /// Supported Filters for this Filter Control.
         /// </summary>
-        public static readonly List<FilterOperatorEnum> SupportedFilterOperators =
+        public static readonly List<FilterOperator> SupportedFilterOperators =
         [
-            FilterOperatorEnum.None,
-            FilterOperatorEnum.IsNull,
-            FilterOperatorEnum.IsNotNull,
-            FilterOperatorEnum.IsEqualTo,
-            FilterOperatorEnum.IsNotEqualTo,
-            FilterOperatorEnum.Before,
-            FilterOperatorEnum.After,
-            FilterOperatorEnum.BetweenExclusive,
-            FilterOperatorEnum.BetweenInclusive,
+            FilterOperator.None,
+            FilterOperator.IsNull,
+            FilterOperator.IsNotNull,
+            FilterOperator.IsEqualTo,
+            FilterOperator.IsNotEqualTo,
+            FilterOperator.Before,
+            FilterOperator.After,
+            FilterOperator.BetweenExclusive,
+            FilterOperator.BetweenInclusive,
         ];
 
-        private static List<FilterOperatorEnum> ValidOperatorsForLowerValue =
+        private static List<FilterOperator> ValidOperatorsForLowerValue =
         [
-            FilterOperatorEnum.IsEqualTo,
-            FilterOperatorEnum.IsNotEqualTo,
-            FilterOperatorEnum.Before,
-            FilterOperatorEnum.After,
-            FilterOperatorEnum.BetweenExclusive,
-            FilterOperatorEnum.BetweenInclusive,
+            FilterOperator.IsEqualTo,
+            FilterOperator.IsNotEqualTo,
+            FilterOperator.Before,
+            FilterOperator.After,
+            FilterOperator.BetweenExclusive,
+            FilterOperator.BetweenInclusive,
         ];
 
-        private static List<FilterOperatorEnum> ValidOperatorsForUpperValue =
+        private static List<FilterOperator> ValidOperatorsForUpperValue =
         [
-            FilterOperatorEnum.BetweenInclusive,
-            FilterOperatorEnum.BetweenExclusive,
+            FilterOperator.BetweenInclusive,
+            FilterOperator.BetweenExclusive,
         ];
 
         #region Controls 
@@ -54,7 +54,7 @@ namespace WpfDataGridFilter.Controls
 
         public override string PropertyName { get; set; } = string.Empty;
 
-        public List<EnumTranslation<FilterOperatorEnum>> FilterOperators { get; private set; } = [];
+        public List<Translation<FilterOperator>> FilterOperators { get; private set; } = [];
 
         /// <summary>  
         ///  Translations
@@ -132,7 +132,7 @@ namespace WpfDataGridFilter.Controls
                 return new DoubleNumericFilterDescriptor
                 {
                     PropertyName = propertyName,
-                    FilterOperator = FilterOperatorEnum.None
+                    FilterOperator = FilterOperator.None
                 };
             }
 
@@ -156,8 +156,8 @@ namespace WpfDataGridFilter.Controls
                 FilterOperatorsComboBox.SelectionChanged -= OnFilterOperatorSelectionChanged;
                 FilterOperatorsComboBox.SelectionChanged += OnFilterOperatorSelectionChanged;
 
-                FilterOperatorsComboBox.DisplayMemberPath = nameof(EnumTranslation<FilterOperatorEnum>.Translation);
-                FilterOperatorsComboBox.SelectedValuePath = nameof(EnumTranslation<FilterOperatorEnum>.Value);
+                FilterOperatorsComboBox.DisplayMemberPath = nameof(Translation<FilterOperator>.Text);
+                FilterOperatorsComboBox.SelectedValuePath = nameof(Translation<FilterOperator>.Value);
                 FilterOperatorsComboBox.ItemsSource = GetEnumTranslations(Translations, SupportedFilterOperators);
             }
 
@@ -207,18 +207,18 @@ namespace WpfDataGridFilter.Controls
             UpdateDoubleNumericFilterControls();
         }
 
-        private List<EnumTranslation<FilterOperatorEnum>> GetEnumTranslations(ITranslations translations, List<FilterOperatorEnum> source)
+        private List<Translation<FilterOperator>> GetEnumTranslations(ITranslations translations, List<FilterOperator> source)
         {
-            List<EnumTranslation<FilterOperatorEnum>> enumTranslations = [];
+            List<Translation<FilterOperator>> results = [];
 
             foreach (var enumValue in source)
             {
-                EnumTranslation<FilterOperatorEnum> translation = translations.FilterOperatorTranslations.First(t => t.Value == enumValue);
+                Translation<FilterOperator> translation = translations.FilterOperatorTranslations.First(t => t.Value == enumValue);
 
-                enumTranslations.Add(translation);
+                results.Add(translation);
             }
 
-            return enumTranslations;
+            return results;
         }
 
         private void OnResetButtonClick(object sender, RoutedEventArgs e)
@@ -227,7 +227,7 @@ namespace WpfDataGridFilter.Controls
 
             if(FilterOperatorsComboBox != null)
             {
-                FilterOperatorsComboBox.SelectedValue = FilterOperatorEnum.None;
+                FilterOperatorsComboBox.SelectedValue = FilterOperator.None;
             }
 
             if (LowerValueTextBox != null)
@@ -258,19 +258,19 @@ namespace WpfDataGridFilter.Controls
             return result;
         }
 
-        private FilterOperatorEnum GetCurrentFilterOperator()
+        private FilterOperator GetCurrentFilterOperator()
         {
             if(FilterOperatorsComboBox == null)
             {
-                return FilterOperatorEnum.None;
+                return FilterOperator.None;
             }
 
             if(FilterOperatorsComboBox.SelectedValue == null)
             {
-                return FilterOperatorEnum.None;
+                return FilterOperator.None;
             }
 
-            FilterOperatorEnum currentFilterOperator = (FilterOperatorEnum) FilterOperatorsComboBox.SelectedValue;
+            FilterOperator currentFilterOperator = (FilterOperator) FilterOperatorsComboBox.SelectedValue;
 
             return currentFilterOperator;            
         }

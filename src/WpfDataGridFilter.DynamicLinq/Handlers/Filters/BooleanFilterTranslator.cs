@@ -8,7 +8,7 @@ namespace WpfDataGridFilter.DynamicLinq.Translators
 {
     public class BooleanFilterTranslator : IFilterTranslator
     {
-        public string FilterType => "BooleanFilter";
+        public FilterType FilterType => FilterType.BooleanFilter;
 
         public IQueryable<TEntity> Convert<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor)
         {
@@ -19,15 +19,15 @@ namespace WpfDataGridFilter.DynamicLinq.Translators
 
             switch (f.FilterOperator)
             {
-                case FilterOperatorEnum.IsNull:
+                case var _ when f.FilterOperator == FilterOperator.IsNull:
                     return source.Where($"{f.PropertyName} eq null");
-                case FilterOperatorEnum.IsNotNull:
+                case var _ when f.FilterOperator == FilterOperator.IsNotNull:
                     return source.Where($"{f.PropertyName} neq null");
-                case FilterOperatorEnum.All:
+                case var _ when f.FilterOperator == FilterOperator.All:
                     return source.Where($"{f.PropertyName} neq null");
-                case FilterOperatorEnum.Yes:
+                case var _ when f.FilterOperator == FilterOperator.Yes:
                     return source.Where($"{f.PropertyName} eq true");
-                case FilterOperatorEnum.No:
+                case var _ when f.FilterOperator == FilterOperator.No:
                     return source.Where($"{f.PropertyName} eq false");
                 default:
                     throw new ArgumentException($"Could not translate Filter Operator '{f.FilterOperator}'");

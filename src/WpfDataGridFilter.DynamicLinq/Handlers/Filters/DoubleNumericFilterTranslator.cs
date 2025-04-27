@@ -8,7 +8,7 @@ namespace WpfDataGridFilter.DynamicLinq.Translators
 {
     public class DoubleNumericFilterTranslator : IFilterTranslator
     {
-        public string FilterType => "DoubleNumericFilter";
+        public FilterType FilterType => FilterType.DoubleNumericFilter;
 
         public IQueryable<TEntity> Convert<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor)
         {
@@ -19,25 +19,25 @@ namespace WpfDataGridFilter.DynamicLinq.Translators
 
             switch (f.FilterOperator)
             {
-                case FilterOperatorEnum.IsNull:
+                case var _ when f.FilterOperator == FilterOperator.IsNull:
                     return source.Where($"{f.PropertyName} eq null");
-                case FilterOperatorEnum.IsNotNull:
+                case var _ when f.FilterOperator == FilterOperator.IsNotNull:
                     return source.Where($"{f.PropertyName} ne null");
-                case FilterOperatorEnum.IsEqualTo:
+                case var _ when f.FilterOperator == FilterOperator.IsEqualTo:
                     return source.Where($"{f.PropertyName} eq @0", f.LowerValue);
-                case FilterOperatorEnum.IsNotEqualTo:
+                case var _ when f.FilterOperator == FilterOperator.IsNotEqualTo:
                     return source.Where($"{f.PropertyName} ne @0", f.LowerValue);
-                case FilterOperatorEnum.IsGreaterThan:
+                case var _ when f.FilterOperator == FilterOperator.IsGreaterThan:
                     return source.Where($"({f.PropertyName} ne null) and ({f.PropertyName} gt @0)", f.LowerValue);
-                case FilterOperatorEnum.IsGreaterThanOrEqualTo:
+                case var _ when f.FilterOperator == FilterOperator.IsGreaterThanOrEqualTo:
                     return source.Where($"({f.PropertyName} ne null) and ({f.PropertyName} ge @0)", f.LowerValue);
-                case FilterOperatorEnum.IsLessThan:
+                case var _ when f.FilterOperator == FilterOperator.IsLessThan:
                     return source.Where($"({f.PropertyName} ne null) and ({f.PropertyName} lt @0)", f.LowerValue);
-                case FilterOperatorEnum.IsLessThanOrEqualTo:
+                case var _ when f.FilterOperator == FilterOperator.IsLessThanOrEqualTo:
                     return source.Where($"({f.PropertyName} ne null) and ({f.PropertyName} le @0)", f.LowerValue);
-                case FilterOperatorEnum.BetweenExclusive:
+                case var _ when f.FilterOperator == FilterOperator.BetweenExclusive:
                     return source.Where($"(({f.PropertyName} ne null) and ({f.PropertyName} gt @0)) and (({f.PropertyName} ne null) and ({f.PropertyName} lt @1))", f.LowerValue, f.UpperValue);
-                case FilterOperatorEnum.BetweenInclusive:
+                case var _ when f.FilterOperator == FilterOperator.BetweenInclusive:
                     return source.Where($"(({f.PropertyName} ne null) and ({f.PropertyName} ge @0)) and (({f.PropertyName} ne null) and ({f.PropertyName} le @1))", f.LowerValue, f.UpperValue);
                 default:
                     throw new ArgumentException($"Could not translate Filter Operator '{f.FilterOperator}'");

@@ -5,7 +5,7 @@ namespace WpfDataGridFilter.Models
     /// <summary>
     /// Filter Descriptor to filter for a property.
     /// </summary>
-    public abstract class FilterDescriptor
+    public abstract record FilterDescriptor
     {
         /// <summary>
         /// Gets or sets the Property to filter.
@@ -15,29 +15,29 @@ namespace WpfDataGridFilter.Models
         /// <summary>
         /// Gets or sets the Filter Operator.
         /// </summary>
-        public required FilterOperatorEnum FilterOperator { get; set; }
+        public required FilterOperator FilterOperator { get; set; }
 
         /// <summary>
         /// Gets or sets the Filter Type.
         /// </summary>
-        public abstract string FilterType { get; }
+        public abstract FilterType FilterType { get; }
     }
 
     /// <summary>
     /// A Boolean Filter to filter for Boolean values.
     /// </summary>
-    public class BooleanFilterDescriptor : FilterDescriptor
+    public record BooleanFilterDescriptor : FilterDescriptor
     {
         /// <summary>
         /// Gets the Filter Type.
         /// </summary>
-        public override string FilterType => FilterTypes.BooleanFilter;
+        public override FilterType FilterType => FilterType.BooleanFilter;
     }
 
     /// <summary>
     /// A String Filter to filter for text.
     /// </summary>
-    public class StringFilterDescriptor : FilterDescriptor
+    public record StringFilterDescriptor : FilterDescriptor
     {
         /// <summary>
         /// Gets or sets the string value.
@@ -47,13 +47,13 @@ namespace WpfDataGridFilter.Models
         /// <summary>
         /// Gets the Filter Type.
         /// </summary>
-        public override string FilterType => FilterTypes.StringFilter;
+        public override FilterType FilterType => FilterType.StringFilter;
     }
 
     /// <summary>
     /// Numeric Filter to filter between an lower and upper value.
     /// </summary>
-    public class IntNumericFilterDescriptor : FilterDescriptor
+    public record IntNumericFilterDescriptor : FilterDescriptor
     {
         /// <summary>
         /// Gets or sets the lower value.
@@ -68,13 +68,13 @@ namespace WpfDataGridFilter.Models
         /// <summary>
         /// Gets the Filter Type.
         /// </summary>
-        public override string FilterType => FilterTypes.IntNumericFilter;
+        public override FilterType FilterType => FilterType.IntNumericFilter;
     }
 
     /// <summary>
     /// Numeric Filter to filter between an lower and upper value.
     /// </summary>
-    public class DoubleNumericFilterDescriptor : FilterDescriptor
+    public record DoubleNumericFilterDescriptor : FilterDescriptor
     {
         /// <summary>
         /// Gets or sets the lower value.
@@ -89,13 +89,13 @@ namespace WpfDataGridFilter.Models
         /// <summary>
         /// Gets the Filter Type.
         /// </summary>
-        public override string FilterType => FilterTypes.DoubleNumericFilter;
+        public override FilterType FilterType => FilterType.DoubleNumericFilter;
     }
 
     /// <summary>
     /// Date Range Filter to filter between a start and end date.
     /// </summary>
-    public class DateTimeFilterDescriptor : FilterDescriptor
+    public record DateTimeFilterDescriptor : FilterDescriptor
     {
         /// <summary>
         /// Start Date for range filtering.
@@ -110,6 +110,6 @@ namespace WpfDataGridFilter.Models
         /// <summary>
         /// Gets the Filter Type.
         /// </summary>
-        public override string FilterType => FilterTypes.DateTimeFilter;
+        public override FilterType FilterType => FilterType.DateTimeFilter;
     }
 }

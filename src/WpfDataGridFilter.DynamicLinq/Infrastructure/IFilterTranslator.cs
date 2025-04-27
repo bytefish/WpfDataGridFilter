@@ -20,6 +20,6 @@ namespace WpfDataGridFilter.DynamicLinq.Infrastructure
         /// <summary>
         /// FilterType this filter applies to.
         /// </summary>
-        string FilterType { get; }
+        FilterType FilterType { get; }
     }
 }
