@@ -523,7 +523,7 @@ public partial class MainWindowViewModel : ObservableObject
                 return;
             }
 
-            // Notify all Event Handlers, so we can enable or disable the 
+            // Notify all Event Translators, so we can enable or disable the 
             FirstPageCommand.NotifyCanExecuteChanged();
             PreviousPageCommand.NotifyCanExecuteChanged();
             NextPageCommand.NotifyCanExecuteChanged();

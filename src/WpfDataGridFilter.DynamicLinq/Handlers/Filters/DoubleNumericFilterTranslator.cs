@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Linq.Dynamic.Core;
-using System.Text;
-using System.Threading.Tasks;
+using WpfDataGridFilter.DynamicLinq.Infrastructure;
 using WpfDataGridFilter.Models;
 
-namespace WpfDataGridFilter.DynamicLinq.Converters
+namespace WpfDataGridFilter.DynamicLinq.Translators
 {
-    public class DoubleNumericFilterConverter : FilterConverter
+    public class DoubleNumericFilterTranslator : IFilterTranslator
     {
-        public override string FilterType => "DoubleNumericFilter";
+        public string FilterType => "DoubleNumericFilter";
 
-        public override IQueryable<TEntity> Convert<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor)
+        public IQueryable<TEntity> Convert<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor)
         {
             if (filterDescriptor is not DoubleNumericFilterDescriptor f)
             {

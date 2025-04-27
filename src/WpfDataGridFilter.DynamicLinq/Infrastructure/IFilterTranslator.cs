@@ -1,11 +1,13 @@
-﻿using WpfDataGridFilter.Models;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace WpfDataGridFilter.DynamicLinq.Converters
+using WpfDataGridFilter.Models;
+
+namespace WpfDataGridFilter.DynamicLinq.Infrastructure
 {
     /// <summary>
-    /// The abstract base class for all FilterDescriptor handlers.
+    /// The abstract base class for all FilterDescriptor Translators.
     /// </summary>
-    public abstract class FilterConverter
+    public interface IFilterTranslator
     {
         /// <summary>
         /// Applies the given Filter Descriptor to the given IQueryable.
@@ -13,13 +15,11 @@ namespace WpfDataGridFilter.DynamicLinq.Converters
         /// <param name="source">Source Queryable to provide unfiltered data</param>
         /// <param name="filterDescriptor">FilterDescriptor to apply on the data</param>
         /// <returns>An IQueryable with the Filters applied</returns>
-        public abstract IQueryable<TEntity> Convert<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor);
+        IQueryable<TEntity> Convert<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor);
 
         /// <summary>
         /// FilterType this filter applies to.
         /// </summary>
-        public abstract string FilterType { get; }
+        string FilterType { get; }
     }
-
-
 }

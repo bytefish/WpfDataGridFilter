@@ -1,13 +1,16 @@
-﻿using System.Linq.Dynamic.Core;
+﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Linq.Dynamic.Core;
+using WpfDataGridFilter.DynamicLinq.Infrastructure;
 using WpfDataGridFilter.Models;
 
-namespace WpfDataGridFilter.DynamicLinq.Converters
+namespace WpfDataGridFilter.DynamicLinq.Translators
 {
-    public class DateTimeFilterConverter : FilterConverter
+    public class DateTimeFilterTranslator : IFilterTranslator
     {
-        public override string FilterType => "DateTimeFilter";
+        public string FilterType => "DateTimeFilter";
 
-        public override IQueryable<TEntity> Convert<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor)
+        public IQueryable<TEntity> Convert<TEntity>(IQueryable<TEntity> source, FilterDescriptor filterDescriptor)
         {
             if (filterDescriptor is not DateTimeFilterDescriptor f)
             {
