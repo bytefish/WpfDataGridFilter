@@ -9,7 +9,7 @@ namespace WpfDataGridFilter.Infrastructure
     /// <summary>
     /// Base class of all <see cref="IFilterControl"/> implementations.
     /// </summary>
-    public abstract class FilterControl : Control, IFilterControl
+    public abstract class FilterControl : ContentControl, IFilterControl
     {
         /// <summary>
         /// Gets or sets the Property.

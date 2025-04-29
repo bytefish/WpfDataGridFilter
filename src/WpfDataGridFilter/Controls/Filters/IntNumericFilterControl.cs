@@ -8,7 +8,7 @@ using WpfDataGridFilter.Translations;
 
 namespace WpfDataGridFilter.Controls
 {
-    public class IntNumericFilterControl : FilterControl
+    public class IntNumericFilterControl : BaseFilterControl<IntNumericFilterDescriptor>
     {
         /// <summary>
         /// Supported Filters for this Filter Control.
@@ -44,59 +44,15 @@ namespace WpfDataGridFilter.Controls
 
         #region Controls 
 
-        Button? ApplyButton;
-        Button? ResetButton;
-        ComboBox? FilterOperatorsComboBox;
-        TextBox? LowerValueTextBox;
-        TextBox? UpperValueTextBox;
+        private ComboBox? FilterOperatorsComboBox;
+
+        private TextBox? LowerValueTextBox;
+
+        private TextBox? UpperValueTextBox;
 
         #endregion Controls
 
-        public override string PropertyName { get; set; } = string.Empty;
-
         public List<Translation<FilterOperator>> FilterOperators { get; private set; } = [];
-
-        /// <summary>  
-        ///  Translations
-        /// </summary>
-        public override ITranslations Translations
-        {
-            get { return (ITranslations)GetValue(TranslationsProperty); }
-            set { SetValue(TranslationsProperty, value); }
-        }
-
-        public static readonly DependencyProperty TranslationsProperty = DependencyProperty.Register(
-            "Translations", typeof(ITranslations), typeof(IntNumericFilterControl), new PropertyMetadata(new NeutralTranslations(), OnTranslationsChanged));
-
-        private static void OnTranslationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is IntNumericFilterControl control)
-            {
-                control.Translations = (ITranslations)e.NewValue;
-            }
-        }
-
-        /// <summary>  
-        ///  FilterState of the current DataGrid.
-        /// </summary>
-        public override DataGridState DataGridState
-        {
-            get { return (DataGridState)GetValue(DataGridStateProperty); }
-            set { SetValue(DataGridStateProperty, value); }
-        }
-
-        public static readonly DependencyProperty DataGridStateProperty = DependencyProperty.Register(
-            "DataGridState", typeof(DataGridState), typeof(IntNumericFilterControl), new PropertyMetadata(propertyChangedCallback: OnDataGridStateChanged));
-
-        private static void OnDataGridStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is IntNumericFilterControl control)
-            {
-                control.DataGridState = (DataGridState)e.NewValue;
-
-                control.RefreshFilterDescriptor();
-            }
-        }
 
         /// <summary>
         /// Start Date is only visible for these Values.
@@ -108,49 +64,15 @@ namespace WpfDataGridFilter.Controls
         /// </summary>
         public bool IsUpperValueEnabled => ValidOperatorsForUpperValue.Contains(GetCurrentFilterOperator());
 
-        /// <summary>
-        /// Gets the Current Filter Descriptor.
-        /// </summary>
-        public override FilterDescriptor FilterDescriptor => new IntNumericFilterDescriptor
-        {
-            PropertyName = PropertyName,
-            FilterOperator = GetCurrentFilterOperator(),
-            LowerValue = GetIntValue(LowerValueTextBox?.Text),
-            UpperValue = GetIntValue(UpperValueTextBox?.Text),
-        };
-
-
-        /// <summary>
-        /// Gets the Filter Descriptor off of the DataGridState or creates a new one.
-        /// </summary>
-        /// <param name="dataGridState">DataGridState with Filters</param>
-        /// <param name="propertyName">PropertyName</param>
-        /// <returns>The existing FilterDescriptor or a new one</returns>
-        private IntNumericFilterDescriptor GetFilterDescriptor(DataGridState dataGridState, string propertyName)
-        {
-            if (!dataGridState.TryGetFilter<IntNumericFilterDescriptor>(propertyName, out var descriptor))
-            {
-                return new IntNumericFilterDescriptor
-                {
-                    PropertyName = propertyName,
-                    FilterOperator = FilterOperator.None
-                };
-            }
-
-            return descriptor;
-        }
-        
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            ApplyButton = GetTemplateChild("PART_ApplyButton") as Button;
-            ResetButton = GetTemplateChild("PART_ResetButton") as Button;
             FilterOperatorsComboBox = GetTemplateChild("PART_FilterOperators") as ComboBox;
             LowerValueTextBox = GetTemplateChild("PART_LowerValueTextBox") as TextBox;
             UpperValueTextBox = GetTemplateChild("PART_UpperValueTextBox") as TextBox;
 
-            FilterOperators = GetEnumTranslations(Translations, SupportedFilterOperators);
+            FilterOperators = GetFilterOperatorTranslations(Translations, SupportedFilterOperators);
 
             if (FilterOperatorsComboBox != null)
             {
@@ -159,99 +81,20 @@ namespace WpfDataGridFilter.Controls
 
                 FilterOperatorsComboBox.DisplayMemberPath = nameof(Translation<FilterOperator>.Text);
                 FilterOperatorsComboBox.SelectedValuePath = nameof(Translation<FilterOperator>.Value);
-                FilterOperatorsComboBox.ItemsSource = GetEnumTranslations(Translations, SupportedFilterOperators);
-            }
-
-            if(ApplyButton != null)
-            {
-                ApplyButton.Click -= OnApplyButtonClick;
-                ApplyButton.Click += OnApplyButtonClick;
-
-                ApplyButton.Content = Translations.ApplyButton;
-            }
-
-            if (ResetButton != null)
-            {
-                ResetButton.Click -= OnResetButtonClick;
-                ResetButton.Click += OnResetButtonClick;
-
-                ResetButton.Content = Translations.ResetButton;
+                FilterOperatorsComboBox.ItemsSource = GetFilterOperatorTranslations(Translations, SupportedFilterOperators);
             }
 
             if (DataGridState != null)
             {
-                RefreshFilterDescriptor();
+                OnDataGridStateChanged();
             }
 
             UpdateIntNumericFilterControls();
-        }
-
-        private void RefreshFilterDescriptor()
-        {
-            var intNumericFilterDescriptor = GetFilterDescriptor(DataGridState, PropertyName);
-
-            if (FilterOperatorsComboBox != null)
-            {
-                FilterOperatorsComboBox.SelectedValue = intNumericFilterDescriptor.FilterOperator;
-            }
-
-            if (LowerValueTextBox != null)
-            {
-                LowerValueTextBox.Text = intNumericFilterDescriptor.LowerValue.ToString();
-            }
-
-            if (UpperValueTextBox != null)
-            {
-                UpperValueTextBox.Text = intNumericFilterDescriptor.UpperValue.ToString();
-            }
-
-            UpdateIntNumericFilterControls();
-        }
-
-        private List<Translation<FilterOperator>> GetEnumTranslations(ITranslations translations, List<FilterOperator> source)
-        {
-            List<Translation<FilterOperator>> enumTranslations = [];
-
-            foreach (var enumValue in source)
-            {
-                Translation<FilterOperator> translation = translations.FilterOperatorTranslations.First(t => t.Value == enumValue);
-
-                enumTranslations.Add(translation);
-            }
-
-            return enumTranslations;
-        }
-
-        private void OnResetButtonClick(object sender, RoutedEventArgs e)
-        {
-            DataGridState.RemoveFilter(PropertyName);
-
-            if(FilterOperatorsComboBox != null)
-            {
-                FilterOperatorsComboBox.SelectedValue = FilterOperator.None;
-            }
-
-            if (LowerValueTextBox != null)
-            {
-                LowerValueTextBox.Text = null;
-            }
-
-            if (UpperValueTextBox != null)
-            {
-                UpperValueTextBox.Text = null;
-            }
-
-            UpdateIntNumericFilterControls();
-        }
-
-        private void OnApplyButtonClick(object sender, RoutedEventArgs e)
-        {
-            DataGridState.AddFilter(FilterDescriptor);
         }
 
         private int? GetIntValue(string? value)
         {
-            if(!int.TryParse(value, out int result))
+            if (!int.TryParse(value, out int result))
             {
                 return null;
             }
@@ -261,19 +104,19 @@ namespace WpfDataGridFilter.Controls
 
         private FilterOperator GetCurrentFilterOperator()
         {
-            if(FilterOperatorsComboBox == null)
+            if (FilterOperatorsComboBox == null)
             {
                 return FilterOperator.None;
             }
 
-            if(FilterOperatorsComboBox.SelectedValue == null)
+            if (FilterOperatorsComboBox.SelectedValue == null)
             {
                 return FilterOperator.None;
             }
 
-            FilterOperator currentFilterOperator = (FilterOperator) FilterOperatorsComboBox.SelectedValue;
+            FilterOperator currentFilterOperator = (FilterOperator)FilterOperatorsComboBox.SelectedValue;
 
-            return currentFilterOperator;            
+            return currentFilterOperator;
         }
 
         private void OnFilterOperatorSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -292,6 +135,58 @@ namespace WpfDataGridFilter.Controls
             {
                 UpperValueTextBox.IsEnabled = IsUpperValueEnabled;
             }
+        }
+
+        protected override void OnDataGridStateChanged()
+        {
+            IntNumericFilterDescriptor IntNumericFilterDescriptor = GetFilterDescriptor(DataGridState, PropertyName);
+
+            if (FilterOperatorsComboBox != null)
+            {
+                FilterOperatorsComboBox.SelectedValue = IntNumericFilterDescriptor.FilterOperator;
+            }
+
+            if (LowerValueTextBox != null)
+            {
+                LowerValueTextBox.Text = IntNumericFilterDescriptor.LowerValue.ToString();
+            }
+
+            if (UpperValueTextBox != null)
+            {
+                UpperValueTextBox.Text = IntNumericFilterDescriptor.UpperValue.ToString();
+            }
+
+            UpdateIntNumericFilterControls();
+        }
+
+        protected override void OnApplyFilter()
+        {
+            // Nothing to do...
+        }
+
+        protected override void OnResetFilter()
+        {
+            UpdateIntNumericFilterControls();
+        }
+
+        protected override IntNumericFilterDescriptor GetDefaultFilterDescriptor()
+        {
+            return new IntNumericFilterDescriptor
+            {
+                FilterOperator = FilterOperator.None,
+                PropertyName = PropertyName,
+            };
+        }
+
+        protected override FilterDescriptor GetFilterDescriptor()
+        {
+            return new IntNumericFilterDescriptor
+            {
+                PropertyName = PropertyName,
+                FilterOperator = GetCurrentFilterOperator(),
+                LowerValue = GetIntValue(LowerValueTextBox?.Text),
+                UpperValue = GetIntValue(UpperValueTextBox?.Text),
+            };
         }
     }
 }

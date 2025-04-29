@@ -16,7 +16,7 @@
                         <Border x:Name="PART_HeaderAroundBorder" BorderBrush="Black" BorderThickness="1">
                             <Grid x:Name="PART_HeaderLayoutRoot">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition MinWidth="30"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>

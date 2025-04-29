@@ -8,7 +8,7 @@ using WpfDataGridFilter.Translations;
 
 namespace WpfDataGridFilter.Controls
 {
-    public class DateTimeFilterControl : FilterControl
+    public class DateTimeFilterControl : BaseFilterControl<DateTimeFilterDescriptor>
     {
         /// <summary>
         /// Supported Filters for this Filter Control.
@@ -44,59 +44,15 @@ namespace WpfDataGridFilter.Controls
 
         #region Controls 
 
-        Button? ApplyButton;
-        Button? ResetButton;
-        ComboBox? FilterOperatorsComboBox;
-        DatePicker? StartDatePicker;
-        DatePicker? EndDatePicker;
+        private ComboBox? FilterOperatorsComboBox;
+
+        private DatePicker? StartDatePicker;
+
+        private DatePicker? EndDatePicker;
 
         #endregion Controls
 
-        public override string PropertyName { get; set; } = string.Empty;
-
         public List<Translation<FilterOperator>> FilterOperators { get; private set; } = [];
-
-        /// <summary>  
-        ///  Translations
-        /// </summary>
-        public override ITranslations Translations
-        {
-            get { return (ITranslations)GetValue(TranslationsProperty); }
-            set { SetValue(TranslationsProperty, value); }
-        }
-
-        public static readonly DependencyProperty TranslationsProperty = DependencyProperty.Register(
-            "Translations", typeof(ITranslations), typeof(DateTimeFilterControl), new PropertyMetadata(new NeutralTranslations(), OnTranslationsChanged));
-
-        private static void OnTranslationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is DateTimeFilterControl dateTimeFilterControl)
-            {
-                dateTimeFilterControl.Translations = (ITranslations)e.NewValue;
-            }
-        }
-
-        /// <summary>  
-        ///  FilterState of the current DataGrid.
-        /// </summary>
-        public override DataGridState DataGridState
-        {
-            get { return (DataGridState)GetValue(DataGridStateProperty); }
-            set { SetValue(DataGridStateProperty, value); }
-        }
-
-        public static readonly DependencyProperty DataGridStateProperty = DependencyProperty.Register(
-            "DataGridState", typeof(DataGridState), typeof(DateTimeFilterControl), new PropertyMetadata(propertyChangedCallback: OnDataGridStateChanged));
-
-        private static void OnDataGridStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is DateTimeFilterControl dateTimeFilterControl)
-            {
-                dateTimeFilterControl.DataGridState = (DataGridState)e.NewValue;
-
-                dateTimeFilterControl.RefreshFilterDescriptor();
-            }
-        }
 
         /// <summary>
         /// Start Date is only visible for these Values.
@@ -108,42 +64,16 @@ namespace WpfDataGridFilter.Controls
         /// </summary>
         public bool IsEndDateEnabled => ValidOperatorsForEndDate.Contains(GetCurrentFilterOperator());
 
-        /// <summary>
-        /// Builds the FilterDescriptor described by the Control.
-        /// </summary>
-        public override FilterDescriptor FilterDescriptor => new DateTimeFilterDescriptor
-        {
-            PropertyName = PropertyName,
-            FilterOperator = GetCurrentFilterOperator(),
-            StartDate = StartDatePicker?.SelectedDate,
-            EndDate = EndDatePicker?.SelectedDate,
-        };
-
-        private DateTimeFilterDescriptor GetFilterDescriptor(DataGridState dataGridState, string propertyName)
-        {
-            if (!dataGridState.TryGetFilter<DateTimeFilterDescriptor>(propertyName, out var dateFilterDescriptor))
-            {
-                return new DateTimeFilterDescriptor
-                {
-                    PropertyName = propertyName,
-                    FilterOperator = FilterOperator.None
-                };
-            }
-
-            return dateFilterDescriptor;
-        }
         
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            ApplyButton = GetTemplateChild("PART_ApplyButton") as Button;
-            ResetButton = GetTemplateChild("PART_ResetButton") as Button;
             FilterOperatorsComboBox = GetTemplateChild("PART_FilterOperators") as ComboBox;
             StartDatePicker = GetTemplateChild("PART_StartDatePicker") as DatePicker;
             EndDatePicker = GetTemplateChild("PART_EndDatePicker") as DatePicker;
 
-            FilterOperators = GetTranslations(Translations, SupportedFilterOperators);
+            FilterOperators = GetFilterOperatorTranslations(Translations, SupportedFilterOperators);
 
             if (FilterOperatorsComboBox != null)
             {
@@ -152,34 +82,53 @@ namespace WpfDataGridFilter.Controls
 
                 FilterOperatorsComboBox.DisplayMemberPath = nameof(Translation<FilterOperator>.Text);
                 FilterOperatorsComboBox.SelectedValuePath = nameof(Translation<FilterOperator>.Value);
-                FilterOperatorsComboBox.ItemsSource = GetTranslations(Translations, SupportedFilterOperators);
-            }
-
-            if(ApplyButton != null)
-            {
-                ApplyButton.Click -= OnApplyButtonClick;
-                ApplyButton.Click += OnApplyButtonClick;
-
-                ApplyButton.Content = Translations.ApplyButton;
-            }
-
-            if (ResetButton != null)
-            {
-                ResetButton.Click -= OnResetButtonClick;
-                ResetButton.Click += OnResetButtonClick;
-
-                ResetButton.Content = Translations.ResetButton;
+                FilterOperatorsComboBox.ItemsSource = GetFilterOperatorTranslations(Translations, SupportedFilterOperators);
             }
 
             if (DataGridState != null)
             {
-                RefreshFilterDescriptor();
+                OnDataGridStateChanged();
             }
 
             UpdateDatePickerControls();
         }
 
-        private void RefreshFilterDescriptor()
+        private FilterOperator GetCurrentFilterOperator()
+        {
+            if (FilterOperatorsComboBox == null)
+            {
+                return FilterOperator.None;
+            }
+
+            if (FilterOperatorsComboBox.SelectedValue == null)
+            {
+                return FilterOperator.None;
+            }
+
+            FilterOperator currentFilterOperator = (FilterOperator)FilterOperatorsComboBox.SelectedValue;
+
+            return currentFilterOperator;
+        }
+
+        private void OnFilterOperatorSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateDatePickerControls();
+        }
+
+        private void UpdateDatePickerControls()
+        {
+            if (StartDatePicker != null)
+            {
+                StartDatePicker.IsEnabled = IsStartDateEnabled;
+            }
+
+            if (EndDatePicker != null)
+            {
+                EndDatePicker.IsEnabled = IsEndDateEnabled;
+            }
+        }
+
+        protected override void OnDataGridStateChanged()
         {
             var dateTimeFilterDescriptor = GetFilterDescriptor(DataGridState, PropertyName);
 
@@ -201,25 +150,14 @@ namespace WpfDataGridFilter.Controls
             UpdateDatePickerControls();
         }
 
-        private List<Translation<FilterOperator>> GetTranslations(ITranslations translations, List<FilterOperator> source)
+        protected override void OnApplyFilter()
         {
-            List<Translation<FilterOperator>> result = [];
-
-            foreach (var enumValue in source)
-            {
-                Translation<FilterOperator> translation = translations.FilterOperatorTranslations.First(t => t.Value == enumValue);
-
-                result.Add(translation);
-            }
-
-            return result;
+            // TODO
         }
 
-        private void OnResetButtonClick(object sender, RoutedEventArgs e)
+        protected override void OnResetFilter()
         {
-            DataGridState.RemoveFilter(PropertyName);
-
-            if(FilterOperatorsComboBox != null)
+            if (FilterOperatorsComboBox != null)
             {
                 FilterOperatorsComboBox.SelectedValue = FilterOperator.None;
             }
@@ -237,44 +175,26 @@ namespace WpfDataGridFilter.Controls
             UpdateDatePickerControls();
         }
 
-        private void OnApplyButtonClick(object sender, RoutedEventArgs e)
+        protected override DateTimeFilterDescriptor GetDefaultFilterDescriptor()
         {
-            DataGridState.AddFilter(FilterDescriptor);
+            return new DateTimeFilterDescriptor
+            {
+                FilterOperator = FilterOperator.None,
+                PropertyName = PropertyName,
+                StartDate = null,
+                EndDate = null,
+            };
         }
 
-        private FilterOperator GetCurrentFilterOperator()
+        protected override FilterDescriptor GetFilterDescriptor()
         {
-            if(FilterOperatorsComboBox == null)
+            return new DateTimeFilterDescriptor
             {
-                return FilterOperator.None;
-            }
-
-            if(FilterOperatorsComboBox.SelectedValue == null)
-            {
-                return FilterOperator.None;
-            }
-
-            FilterOperator currentFilterOperator = (FilterOperator) FilterOperatorsComboBox.SelectedValue;
-
-            return currentFilterOperator;            
-        }
-
-        private void OnFilterOperatorSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UpdateDatePickerControls();
-        }
-
-        private void UpdateDatePickerControls()
-        {
-            if (StartDatePicker != null)
-            {
-                StartDatePicker.IsEnabled = IsStartDateEnabled;
-            }
-
-            if (EndDatePicker != null)
-            {
-                EndDatePicker.IsEnabled = IsEndDateEnabled;
-            }
+                PropertyName = PropertyName,
+                FilterOperator = GetCurrentFilterOperator(),
+                StartDate = StartDatePicker?.SelectedDate,
+                EndDate = EndDatePicker?.SelectedDate,
+            };
         }
     }
 }
