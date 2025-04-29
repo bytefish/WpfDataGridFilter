@@ -363,6 +363,26 @@ namespace WpfDataGridFilter.Controls
         /// <summary>  
         ///  Property showing whether a filtered is applied in the column
         /// </summary>
+        public bool IsFilterable
+        {
+            get { return (bool)GetValue(IsFilterableProperty); }
+            set { SetValue(IsFilterableProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsFilterableProperty = DependencyProperty.Register(
+            "IsFilterable", typeof(bool), typeof(FilterableColumnHeader), new PropertyMetadata(true, OnIsFilterableChanged));
+
+        private static void OnIsFilterableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FilterableColumnHeader header)
+            {
+                header.IsFilterable = (bool)e.NewValue;
+            }
+        }
+
+        /// <summary>  
+        ///  Property showing whether a filtered is applied in the column
+        /// </summary>
         public bool IsFiltered
         {
             get { return (bool)GetValue(IsFilteredProperty); }
@@ -569,6 +589,11 @@ namespace WpfDataGridFilter.Controls
         private void OnSortButtonClick(object sender, RoutedEventArgs e)
         {
             if (DataGridState == null)
+            {
+                return;
+            }
+
+            if(!IsFilterable)
             {
                 return;
             }
