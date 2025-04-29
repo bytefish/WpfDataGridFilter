@@ -148,12 +148,12 @@ namespace WpfDataGridFilter.Controls
 
             if (LowerValueTextBox != null)
             {
-                LowerValueTextBox.Text = doubleNumericFilterDescriptor.LowerValue.ToString();
+                LowerValueTextBox.Text = doubleNumericFilterDescriptor.LowerValue?.ToString();
             }
 
             if (UpperValueTextBox != null)
             {
-                UpperValueTextBox.Text = doubleNumericFilterDescriptor.UpperValue.ToString();
+                UpperValueTextBox.Text = doubleNumericFilterDescriptor.UpperValue?.ToString();
             }
 
             UpdateDoubleNumericFilterControls();
