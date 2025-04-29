@@ -188,5 +188,10 @@ namespace WpfDataGridFilter.Controls
                 UpperValue = GetIntValue(UpperValueTextBox?.Text),
             };
         }
+
+        protected override List<Translation<FilterOperator>> GetAdditionalTranslations()
+        {
+            return [];
+        }
     }
 }

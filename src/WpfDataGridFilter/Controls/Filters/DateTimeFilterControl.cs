@@ -196,5 +196,10 @@ namespace WpfDataGridFilter.Controls
                 EndDate = EndDatePicker?.SelectedDate,
             };
         }
+
+        protected override List<Translation<FilterOperator>> GetAdditionalTranslations()
+        {
+            return [];
+        }
     }
 }

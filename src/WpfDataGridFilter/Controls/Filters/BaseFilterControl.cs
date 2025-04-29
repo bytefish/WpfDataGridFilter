@@ -106,11 +106,26 @@ namespace WpfDataGridFilter.Controls
 
         protected List<Translation<FilterOperator>> GetFilterOperatorTranslations(ITranslations translations, List<FilterOperator> filterOperators)
         {
+            List<Translation<FilterOperator>> filterOperatorTranslations =
+            [
+                ..translations.FilterOperatorTranslations,
+                ..GetAdditionalTranslations()
+            ];
+
             List<Translation<FilterOperator>> results = [];
 
             foreach (var filterOperator in filterOperators)
             {
-                Translation<FilterOperator> translation = translations.FilterOperatorTranslations.First(t => t.Value == filterOperator);
+                Translation<FilterOperator>? translation = filterOperatorTranslations.FirstOrDefault(t => t.Value == filterOperator);
+
+                if (translation == null)
+                {
+                    translation = new Translation<FilterOperator> 
+                    { 
+                        Value = filterOperator, 
+                        Text = filterOperator.Name 
+                    };
+                }
 
                 results.Add(translation);
             }
@@ -160,5 +175,7 @@ namespace WpfDataGridFilter.Controls
         /// </summary>
         /// <returns></returns>
         protected abstract FilterDescriptor GetFilterDescriptor();
+
+        protected abstract List<Translation<FilterOperator>> GetAdditionalTranslations();
     }
 }

@@ -203,5 +203,10 @@ namespace WpfDataGridFilter.Controls
 
             return currentFilterOperator;
         }
+
+        protected override List<Translation<FilterOperator>> GetAdditionalTranslations()
+        {
+            return [];
+        }
     }
 }
