@@ -69,10 +69,13 @@
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsFiltered" Value="true">
+                        <Trigger Property="IsFilterable" Value="False">
+                            <Setter TargetName="PART_HeaderSortButton" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsFiltered" Value="True">
                             <Setter TargetName="PART_FilterEnabledIcon" Property="Fill" Value="{DynamicResource FilterIconEnabledFillColor}" />
                         </Trigger>
-                        <Trigger Property="IsFiltered" Value="false">
+                        <Trigger Property="IsFiltered" Value="False">
                             <Setter TargetName="PART_FilterEnabledIcon" Property="Fill" Value="{DynamicResource FilterIconDisabledFillColor}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
