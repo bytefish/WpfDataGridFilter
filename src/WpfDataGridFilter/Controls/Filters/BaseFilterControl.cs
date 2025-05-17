@@ -26,13 +26,13 @@ namespace WpfDataGridFilter.Controls
         }
 
         public static readonly DependencyProperty TranslationsProperty = DependencyProperty.Register(
-            "Translations", typeof(ITranslations), typeof(BooleanFilterControl), new PropertyMetadata(new NeutralTranslations(), OnTranslationsChanged));
+            "Translations", typeof(ITranslations), typeof(BaseFilterControl<TFilterDescriptor>), new PropertyMetadata(new NeutralTranslations(), OnTranslationsChanged));
 
         private static void OnTranslationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is BooleanFilterControl booleanFilterControl)
+            if (d is BaseFilterControl<TFilterDescriptor> control)
             {
-                booleanFilterControl.Translations = (ITranslations)e.NewValue;
+                control.Translations = (ITranslations)e.NewValue;
             }
         }
 
@@ -46,16 +46,16 @@ namespace WpfDataGridFilter.Controls
         }
 
         public static readonly DependencyProperty DataGridStateProperty = DependencyProperty.Register(
-            "DataGridState", typeof(DataGridState), typeof(BooleanFilterControl), new PropertyMetadata(propertyChangedCallback: OnDataGridStateChanged));
+            "DataGridState", typeof(DataGridState), typeof(BaseFilterControl<TFilterDescriptor>), new PropertyMetadata(propertyChangedCallback: OnDataGridStateChanged));
 
         private static void OnDataGridStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is BaseFilterControl<TFilterDescriptor> baseFilterControl)
+            if (d is BaseFilterControl<TFilterDescriptor> control)
             {
                 DataGridState dataGridState = (DataGridState)e.NewValue;
 
-                baseFilterControl.DataGridState = dataGridState;
-                baseFilterControl.OnDataGridStateChanged();
+                control.DataGridState = dataGridState;
+                control.OnDataGridStateChanged();
             }
         }
 
